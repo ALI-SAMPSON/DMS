@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name" translatable="false">DMS</string>
+    <string name="application_name" translatable="false">DMS</string>
+    <string name="hint_username" translatable="false">Username</string>
+    <string name="hint_email" translatable="false">Email</string>
+    <string name="hint_password" translatable="false">Password</string>
+    <string name="hint_phone" translatable="false">Phone</string>
+    <string name="text_sign_in" translatable="false">Sign In</string>
+    <string name="text_sign_up" translatable="false">Sign Up</string>
+    <string name="text_already_member" translatable="false">Already a member? Sign In</string>
+    <string name="text_not_a_member" translatable="false">Not yet a member? Sign Up</string>
+    <string name="forgot_password" translatable="false">Forgot Password?</string>
+
+    <!-- Error strings -->
+    <string name="error_username" translatable="false">Username field cannot be left empty</string>
+    <string name="error_email" translatable="false">Email field cannot be left empty</string>
+    <string name="error_password" translatable="false">Password field cannot be left empty</string>
+    <string name="error_password_length" translatable="false">Oops! password length must be 6 characters and above</string>
+    <string name="error_invalid_phone" translatable="false">Oops! please enter a valid phone number</string>
+
+    <!-- Menu Resource String -->
+    <string name="text_sign_out" translatable="false">Sign Out</string>
+    <string name="text_exit" translatable="false">Exit</string>
+    <string name="text_search" translatable="false">Search</string>
+
+    <string name="text_home" translatable="false">Home</string>
+
+    <string name="text_comment" translatable="false">Add Comment...</string>
+
+
+    <!-- string for fragments -->
+    <string name="text_scan" translatable="false">Scan</string>
+    <string name="text_upload" translatable="false">Upload</string>
+    <string name="text_sent" translatable="false">Sent</string>
+    <string name="text_approval" translatable="false">Approvals</string>
+    <string name="text_choose" translatable="false">Choose from Gallery</string>
+
+    <!-- Permission Rationale string -->
+    <string name="text_permission" translatable="false">
+        Permissions are required in order to use the scanner in this application
+    </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="todo">TODO</string>
+
+</resources>

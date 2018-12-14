@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_ghost"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.UploadDocumentFragment">
+
+    <ImageView
+        android:id="@+id/scanned_document"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="5dp"
+        android:background="@drawable/scanned_file"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/upload_btn">
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/upload_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/text_upload"
+        android:textColor="@color/colorWhite"
+        android:layout_alignParentBottom="true"
+        android:textSize="16sp"
+        android:fontFamily="@font/lato"
+        android:textAllCaps="false"
+        android:background="@drawable/round_login_button"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_layout"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/round_edittext_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/lato"
+            android:textSize="16sp"
+            android:textColor="@color/dark"
+            android:inputType="textMultiLine|textAutoComplete|textAutoCorrect"
+            android:hint="@string/text_comment"
+            android:drawableStart="@drawable/ic_comment"
+            android:drawablePadding="@dimen/padding_normal"
+            app:backgroundTint="@color/colorWhite"/>
+
+    </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
