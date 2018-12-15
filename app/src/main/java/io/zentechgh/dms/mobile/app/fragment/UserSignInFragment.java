@@ -111,7 +111,7 @@ public class UserSignInFragment extends Fragment  implements View.OnClickListene
 
     private void inputValidation(){
 
-        // getting text from edtitext fields
+        // getting text from editText fields
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
 
@@ -196,7 +196,8 @@ public class UserSignInFragment extends Fragment  implements View.OnClickListene
         else{
 
             // display message if email is not verified
-            Toast.makeText(applicationContext, getString(R.string.text_email_not_verified), Toast.LENGTH_SHORT).show();
+            Toast.makeText(applicationContext, getString(R.string.text_email_not_verified),
+                    Toast.LENGTH_LONG).show();
 
             // signs user out and restarts the Login Activity
             mAuth.signOut();

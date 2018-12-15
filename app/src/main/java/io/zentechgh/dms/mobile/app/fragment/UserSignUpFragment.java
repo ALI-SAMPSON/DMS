@@ -106,7 +106,7 @@ public class UserSignUpFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View view) {
 
-        // getting text from edtitext fields
+        // getting text from editText fields
         String username = editTextUsername.getText().toString();
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
@@ -151,11 +151,11 @@ public class UserSignUpFragment extends Fragment implements View.OnClickListener
 
         progressBar.setVisibility(View.VISIBLE);
 
-        // getting text from edtitext fields
+        // getting text from editText fields
         final String username = editTextUsername.getText().toString();
-        final String email = editTextUsername.getText().toString();
-        final String password = editTextUsername.getText().toString();
-        final String phone = editTextUsername.getText().toString();
+        final String email = editTextEmail.getText().toString();
+        final String password = editTextPassword.getText().toString();
+        final String phone = editTextPhone.getText().toString();
 
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -245,10 +245,10 @@ public class UserSignUpFragment extends Fragment implements View.OnClickListener
     }
 
     private void clearTextFields(){
-        editTextUsername.setText(null);
-        editTextEmail.setText(null);
-        editTextPassword.setText(null);
-        editTextPhone.setText(null);
+        editTextUsername.setText("");
+        editTextEmail.setText("");
+        editTextPassword.setText("");
+        editTextPhone.setText("");
     }
 
     // Method to send verification link to email to user after sign Up
