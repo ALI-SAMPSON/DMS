@@ -10,10 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -41,6 +44,17 @@ public class ScanDocumentFragment extends Fragment implements
 
     private static final int PERMISSION_CODE = 123;
 
+    FloatingActionButton fab_main;
+    FloatingActionButton fab_camera;
+    FloatingActionButton fab_gallery;
+    // boolean to check if fab_main is open
+    boolean isOpen = false;
+
+    Animation fab_open_animation;
+    Animation fab_close_animation;
+    Animation fab_clockwise_animation;
+    Animation fab_anticlockwise_animation;
+
     Button scan_button;
     Button gallery_button;
     ImageView scannedImageView;
@@ -64,13 +78,52 @@ public class ScanDocumentFragment extends Fragment implements
         view =  inflater.inflate(R.layout.fragment_scan_document, container, false);
 
         // getting reference to views
-        scan_button = view.findViewById(R.id.scan_button);
-        gallery_button = view.findViewById(R.id.gallery_button);
+        fab_main = view.findViewById(R.id.fab_main);
+        fab_camera = view.findViewById(R.id.fab_camera);
+        fab_gallery = view.findViewById(R.id.fab_gallery);
+
+        // initializing the animation variables
+        fab_open_animation = AnimationUtils.loadAnimation(applicationContext,R.anim.fab_open);
+        fab_close_animation = AnimationUtils.loadAnimation(applicationContext,R.anim.fab_close);
+        fab_clockwise_animation = AnimationUtils.loadAnimation(applicationContext,R.anim.rotate_fab_clockwise);
+        fab_anticlockwise_animation = AnimationUtils.loadAnimation(applicationContext,R.anim.rotate_fab_anticlockwise);
+
+        //scan_button = view.findViewById(R.id.scan_button);
+        //gallery_button = view.findViewById(R.id.gallery_button);
         scannedImageView = view.findViewById(R.id.scanned_file);
 
         //setting onClickListeners on views
-        scan_button.setOnClickListener(this);
-        gallery_button.setOnClickListener(this);
+        fab_gallery.setOnClickListener(this);
+        fab_camera.setOnClickListener(this);
+        //scan_button.setOnClickListener(this);
+        //gallery_button.setOnClickListener(this);
+
+        fab_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // checking if floating button main is opened
+                if(isOpen){
+                    fab_gallery.startAnimation(fab_close_animation);
+                    fab_camera.startAnimation(fab_close_animation);
+                    fab_main.startAnimation(fab_anticlockwise_animation);
+                    // making the two fab(s) clickable
+                    fab_gallery.setClickable(false);
+                    fab_camera.setClickable(false);
+                    isOpen = false;
+                }
+                else{
+                    // starting animation on floating action buttons
+                    fab_gallery.startAnimation(fab_open_animation);
+                    fab_camera.startAnimation(fab_open_animation);
+                    fab_main.startAnimation(fab_clockwise_animation);
+                    // making the two fab(s) clickable
+                    fab_gallery.setClickable(true);
+                    fab_camera.setClickable(true);
+                    isOpen = true;
+                }
+            }
+        });
+
 
         return view;
     }
@@ -79,11 +132,11 @@ public class ScanDocumentFragment extends Fragment implements
     public void onClick(View view) {
 
         switch (view.getId()){
-            case R.id.scan_button:
+            case R.id.fab_camera:
                 // method call
                 openCamera();
                 break;
-            case R.id.gallery_button:
+            case R.id.fab_gallery:
                 // method call
                 openGallery();
                 break;

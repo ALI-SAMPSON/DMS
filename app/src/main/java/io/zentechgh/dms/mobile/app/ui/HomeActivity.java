@@ -28,6 +28,7 @@ import io.zentechgh.dms.mobile.app.fragment.SendDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.UploadDocumentFragment;
 import maes.tech.intentanim.CustomIntent;
 
+@SuppressWarnings("ALL")
 public class HomeActivity extends AppCompatActivity {
     // Global views declaration
     Toolbar toolbar;
@@ -40,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private int[] tabIcons = {
             R.drawable.ic_scan,
-            R.drawable.ic_file_upload,
+            R.drawable.ic_upload,
             R.drawable.ic_sent,
             R.drawable.ic_approve
     };
@@ -77,7 +78,7 @@ public class HomeActivity extends AppCompatActivity {
         ViewPagerAdapterHome viewPagerAdapter = new ViewPagerAdapterHome(getSupportFragmentManager());
         // calling method to add fragments using the viewPagerAdapter
         viewPagerAdapter.addFragment(new ScanDocumentFragment(),getString(R.string.text_scan),R.drawable.ic_scan);
-        viewPagerAdapter.addFragment(new UploadDocumentFragment(), getString(R.string.text_upload),R.drawable.ic_file_upload);
+        viewPagerAdapter.addFragment(new UploadDocumentFragment(), getString(R.string.text_upload),R.drawable.ic_upload);
         viewPagerAdapter.addFragment(new SendDocumentFragment(), getString(R.string.text_sent), R.drawable.ic_sent);
         viewPagerAdapter.addFragment(new ApproveDocumentFragment(), getString(R.string.text_approval), R.drawable.ic_approve);
         // setting adapter to viewPager
