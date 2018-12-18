@@ -12,11 +12,11 @@ import io.zentechgh.dms.mobile.app.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ApproveDocumentFragment extends Fragment {
+public class DeleteDocumentFragment extends Fragment {
 
     View view;
 
-    public ApproveDocumentFragment() {
+    public DeleteDocumentFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +25,7 @@ public class ApproveDocumentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view  = inflater.inflate(R.layout.fragment_approve_document, container, false);
+        view  = inflater.inflate(R.layout.fragment_delete_document, container, false);
 
         return view;
     }

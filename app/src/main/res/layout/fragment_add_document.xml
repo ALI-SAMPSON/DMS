@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_ghost"
-    tools:context=".fragment.ScanDocumentFragment"
+    tools:context=".fragment.AddDocumentFragment"
     android:id="@+id/constraintLayout">
 
     <ScrollView
@@ -30,7 +30,7 @@
                 android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
-                android:text="@string/text_upload"
+                android:text="@string/text_submit"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
                 android:fontFamily="@font/lato"
@@ -82,8 +82,8 @@
                 android:textSize="16sp"
                 android:textColor="@color/dark"
                 android:inputType="text|textAutoComplete|textAutoCorrect"
-                android:hint="@string/hint_name"
-                android:drawableStart="@drawable/ic_person_grey"
+                android:hint="@string/hint_title"
+                android:drawableStart="@drawable/ic_title"
                 android:drawablePadding="@dimen/padding_normal"
                 app:backgroundTint="@color/colorWhite"/>
         </LinearLayout>
@@ -176,7 +176,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_gallery"
+        android:src="@drawable/ic_archive"
         android:elevation="5dp"
         app:pressedTranslationZ="12dp"
         app:backgroundTint="@color/light_green"

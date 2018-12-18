@@ -6,6 +6,7 @@
     <string name="hint_password" translatable="false">Password</string>
     <string name="hint_phone" translatable="false">Phone</string>
     <string name="hint_name" translatable="false">Name...</string>
+    <string name="hint_title" translatable="false">Title...</string>
     <string name="text_sign_in" translatable="false">Sign In</string>
     <string name="text_sign_up" translatable="false">Sign Up</string>
     <string name="text_already_member" translatable="false">Already a member? Sign In</string>
@@ -35,14 +36,19 @@
     <string name="sign_out_msg" translatable="false">Are you sure you want to sign out?</string>
 
     <!-- string for fragments -->
-    <string name="text_scan" translatable="false">Scan</string>
-    <string name="text_scan_upload" translatable="false">Scan / Upload</string>
-    <string name="text_upload" translatable="false">Upload</string>
-    <string name="text_sent" translatable="false">Sent</string>
-    <string name="text_approval" translatable="false">Approvals</string>
-    <string name="text_library" translatable="false">Library</string>
+    <string name="text_add" translatable="false">Add</string>
+    <string name="text_manage" translatable="false">Manage</string>
+    <string name="text_archive" translatable="false">Archive</string>
+    <string name="text_delete" translatable="false">Delete</string>
+    <string name="text_assign" translatable="false">Assign</string>
+    <string name="text_submit" translatable="false">Submit</string>
+    <string name="text_view" translatable="false">View</string>
     <string name="text_cancel" translatable="false">Cancel</string>
     <string name="text_choose" translatable="false">Choose from Gallery</string>
+    <string name="text_add_image">Please add an image of the document to proceed!</string>
+
+    <string name="text_adding_document" translatable="false">Adding Document</string>
+    <string name="text_please_wait" translatable="false">please wait...</string>
 
     <string name="verification_sent" translatable="false">
         Sign Up Successful. A verification link has been sent to

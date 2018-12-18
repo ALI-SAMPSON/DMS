@@ -2,50 +2,50 @@ package io.zentechgh.dms.mobile.app.model;
 
 public class Documents {
 
-    private String name;
-    private String comment;
-    private String tag;
-    private String documentUrl;
+    private String Title;
+    private String Comment;
+    private String Tag;
+    private String DocumentUrl;
 
     public Documents() {
     }
 
-    public Documents(String name, String comment, String tag, String documentUrl) {
-        this.name = name;
-        this.comment = comment;
-        this.tag = tag;
-        this.documentUrl = documentUrl;
+    public Documents(String title, String comment, String tag, String documentUrl) {
+        this.Title = title;
+        this.Comment = comment;
+        this.Tag = tag;
+        this.DocumentUrl = documentUrl;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return Title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        Title = title;
     }
 
     public String getComment() {
-        return comment;
+        return Comment;
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        Comment = comment;
     }
 
     public String getTag() {
-        return tag;
+        return Tag;
     }
 
     public void setTag(String tag) {
-        this.tag = tag;
+        Tag = tag;
     }
 
     public String getDocumentUrl() {
-        return documentUrl;
+        return DocumentUrl;
     }
 
     public void setDocumentUrl(String documentUrl) {
-        this.documentUrl = documentUrl;
+        DocumentUrl = documentUrl;
     }
 }

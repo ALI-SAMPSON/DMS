@@ -55,10 +55,8 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static android.app.Activity.RESULT_OK;
-
 @SuppressWarnings("ALL")
-public class ScanDocumentFragment extends Fragment implements
+public class AddDocumentFragment extends Fragment implements
         View.OnClickListener,EasyPermissions.PermissionCallbacks {
 
     // Global variables
@@ -108,7 +106,7 @@ public class ScanDocumentFragment extends Fragment implements
 
     HomeActivity applicationContext;
 
-    public ScanDocumentFragment() {
+    public AddDocumentFragment() {
         // Required empty public constructor
     }
 
@@ -122,7 +120,7 @@ public class ScanDocumentFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_scan_document, container, false);
+        view =  inflater.inflate(R.layout.fragment_add_document, container, false);
 
         // initialization of the FirebaseAuth and FirebaseUser classes
         mAuth = FirebaseAuth.getInstance();
@@ -264,8 +262,8 @@ public class ScanDocumentFragment extends Fragment implements
         String comment = editTextComment.getText().toString();
 
         if(scannedImageView.getDrawable() == null){
-            YoYo.with(Techniques.Wobble).playOn(scannedImageView);
-            Toast.makeText(applicationContext, "please add an image of the document to proceed!",
+            YoYo.with(Techniques.Flash).playOn(scannedImageView);
+            Toast.makeText(applicationContext, getString(R.string.text_add_image),
                     Toast.LENGTH_SHORT).show();
         }
         if(TextUtils.isEmpty(name)){
@@ -294,13 +292,13 @@ public class ScanDocumentFragment extends Fragment implements
         final String comment = editTextComment.getText().toString();
         final String tag = spinnerTag.getSelectedItem().toString();
 
-        documents.setName(name);
+        documents.setTitle(name);
         documents.setComment(comment);
         documents.setTag(tag);
         documents.setDocumentUrl(documentUrl);
 
-        documentRef.child(currentUser.getDisplayName())
-                .setValue(documents).addOnCompleteListener(new OnCompleteListener<Void>() {
+        documentRef.child(currentUser.getDisplayName()).child("documents")
+                .push().setValue(documents).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
@@ -311,7 +309,7 @@ public class ScanDocumentFragment extends Fragment implements
                     updateUserField.put("documentComment",comment);
                     updateUserField.put("documentTag",tag);
                     updateUserField.put("documentUrl",documentUrl);
-                    userRef.child("Uploaded Documents").push().setValue(updateUserField);
+                    userRef.child("Documents").push().setValue(updateUserField);
 
                     // method call to upload document file
                     uploadDocumentFile();
@@ -443,16 +441,16 @@ public class ScanDocumentFragment extends Fragment implements
             //sets the background color according to android version
             progressDialog = new ProgressDialog(applicationContext, ProgressDialog.THEME_HOLO_DARK);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setTitle("Uploading Document");
-            progressDialog.setMessage("please wait...");
+            progressDialog.setTitle(getString(R.string.text_adding_document));
+            progressDialog.setMessage(getString(R.string.text_please_wait));
         }
         //else do this
         else{
             //sets the background color according to android version
             progressDialog = new ProgressDialog(applicationContext, ProgressDialog.THEME_HOLO_LIGHT);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setTitle("Uploading Document...");
-            progressDialog.setMessage("please wait...");
+            progressDialog.setTitle(getString(R.string.text_adding_document));
+            progressDialog.setMessage(getString(R.string.text_please_wait));
         }
 
     }

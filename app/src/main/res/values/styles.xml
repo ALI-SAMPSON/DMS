@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!--This would set the menu item color-->
         <item name="android:textColor">@color/dark</item>
         <item name="android:tint">@color/colorWhite</item>

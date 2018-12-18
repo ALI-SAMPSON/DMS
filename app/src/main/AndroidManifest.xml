@@ -32,7 +32,7 @@
         <activity android:name=".ui.SignInSignUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
