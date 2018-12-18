@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- array of tags -->
+    <string-array name="tags">
+        <item>None</item>
+        <item>InHouse</item>
+        <item>Incoming</item>
+        <item>Outgoing</item>
+    </string-array>
+
+</resources>

@@ -23,6 +23,7 @@ import java.util.TimerTask;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.ViewPagerAdapterHome;
 import io.zentechgh.dms.mobile.app.fragment.ApproveDocumentFragment;
+import io.zentechgh.dms.mobile.app.fragment.LibraryFragment;
 import io.zentechgh.dms.mobile.app.fragment.ScanDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.SendDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.UploadDocumentFragment;
@@ -43,7 +44,8 @@ public class HomeActivity extends AppCompatActivity {
             R.drawable.ic_scan,
             R.drawable.ic_upload,
             R.drawable.ic_sent,
-            R.drawable.ic_approve
+            R.drawable.ic_approve,
+            R.drawable.ic_gallery
     };
 
     @Override
@@ -77,10 +79,12 @@ public class HomeActivity extends AppCompatActivity {
         // creating an object of the ViewPagerAdapter class
         ViewPagerAdapterHome viewPagerAdapter = new ViewPagerAdapterHome(getSupportFragmentManager());
         // calling method to add fragments using the viewPagerAdapter
-        viewPagerAdapter.addFragment(new ScanDocumentFragment(),getString(R.string.text_scan),R.drawable.ic_scan);
-        viewPagerAdapter.addFragment(new UploadDocumentFragment(), getString(R.string.text_upload),R.drawable.ic_upload);
-        viewPagerAdapter.addFragment(new SendDocumentFragment(), getString(R.string.text_sent), R.drawable.ic_sent);
-        viewPagerAdapter.addFragment(new ApproveDocumentFragment(), getString(R.string.text_approval), R.drawable.ic_approve);
+        viewPagerAdapter.addFragment(new ScanDocumentFragment(),getString(R.string.text_scan_upload));
+        //viewPagerAdapter.addFragment(new ScanDocumentFragment(),getString(R.string.text_scan));
+        viewPagerAdapter.addFragment(new UploadDocumentFragment(), getString(R.string.text_upload));
+        viewPagerAdapter.addFragment(new SendDocumentFragment(), getString(R.string.text_sent));
+        viewPagerAdapter.addFragment(new ApproveDocumentFragment(), getString(R.string.text_approval));
+        viewPagerAdapter.addFragment(new LibraryFragment(),getString(R.string.text_library));
         // setting adapter to viewPager
         viewPager.setAdapter(viewPagerAdapter);
     }
@@ -90,6 +94,7 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+        tabLayout.getTabAt(4).setIcon(tabIcons[4]);
     }
 
     // method to change ProgressDialog background color based on the android version of user's phone

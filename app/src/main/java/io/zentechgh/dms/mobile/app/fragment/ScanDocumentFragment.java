@@ -3,30 +3,53 @@ package io.zentechgh.dms.mobile.app.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatSpinner;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.model.Documents;
+import io.zentechgh.dms.mobile.app.model.Users;
 import io.zentechgh.dms.mobile.app.ui.HomeActivity;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
@@ -34,6 +57,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
 
+@SuppressWarnings("ALL")
 public class ScanDocumentFragment extends Fragment implements
         View.OnClickListener,EasyPermissions.PermissionCallbacks {
 
@@ -43,6 +67,24 @@ public class ScanDocumentFragment extends Fragment implements
     int REQUEST_CODE = 99;
 
     private static final int PERMISSION_CODE = 123;
+
+    ProgressDialog progressDialog;
+
+    // uri of the document scanned
+    Uri documentUri;
+
+    // uri of the document scanned
+    String documentUrl;
+
+    FirebaseAuth mAuth;
+
+    FirebaseUser currentUser;
+
+    DatabaseReference documentRef, userRef;
+
+    // models
+    Users users;
+    Documents documents;
 
     FloatingActionButton fab_main;
     FloatingActionButton fab_camera;
@@ -55,9 +97,14 @@ public class ScanDocumentFragment extends Fragment implements
     Animation fab_clockwise_animation;
     Animation fab_anticlockwise_animation;
 
-    Button scan_button;
-    Button gallery_button;
     ImageView scannedImageView;
+
+    EditText editTextName,editTextComment;
+
+    Button uploadButton,cancelButton;
+
+    private AppCompatSpinner spinnerTag;
+    private ArrayAdapter<CharSequence> arrayAdapter;
 
     HomeActivity applicationContext;
 
@@ -77,6 +124,33 @@ public class ScanDocumentFragment extends Fragment implements
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_scan_document, container, false);
 
+        // initialization of the FirebaseAuth and FirebaseUser classes
+        mAuth = FirebaseAuth.getInstance();
+
+        currentUser = mAuth.getCurrentUser();
+
+        //initializing models
+        users = new Users();
+        documents = new Documents();
+
+        documentRef = FirebaseDatabase.getInstance().getReference("Documents");
+
+        userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
+
+        scannedImageView = view.findViewById(R.id.scannedImageView);
+
+        editTextName = view.findViewById(R.id.editTextName);
+        editTextComment = view.findViewById(R.id.editTextComment);
+
+        uploadButton = view.findViewById(R.id.upload_btn);
+        cancelButton = view.findViewById(R.id.cancel_btn);
+
+        // initializing the spinnerView and adapter
+        spinnerTag = view.findViewById(R.id.spinnerTag);
+        arrayAdapter = ArrayAdapter.createFromResource(applicationContext,R.array.tags,R.layout.spinner_item);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinnerTag.setAdapter(arrayAdapter);
+
         // getting reference to views
         fab_main = view.findViewById(R.id.fab_main);
         fab_camera = view.findViewById(R.id.fab_camera);
@@ -88,16 +162,18 @@ public class ScanDocumentFragment extends Fragment implements
         fab_clockwise_animation = AnimationUtils.loadAnimation(applicationContext,R.anim.rotate_fab_clockwise);
         fab_anticlockwise_animation = AnimationUtils.loadAnimation(applicationContext,R.anim.rotate_fab_anticlockwise);
 
-        //scan_button = view.findViewById(R.id.scan_button);
-        //gallery_button = view.findViewById(R.id.gallery_button);
-        scannedImageView = view.findViewById(R.id.scanned_file);
+        scannedImageView = view.findViewById(R.id.scannedImageView);
 
-        //setting onClickListeners on views
+        //setting onClickListeners on fab(s)
         fab_gallery.setOnClickListener(this);
         fab_camera.setOnClickListener(this);
-        //scan_button.setOnClickListener(this);
-        //gallery_button.setOnClickListener(this);
 
+        //setting onClickListeners on fab(s)
+        uploadButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
+
+
+        // onClickListener for main fab
         fab_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,6 +200,8 @@ public class ScanDocumentFragment extends Fragment implements
             }
         });
 
+        // method call
+        changeProgressDialogBackground();
 
         return view;
     }
@@ -139,6 +217,14 @@ public class ScanDocumentFragment extends Fragment implements
             case R.id.fab_gallery:
                 // method call
                 openGallery();
+                break;
+
+            case R.id.upload_btn:
+                // method call
+                checkIfFieldEmpty();
+                break;
+            case R.id.cancel_btn:
+                cancelUpload();
                 break;
 
         }
@@ -172,6 +258,119 @@ public class ScanDocumentFragment extends Fragment implements
 
     }
 
+    private void checkIfFieldEmpty(){
+
+        String name = editTextName.getText().toString();
+        String comment = editTextComment.getText().toString();
+
+        if(scannedImageView.getDrawable() == null){
+            YoYo.with(Techniques.Wobble).playOn(scannedImageView);
+            Toast.makeText(applicationContext, "please add an image of the document to proceed!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        if(TextUtils.isEmpty(name)){
+            YoYo.with(Techniques.Shake).playOn(editTextName);
+            editTextName.setError(getString(R.string.error_empty_field));
+        }
+        if(TextUtils.isEmpty(comment)){
+            YoYo.with(Techniques.Shake).playOn(editTextComment);
+            editTextComment.setError(getString(R.string.error_empty_field));
+        }
+        if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(comment) && scannedImageView.getDrawable() != null){
+            // method call
+            uploadDocument();
+        }
+
+    }
+
+    // method to upload entire document
+    private void uploadDocument(){
+
+        // display dialog
+        progressDialog.show();
+
+        // getting text
+        final String name = editTextName.getText().toString();
+        final String comment = editTextComment.getText().toString();
+        final String tag = spinnerTag.getSelectedItem().toString();
+
+        documents.setName(name);
+        documents.setComment(comment);
+        documents.setTag(tag);
+        documents.setDocumentUrl(documentUrl);
+
+        documentRef.child(currentUser.getDisplayName())
+                .setValue(documents).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+
+                    // updates users field with document uploaded
+                    HashMap<String,Object> updateUserField = new HashMap<>();
+                    updateUserField.put("documentName",name);
+                    updateUserField.put("documentComment",comment);
+                    updateUserField.put("documentTag",tag);
+                    updateUserField.put("documentUrl",documentUrl);
+                    userRef.child("Uploaded Documents").push().setValue(updateUserField);
+
+                    // method call to upload document file
+                    uploadDocumentFile();
+
+                }
+                else{
+                    // display an error message
+                    Toast.makeText(applicationContext, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                // dismiss the dialog
+                progressDialog.dismiss();
+            }
+        });
+
+
+    }
+
+    // method to upload the document file only
+    private void uploadDocumentFile(){
+
+        final StorageReference documentFileRef = FirebaseStorage.getInstance()
+                .getReference(" Documents /" + System.currentTimeMillis() + ".jpg");
+
+        if(documentUri != null){
+
+            documentFileRef.putFile(documentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    documentFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // getting image uri and converting into string
+                            Uri downloadUrl = uri;
+                            documentUrl = downloadUrl.toString();
+                        }
+                    });
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // display an error message
+                    Toast.makeText(applicationContext, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+
+
+    }
+
+    // clear fields
+    private void cancelUpload(){
+        editTextName.setText("");
+        editTextComment.setText("");
+    }
+
     // Method to open gallery to begin the scanning process
     private void openGallery(){
 
@@ -201,11 +400,11 @@ public class ScanDocumentFragment extends Fragment implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-            Bitmap bitmap = null;
+            documentUri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
+            Bitmap bitmap;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), uri);
-                applicationContext.getContentResolver().delete(uri, null, null);
+                bitmap = MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), documentUri);
+                applicationContext.getContentResolver().delete(documentUri, null, null);
                 scannedImageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -234,6 +433,28 @@ public class ScanDocumentFragment extends Fragment implements
         if(EasyPermissions.somePermissionPermanentlyDenied(this,perms)){
             new AppSettingsDialog.Builder(this).build().show();
         }
+    }
+
+    // method to change ProgressDialog background color based on the android version of user's phone
+    private void changeProgressDialogBackground(){
+
+        // if the build sdk version >= android 5.0
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            //sets the background color according to android version
+            progressDialog = new ProgressDialog(applicationContext, ProgressDialog.THEME_HOLO_DARK);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setTitle("Uploading Document");
+            progressDialog.setMessage("please wait...");
+        }
+        //else do this
+        else{
+            //sets the background color according to android version
+            progressDialog = new ProgressDialog(applicationContext, ProgressDialog.THEME_HOLO_LIGHT);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setTitle("Uploading Document...");
+            progressDialog.setMessage("please wait...");
+        }
+
     }
 }
 

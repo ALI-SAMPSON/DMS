@@ -11,13 +11,13 @@ public class ViewPagerAdapterHome extends FragmentPagerAdapter {
 
     ArrayList<Fragment> fragments;
     ArrayList<String> titles;
-    ArrayList<Integer> icons;
+    //ArrayList<Integer> icons;
 
     public ViewPagerAdapterHome(FragmentManager fm){
         super(fm);
         this.fragments = new ArrayList<>();
         this.titles = new ArrayList<>();
-        this.icons = new ArrayList<>();
+        //this.icons = new ArrayList<>();
     }
 
     // returns each position of fragment
@@ -31,10 +31,10 @@ public class ViewPagerAdapterHome extends FragmentPagerAdapter {
         return fragments.size();
     }
 
-    public void addFragment(Fragment fragment, String title, int icon){
+    public void addFragment(Fragment fragment, String title){
         fragments.add(fragment);
         titles.add(title);
-        icons.add(icon);
+        //icons.add(icon);
     }
 
     // Ctrl + O
