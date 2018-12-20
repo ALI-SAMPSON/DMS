@@ -75,10 +75,9 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(mCtx);
-
-                alertDialog.setTitle(R.string.title_assign)
+                // creating alertDialog
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(mCtx)
+                        .setTitle(R.string.title_assign)
                         .setMessage(R.string.text_confirm + users.getUsername());
 
                 alertDialog.setPositiveButton(R.string.text_yes, new DialogInterface.OnClickListener() {
@@ -101,6 +100,10 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
                         dialog.dismiss();
                     }
                 });
+
+                // creating and showing alert dialog
+                AlertDialog alert = alertDialog.create();
+                alert.show();
 
             }
 

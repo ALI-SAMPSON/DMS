@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterDelete;
 import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterManage;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.HomeActivity;
@@ -55,7 +56,7 @@ public class DeleteDocumentFragment extends Fragment {
 
     FloatingActionButton fab_delete;
 
-    RecyclerViewAdapterManage adapterManage;
+    RecyclerViewAdapterDelete adapterDelete;
 
     ValueEventListener dBListener;
 
@@ -105,11 +106,12 @@ public class DeleteDocumentFragment extends Fragment {
         documentRef = FirebaseDatabase.getInstance().getReference("Documents");
 
         recyclerView = view.findViewById(R.id.recyclerView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(applicationContext));
 
-        //adapterManage = new RecyclerViewAdapterManage(applicationContext,documentsList);
+        //adapterDelete = new RecyclerViewAdapterDelete(applicationContext,documentsList);
 
-        recyclerView.setAdapter(adapterManage);
+        recyclerView.setAdapter(adapterDelete);
 
         documentsList = new ArrayList<>();
 
@@ -142,7 +144,7 @@ public class DeleteDocumentFragment extends Fragment {
                 }
 
                 // notify adapter if there is data change
-                adapterManage.notifyDataSetChanged();
+                adapterDelete.notifyDataSetChanged();
 
                 // Hiding the progress bar.
                 progressBar.setVisibility(View.GONE);
@@ -209,7 +211,7 @@ public class DeleteDocumentFragment extends Fragment {
                 }
 
                 // notify adapter if there is data change
-                adapterManage.notifyDataSetChanged();
+                adapterDelete.notifyDataSetChanged();
 
                 // Hiding the progress bar.
                 progressBar.setVisibility(View.GONE);

@@ -18,17 +18,17 @@ import java.util.List;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Documents;
 
-public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerViewAdapterManage.ViewHolder> {
+public class RecyclerViewAdapterDelete extends RecyclerView.Adapter<RecyclerViewAdapterDelete.ViewHolder> {
 
     // global variables
     private Context mCtx;
     private List<Documents> documentsList;
 
     // default constructor
-    public RecyclerViewAdapterManage(){}
+    public RecyclerViewAdapterDelete(){}
 
     // defaultless constructor
-    public RecyclerViewAdapterManage(Context mCtx, List<Documents> documentsList){
+    public RecyclerViewAdapterDelete(Context mCtx, List<Documents> documentsList){
         this.mCtx = mCtx;
         this.documentsList = documentsList;
     }
@@ -38,7 +38,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
 
         // inflating layout resource file
-        View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_manage_document,viewGroup,false);
+        View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_delete_document,viewGroup,false);
 
         // getting an instance of the viewHolder class
         ViewHolder viewHolder = new ViewHolder(view);
@@ -66,16 +66,6 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.documentImage);
         }
 
-        // onclick listener for view button
-        viewHolder.buttonView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // open file for user to view
-
-            }
-        });
-
         // set OnClick Listener for each item in cardview(document)
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +88,6 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         TextView documentTitle;
         TextView documentTag;
         TextView documentComment;
-        Button buttonView;
         CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -108,7 +97,6 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             documentTitle = itemView.findViewById(R.id.document_title);
             documentTag = itemView.findViewById(R.id.document_tag);
             documentComment = itemView.findViewById(R.id.document_comment);
-            buttonView = itemView.findViewById(R.id.button_view);
             cardView = itemView.findViewById(R.id.cardView);
 
         }
