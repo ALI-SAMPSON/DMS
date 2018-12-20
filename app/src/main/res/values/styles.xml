@@ -23,4 +23,8 @@
         <item name="android:tint">@color/colorWhite</item>
     </style>
 
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
 </resources>

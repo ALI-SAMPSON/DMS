@@ -38,6 +38,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.scanlibrary.ScanActivity;
@@ -80,6 +81,10 @@ public class AddDocumentFragment extends Fragment implements
 
     DatabaseReference documentRef, userRef;
 
+    StorageReference mStorageReference;
+
+    FirebaseStorage mFirebaseStorage;
+
     // models
     Users users;
     Documents documents;
@@ -97,7 +102,7 @@ public class AddDocumentFragment extends Fragment implements
 
     ImageView scannedImageView;
 
-    EditText editTextName,editTextComment;
+    EditText editTextTitle,editTextComment;
 
     Button uploadButton,cancelButton;
 
@@ -129,15 +134,21 @@ public class AddDocumentFragment extends Fragment implements
 
         //initializing models
         users = new Users();
+
         documents = new Documents();
 
         documentRef = FirebaseDatabase.getInstance().getReference("Documents");
 
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
 
+        // getting instance of Firebase Storage and Storage Reference
+        mFirebaseStorage = FirebaseStorage.getInstance();
+
+        mStorageReference = mFirebaseStorage.getReference();
+
         scannedImageView = view.findViewById(R.id.scannedImageView);
 
-        editTextName = view.findViewById(R.id.editTextName);
+        editTextTitle = view.findViewById(R.id.editTextTitle);
         editTextComment = view.findViewById(R.id.editTextComment);
 
         uploadButton = view.findViewById(R.id.upload_btn);
@@ -258,7 +269,7 @@ public class AddDocumentFragment extends Fragment implements
 
     private void checkIfFieldEmpty(){
 
-        String name = editTextName.getText().toString();
+        String name = editTextTitle.getText().toString();
         String comment = editTextComment.getText().toString();
 
         if(scannedImageView.getDrawable() == null){
@@ -267,8 +278,8 @@ public class AddDocumentFragment extends Fragment implements
                     Toast.LENGTH_SHORT).show();
         }
         if(TextUtils.isEmpty(name)){
-            YoYo.with(Techniques.Shake).playOn(editTextName);
-            editTextName.setError(getString(R.string.error_empty_field));
+            YoYo.with(Techniques.Shake).playOn(editTextTitle);
+            editTextTitle.setError(getString(R.string.error_empty_field));
         }
         if(TextUtils.isEmpty(comment)){
             YoYo.with(Techniques.Shake).playOn(editTextComment);
@@ -288,7 +299,7 @@ public class AddDocumentFragment extends Fragment implements
         progressDialog.show();
 
         // getting text
-        final String name = editTextName.getText().toString();
+        final String name = editTextTitle.getText().toString();
         final String comment = editTextComment.getText().toString();
         final String tag = spinnerTag.getSelectedItem().toString();
 
@@ -331,8 +342,12 @@ public class AddDocumentFragment extends Fragment implements
     // method to upload the document file only
     private void uploadDocumentFile(){
 
-        final StorageReference documentFileRef = FirebaseStorage.getInstance()
-                .getReference(" Documents /" + System.currentTimeMillis() + ".jpg");
+        //final StorageReference documentFileRef = FirebaseStorage.getInstance()
+          //      .getReference();
+
+        final StorageReference documentFileRef = mStorageReference
+                .child(" Documents /" + System.currentTimeMillis() + ".jpg");
+                //.child(" Documents /" + System.currentTimeMillis() + ".jpg");
 
         if(documentUri != null){
 
@@ -340,7 +355,7 @@ public class AddDocumentFragment extends Fragment implements
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    documentFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                   /* documentFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             // getting image uri and converting into string
@@ -348,15 +363,23 @@ public class AddDocumentFragment extends Fragment implements
                             documentUrl = downloadUrl.toString();
                         }
                     });
+                    */
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     // display an error message
-                    Toast.makeText(applicationContext, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(applicationContext, " Failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-            });
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });;
 
         }
 
@@ -365,7 +388,7 @@ public class AddDocumentFragment extends Fragment implements
 
     // clear fields
     private void cancelUpload(){
-        editTextName.setText("");
+        editTextTitle.setText("");
         editTextComment.setText("");
     }
 

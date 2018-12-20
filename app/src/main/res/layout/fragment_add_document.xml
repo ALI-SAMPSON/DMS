@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_ghost"
-    tools:context=".fragment.AddDocumentFragment"
-    android:id="@+id/constraintLayout">
+    tools:context=".fragment.AddDocumentFragment">
 
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_ghost"
+    tools:layout_editor_absoluteY="81dp">
+
+    <!--
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,195 +37,374 @@
 
             <LinearLayout
                 android:id="@+id/button_layout"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_margin="5dp">
-            <Button
-                android:id="@+id/upload_btn"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
                 android:layout_margin="5dp"
-                android:text="@string/text_submit"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:fontFamily="@font/lato"
-                android:textAllCaps="false"
-                android:visibility="visible"
-                android:background="@drawable/circular_button"/>
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/upload_btn"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/circular_button"
+                    android:fontFamily="@font/lato"
+                    android:text="@string/text_submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
 
                 <Button
                     android:id="@+id/cancel_btn"
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
+                    android:background="@drawable/circular_button"
+                    android:fontFamily="@font/lato"
                     android:text="@string/text_cancel"
+                    android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp"
-                    android:fontFamily="@font/lato"
-                    android:textAllCaps="false"
-                    android:visibility="visible"
-                    android:background="@drawable/circular_button"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 
-        <!-- ImageView to get the scanned Image-->
-        <ImageView
-            android:id="@+id/scannedImageView"
-            android:layout_below="@+id/button_layout"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/image_border"/>
 
-        <LinearLayout
-            android:id="@+id/name_layout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/round_edittext_background"
-            android:layout_below="@+id/scannedImageView">
-            <EditText
-                android:id="@+id/editTextName"
+            <ImageView
+                android:id="@+id/scannedImageView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/lato"
-                android:textSize="16sp"
-                android:textColor="@color/dark"
-                android:inputType="text|textAutoComplete|textAutoCorrect"
-                android:hint="@string/hint_title"
-                android:drawableStart="@drawable/ic_title"
-                android:drawablePadding="@dimen/padding_normal"
-                app:backgroundTint="@color/colorWhite"/>
-        </LinearLayout>
+                android:layout_height="250dp"
+                android:layout_below="@+id/button_layout"
+                android:layout_margin="5dp"
+                android:background="@drawable/image_border" />
 
-        <LinearLayout
-            android:id="@+id/comment_layout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/round_edittext_background"
-           android:layout_below="@id/name_layout">
-            <EditText
-                android:id="@+id/editTextComment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/lato"
-                android:textSize="16sp"
-                android:textColor="@color/dark"
-                android:inputType="textMultiLine|textAutoComplete|textAutoCorrect"
-                android:hint="@string/text_comment"
-                android:drawableStart="@drawable/ic_comment_gery"
-                android:drawablePadding="@dimen/padding_normal"
-                app:backgroundTint="@color/colorWhite"/>
-        </LinearLayout>
-
-
-        <!--TextInputLayout and LinearLayout and spinner View for Voter's Gender-->
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/spinner_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-            android:layout_marginStart="0dp"
-            android:layout_below="@+id/comment_layout">
             <LinearLayout
+                android:id="@+id/name_layout"
                 android:layout_width="match_parent"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:layout_height="match_parent"
-                android:weightSum="1">
-                <!--TextView View  and Spinner View for Voter's Gender-->
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/textViewGender"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:text="@string/text_tag"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical"
-                    app:fontFamily="@font/lato"
-                    android:drawablePadding="@dimen/spacing_normal"
-                    android:textColor="@android:color/darker_gray"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1.11"
-                    android:drawableStart="@drawable/ic_tag"
-                    android:layout_marginStart="1dp" />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_height="40dp"
-                    android:weightSum="1"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp">
-                    <android.support.v7.widget.AppCompatSpinner
-                        android:id="@+id/spinnerTag"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginStart="58dp" />
-                </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scannedImageView"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/round_edittext_background"
+                android:orientation="vertical">
 
+                <EditText
+                    android:id="@+id/editTextName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:drawableStart="@drawable/ic_title"
+                    android:drawablePadding="@dimen/padding_normal"
+                    android:fontFamily="@font/lato"
+                    android:hint="@string/hint_title"
+                    android:inputType="text|textAutoComplete|textAutoCorrect"
+                    android:textColor="@color/dark"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/colorWhite" />
             </LinearLayout>
-        </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/comment_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_layout"
+                android:layout_margin="5dp"
+                android:background="@drawable/round_edittext_background"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editTextComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:drawableStart="@drawable/ic_comment_gery"
+                    android:drawablePadding="@dimen/padding_normal"
+                    android:fontFamily="@font/lato"
+                    android:hint="@string/text_comment"
+                    android:inputType="textMultiLine|textAutoComplete|textAutoCorrect"
+                    android:textColor="@color/dark"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/colorWhite" />
+            </LinearLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/spinner_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/comment_layout"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginStart="0dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="50dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/textViewGender"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1.11"
+                        android:drawableStart="@drawable/ic_tag"
+                        android:drawablePadding="@dimen/spacing_normal"
+                        android:gravity="center_vertical"
+                        android:text="@string/text_tag"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/lato" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spinnerTag"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="58dp"
+                            android:layout_marginEnd="15dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
         </RelativeLayout>
 
     </ScrollView>
+    -->
+
+    <!-- ImageView to get the scanned Image-->
+
+    <ImageView
+        android:id="@+id/scannedImageView"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_margin="5dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/image_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_edittext_background"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/scannedImageView">
+
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:drawableStart="@drawable/ic_title"
+            android:drawablePadding="@dimen/padding_normal"
+            android:fontFamily="@font/lato"
+            android:hint="@string/hint_title"
+            android:inputType="text|textAutoComplete|textAutoCorrect"
+            android:textColor="@color/dark"
+            android:textSize="16sp"
+            app:backgroundTint="@color/colorWhite" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_edittext_background"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout">
+
+        <EditText
+            android:id="@+id/editTextComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:drawableStart="@drawable/ic_comment_gery"
+            android:drawablePadding="@dimen/padding_normal"
+            android:fontFamily="@font/lato"
+            android:hint="@string/text_comment"
+            android:inputType="textMultiLine|textAutoComplete|textAutoCorrect"
+            android:textColor="@color/dark"
+            android:textSize="16sp"
+            app:backgroundTint="@color/colorWhite" />
+    </LinearLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/spinner_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_layout"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/textViewGender"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="4dp"
+                android:layout_weight="1.11"
+                android:drawableStart="@drawable/ic_tag"
+                android:drawablePadding="@dimen/spacing_normal"
+                android:gravity="center_vertical"
+                android:text="@string/text_tag"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp"
+                app:fontFamily="@font/lato" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinnerTag"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginEnd="15dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/upload_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/circular_button"
+        android:fontFamily="@font/lato"
+        android:text="@string/text_submit"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_container" />
+
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/circular_button"
+        android:fontFamily="@font/lato"
+        android:text="@string/text_cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/upload_btn"/>
 
     <!-- floating action button to open gallery -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_archive"
+        android:layout_margin="@dimen/fab_margin_normal"
         android:elevation="5dp"
-        app:pressedTranslationZ="12dp"
-        app:backgroundTint="@color/light_green"
+        android:src="@drawable/ic_archive"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/fab_camera"/>
+        app:backgroundTint="@color/light_green"
+        app:layout_constraintBottom_toTopOf="@+id/fab_camera"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- floating action button  to open gallery camera -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_scan"
+        android:layout_margin="@dimen/fab_margin_normal"
         android:elevation="5dp"
-        app:pressedTranslationZ="12dp"
-        app:backgroundTint="@color/materialYellow"
+        android:src="@drawable/ic_scan"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/fab_main"/>
+        app:backgroundTint="@color/materialYellow"
+        app:layout_constraintBottom_toTopOf="@+id/fab_main"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Main floating action button -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:elevation="5dp"
+        android:layout_margin="@dimen/fab_margin_normal"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/deep_red"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="@+id/scannedImageView"
+        app:layout_constraintTop_toBottomOf="@+id/scannedImageView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>
 
