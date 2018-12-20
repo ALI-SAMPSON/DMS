@@ -45,6 +45,10 @@
     <string name="text_view" translatable="false">View</string>
     <string name="text_cancel" translatable="false">Cancel</string>
     <string name="text_choose" translatable="false">Choose from Gallery</string>
+    <string name="title_assign" translatable="false">Assign Document</string>
+    <string name="text_yes" translatable="false">YES</string>
+    <string name="text_no" translatable="false">NO</string>
+    <string name="text_confirm" translatable="false">Are you sure you want to assign this document to</string>
     <string name="text_add_image">Please add an image of the document to proceed!</string>
 
     <string name="text_adding_document" translatable="false">Adding Document</string>

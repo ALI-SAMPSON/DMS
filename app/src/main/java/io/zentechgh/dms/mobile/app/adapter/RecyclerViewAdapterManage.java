@@ -2,6 +2,7 @@ package io.zentechgh.dms.mobile.app.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,10 +71,16 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             @Override
             public void onClick(View view) {
 
-
-
                 // open file for user to view
 
+            }
+        });
+
+        // set OnClick Listener for each item in cardview(document)
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // do something
             }
         });
 
@@ -92,6 +99,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         TextView documentTag;
         TextView documentComment;
         Button buttonView;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,6 +109,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             documentTag = itemView.findViewById(R.id.document_tag);
             documentComment = itemView.findViewById(R.id.document_comment);
             buttonView = itemView.findViewById(R.id.button_view);
+            cardView = itemView.findViewById(R.id.cardView);
 
         }
     }

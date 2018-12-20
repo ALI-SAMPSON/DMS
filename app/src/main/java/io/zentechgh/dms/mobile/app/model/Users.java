@@ -6,6 +6,7 @@ public class Users {
     private String username;
     private String email;
     private String phone;
+    private String imageUrl;
     // field to help in search for username
     private String searchName;
 
@@ -17,13 +18,14 @@ public class Users {
 
     public Users(){}
 
-    public Users(String username, String uid, String email, String phone,
+    public Users(String username, String uid, String email, String phone,String imageUrl,
                  String searchName, String documentName,String documentComment, String documentTag,
                  String documentUrl){
         this.username = username;
         this.uid = uid;
         this.email = email;
         this.phone = phone;
+        this.imageUrl = imageUrl;
         this.searchName = searchName;
         this.documentName = documentName;
         this.documentComment = documentComment;
@@ -62,6 +64,14 @@ public class Users {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getSearchName() {

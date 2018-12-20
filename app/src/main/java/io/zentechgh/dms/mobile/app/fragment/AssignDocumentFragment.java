@@ -119,7 +119,7 @@ public class AssignDocumentFragment extends Fragment {
         //displayDocuments();
 
         // method call to begin the search engine
-        //searchForUsers();
+        //searchForDocument();
 
         // method call to assign document to user
         assignDocument();
@@ -238,44 +238,6 @@ public class AssignDocumentFragment extends Fragment {
         //documentRef.removeEventListener(dBListener);
     }
 
-
-    // message to read the admin from the database
-    /*public  void displayUsers(){
-
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                //if(search_users.getText().toString().equals("")) {
-                //clears list
-                usersList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    Users users = snapshot.getValue(Users.class);
-
-                    assert users != null;
-
-                    assert currentUser != null;
-
-                    usersList.add(users);
-
-                }
-
-                // notifies any data change
-                adapterUsers.notifyDataSetChanged();
-
-                // }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                //Toast.makeText(getContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
-                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
-            }
-        });
-
-    }
-    */
 
     // assign document to user
     private void assignDocument(){
