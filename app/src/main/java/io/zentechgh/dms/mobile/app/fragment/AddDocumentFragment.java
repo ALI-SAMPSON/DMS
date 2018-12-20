@@ -298,17 +298,24 @@ public class AddDocumentFragment extends Fragment implements
         // display dialog
         progressDialog.show();
 
+        // stores the name of the user who uploaded the file
+        String distributee = currentUser.getDisplayName();
+
         // getting text
-        final String name = editTextTitle.getText().toString();
+        final String title = editTextTitle.getText().toString();
         final String comment = editTextComment.getText().toString();
         final String tag = spinnerTag.getSelectedItem().toString();
+        // convert title to lowercase to help in easy search
+        final String searchField = title.toLowerCase();
 
-        documents.setTitle(name);
-        documents.setComment(comment);
+        documents.setTitle(title);
         documents.setTag(tag);
+        documents.setComment(comment);
         documents.setDocumentUrl(documentUrl);
+        documents.setDistributee(distributee);
+        documents.setSearch(searchField);
 
-        documentRef.child(currentUser.getDisplayName()).child("documents")
+        documentRef.child(currentUser.getDisplayName())
                 .push().setValue(documents).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -316,10 +323,11 @@ public class AddDocumentFragment extends Fragment implements
 
                     // updates users field with document uploaded
                     HashMap<String,Object> updateUserField = new HashMap<>();
-                    updateUserField.put("documentName",name);
-                    updateUserField.put("documentComment",comment);
-                    updateUserField.put("documentTag",tag);
-                    updateUserField.put("documentUrl",documentUrl);
+                    updateUserField.put("DocumentTitle",title);
+                    updateUserField.put("DocumentTag",tag);
+                    updateUserField.put("DocumentComment",comment);
+                    updateUserField.put("DocumentUrl",documentUrl);
+                    updateUserField.put("Search", searchField);
                     userRef.child("Documents").push().setValue(updateUserField);
 
                     // method call to upload document file
@@ -347,7 +355,7 @@ public class AddDocumentFragment extends Fragment implements
 
         final StorageReference documentFileRef = mStorageReference
                 .child(" Documents /" + System.currentTimeMillis() + ".jpg");
-                //.child(" Documents /" + System.currentTimeMillis() + ".jpg");
+
 
         if(documentUri != null){
 
@@ -355,7 +363,7 @@ public class AddDocumentFragment extends Fragment implements
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                   /* documentFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                   documentFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             // getting image uri and converting into string
@@ -363,7 +371,7 @@ public class AddDocumentFragment extends Fragment implements
                             documentUrl = downloadUrl.toString();
                         }
                     });
-                    */
+
 
                 }
             }).addOnFailureListener(new OnFailureListener() {

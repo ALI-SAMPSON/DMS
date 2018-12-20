@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +20,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -38,6 +43,10 @@ import io.zentechgh.dms.mobile.app.ui.HomeActivity;
 public class ManageDocumentFragment extends Fragment {
 
     View view;
+
+    FirebaseAuth mAuth;
+
+    FirebaseUser currentUser;
 
     // for snackbar
     RelativeLayout relativeLayout;
@@ -76,6 +85,12 @@ public class ManageDocumentFragment extends Fragment {
 
         relativeLayout = view.findViewById(R.id.relativeLayout);
 
+        // getting instance of the FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
+
+        // getting instance of the FirebaseUser
+        currentUser = mAuth.getCurrentUser();
+
         progressBar = view.findViewById(R.id.progressBar);
 
         // initializing variables
@@ -84,6 +99,7 @@ public class ManageDocumentFragment extends Fragment {
         documentRef = FirebaseDatabase.getInstance().getReference("Documents");
 
         recyclerView = view.findViewById(R.id.recyclerView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(applicationContext));
 
         //adapterManage = new RecyclerViewAdapterManage(applicationContext,documentsList);
@@ -92,14 +108,16 @@ public class ManageDocumentFragment extends Fragment {
 
         documentsList = new ArrayList<>();
 
-        //displayDocument();
+        //displayDocuments();
+
+        //searchForDocument();
 
         return view;
 
     }
 
     // method that displays the documents in a list view
-    private void displayDocument(){
+    private void displayDocuments(){
 
         // display progressbar when loading documents
         progressBar.setVisibility(View.VISIBLE);
@@ -140,6 +158,68 @@ public class ManageDocumentFragment extends Fragment {
 
     }
 
+    // search for document in system
+    private void searchForDocument(){
+
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // method search to search for document by title
+                    searchDocFile(s.toString().toLowerCase());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    // method to perform the search
+    private void searchDocFile(String title){
+
+        DatabaseReference searchRef = FirebaseDatabase.getInstance().getReference("Documents")
+                .child(currentUser.getUid());
+
+        Query query = searchRef.orderByChild("search")
+                .startAt(title)
+                .endAt(title + "\uf8ff");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                // clears list
+                documentsList.clear();
+               for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                   Documents documents = snapshot.getValue(Documents.class);
+
+                   documentsList.add(documents);
+               }
+
+                // notify adapter if there is data change
+                adapterManage.notifyDataSetChanged();
+
+                // Hiding the progress bar.
+                progressBar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // display error message
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+    }
 
     @Override
     public void onDestroy() {

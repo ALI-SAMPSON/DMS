@@ -6,6 +6,8 @@ public class Users {
     private String username;
     private String email;
     private String phone;
+    // field to help in search for username
+    private String searchName;
 
     // document fields
     private String documentName;
@@ -16,12 +18,13 @@ public class Users {
     public Users(){}
 
     public Users(String username, String uid, String email, String phone,
-                 String documentName,String documentComment, String documentTag,
+                 String searchName, String documentName,String documentComment, String documentTag,
                  String documentUrl){
         this.username = username;
         this.uid = uid;
         this.email = email;
         this.phone = phone;
+        this.searchName = searchName;
         this.documentName = documentName;
         this.documentComment = documentComment;
         this.documentTag = documentTag;
@@ -59,6 +62,14 @@ public class Users {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getSearchName() {
+        return searchName;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
     }
 
     // getters and setters for user's document
