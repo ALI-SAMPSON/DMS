@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterAssign;
 import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterManage;
 import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterUsers;
 import io.zentechgh.dms.mobile.app.model.Documents;
@@ -57,11 +58,11 @@ public class AssignDocumentFragment extends Fragment {
 
     FloatingActionButton fab_assign;
 
-    RecyclerViewAdapterManage adapterManage;
+    RecyclerViewAdapterAssign adapterAssign;
 
     ValueEventListener dBListener;
 
-    DatabaseReference documentsRef;
+    DatabaseReference documentRef;
 
     List<Documents> documentsList;
 
@@ -103,23 +104,23 @@ public class AssignDocumentFragment extends Fragment {
 
         fab_assign = view.findViewById(R.id.fab_assign);
 
-        documentsRef = FirebaseDatabase.getInstance().getReference("Documents");
+        documentRef = FirebaseDatabase.getInstance().getReference("Documents");
+
+        documentsList = new ArrayList<>();
 
         recyclerView = view.findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(applicationContext));
 
-        //adapterManage = new RecyclerViewAdapterManage(applicationContext,documentsList);
+        adapterAssign = new RecyclerViewAdapterAssign(applicationContext,documentsList);
 
-        recyclerView.setAdapter(adapterManage);
-
-        documentsList = new ArrayList<>();
+        recyclerView.setAdapter(adapterAssign);
 
         // method to display users in recyclerView
-        //displayDocuments();
+        displayDocuments();
 
         // method call to begin the search engine
-        //searchForDocument();
+        searchForDocument();
 
         // method call to assign document to user
         assignDocument();
@@ -133,7 +134,7 @@ public class AssignDocumentFragment extends Fragment {
         // display progressbar when loading documents
         progressBar.setVisibility(View.VISIBLE);
 
-        dBListener = documentsRef.addValueEventListener(new ValueEventListener() {
+        dBListener = documentRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -149,7 +150,7 @@ public class AssignDocumentFragment extends Fragment {
                 }
 
                 // notify adapter if there is data change
-                adapterManage.notifyDataSetChanged();
+                adapterAssign.notifyDataSetChanged();
 
                 // Hiding the progress bar.
                 progressBar.setVisibility(View.GONE);
@@ -195,10 +196,7 @@ public class AssignDocumentFragment extends Fragment {
     // method to perform the search
     private void searchDocFile(String title){
 
-        DatabaseReference searchRef = FirebaseDatabase.getInstance().getReference("Documents")
-                .child(currentUser.getUid());
-
-        Query query = searchRef.orderByChild("search")
+        Query query =documentRef.orderByChild("search")
                 .startAt(title)
                 .endAt(title + "\uf8ff");
 
@@ -216,7 +214,7 @@ public class AssignDocumentFragment extends Fragment {
                 }
 
                 // notify adapter if there is data change
-                adapterManage.notifyDataSetChanged();
+                adapterAssign.notifyDataSetChanged();
 
                 // Hiding the progress bar.
                 progressBar.setVisibility(View.GONE);
@@ -235,9 +233,8 @@ public class AssignDocumentFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //documentRef.removeEventListener(dBListener);
+        documentRef.removeEventListener(dBListener);
     }
-
 
     // assign document to user
     private void assignDocument(){
@@ -245,7 +242,7 @@ public class AssignDocumentFragment extends Fragment {
         fab_assign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // do nothing
             }
         });
 

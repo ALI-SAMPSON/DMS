@@ -6,7 +6,7 @@ public class Documents {
     private String Comment;
     private String Tag;
     private String DocumentUrl;
-    private String Distributee;
+    private String Distributor;
     // help to search in lower and upper case
     private String search;
 
@@ -14,12 +14,12 @@ public class Documents {
     }
 
     public Documents(String title, String comment, String tag,
-                     String documentUrl, String distributee, String search) {
+                     String documentUrl, String distributor, String search) {
         this.Title = title;
         this.Comment = comment;
         this.Tag = tag;
         this.DocumentUrl = documentUrl;
-        this.Distributee = distributee;
+        this.Distributor = distributor;
     }
 
     // getters and setters for document
@@ -55,12 +55,12 @@ public class Documents {
         DocumentUrl = documentUrl;
     }
 
-    public String getDistributee() {
-        return Distributee;
+    public String getDistributor() {
+        return Distributor;
     }
 
-    public void setDistributee(String distributee) {
-        Distributee = distributee;
+    public void setDistributee(String distributor) {
+        Distributor = distributor;
     }
 
     public String getSearch() {

@@ -98,19 +98,19 @@ public class ManageDocumentFragment extends Fragment {
 
         documentRef = FirebaseDatabase.getInstance().getReference("Documents");
 
+        documentsList = new ArrayList<>();
+
         recyclerView = view.findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(applicationContext));
 
-        //adapterManage = new RecyclerViewAdapterManage(applicationContext,documentsList);
+        adapterManage = new RecyclerViewAdapterManage(applicationContext,documentsList);
 
         recyclerView.setAdapter(adapterManage);
 
-        documentsList = new ArrayList<>();
+        displayDocuments();
 
-        //displayDocuments();
-
-        //searchForDocument();
+        searchForDocument();
 
         return view;
 
@@ -184,10 +184,7 @@ public class ManageDocumentFragment extends Fragment {
     // method to perform the search
     private void searchDocFile(String title){
 
-        DatabaseReference searchRef = FirebaseDatabase.getInstance().getReference("Documents")
-                .child(currentUser.getUid());
-
-        Query query = searchRef.orderByChild("search")
+        Query query = documentRef.orderByChild("search")
                 .startAt(title)
                 .endAt(title + "\uf8ff");
 
@@ -224,6 +221,6 @@ public class ManageDocumentFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //documentRef.removeEventListener(dBListener);
+        documentRef.removeEventListener(dBListener);
     }
 }

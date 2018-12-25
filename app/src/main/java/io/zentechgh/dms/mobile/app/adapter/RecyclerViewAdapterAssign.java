@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -75,6 +77,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
         final String document_tag = documents.getTag();
         final String document_comment = documents.getComment();
         final String document_image_url = documents.getDocumentUrl();
+        final String distributor = documents.getDistributor();
 
         // set OnClick Listener for each item in cardview(document)
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -97,8 +100,18 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                         intentAssign.putExtra("documentTag",document_tag);
                         intentAssign.putExtra("documentComment",document_comment);
                         intentAssign.putExtra("documentImage",document_image_url);
+                        intentAssign.putExtra("distributor",distributor);
                       intentAssign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
                       mCtx.startActivity(intentAssign);
+
+                      // storing the information in sharePreferences
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mCtx).edit();
+                        editor.putString("documentTitle",document_title);
+                        editor.putString("documentTag",document_tag);
+                        editor.putString("documentComment",document_comment);
+                        editor.putString("documentImage",document_image_url);
+                        editor.putString("distributor",distributor);
+                        editor.apply();
 
                     }
                 });

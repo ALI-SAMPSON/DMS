@@ -26,7 +26,7 @@
                 app:titleTextColor="@color/colorWhite"
                 android:elevation="0dp"
                 android:layout_gravity="top"
-                app:theme="@style/AppTheme.NoActionBar"
+                app:theme="@style/NoActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
             </android.support.v7.widget.Toolbar>
 

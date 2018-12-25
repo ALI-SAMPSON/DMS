@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     private int[] tabIcons = {
             R.drawable.ic_add,
             R.drawable.ic_manage,
-            R.drawable.ic_archive,
+            //R.drawable.ic_archive,
             R.drawable.ic_delete,
             R.drawable.ic_assign
     };
@@ -81,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
         // calling method to add fragments using the viewPagerAdapter
         viewPagerAdapter.addFragment(new AddDocumentFragment(),getString(R.string.text_add));
         viewPagerAdapter.addFragment(new ManageDocumentFragment(), getString(R.string.text_manage));
-        viewPagerAdapter.addFragment(new ArchiveDocumentFragment(), getString(R.string.text_archive));
+        //viewPagerAdapter.addFragment(new ArchiveDocumentFragment(), getString(R.string.text_archive));
         viewPagerAdapter.addFragment(new DeleteDocumentFragment(), getString(R.string.text_delete));
         viewPagerAdapter.addFragment(new AssignDocumentFragment(),getString(R.string.text_assign));
         // setting adapter to viewPager
@@ -91,9 +91,9 @@ public class HomeActivity extends AppCompatActivity {
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        //tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
-        tabLayout.getTabAt(4).setIcon(tabIcons[4]);
     }
 
     // method to change ProgressDialog background color based on the android version of user's phone
@@ -128,10 +128,14 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_search:
-                // do something
-                Toast.makeText(HomeActivity.this, "Search", Toast.LENGTH_SHORT).show();
+
+            case R.id.menu_smile:
+
+                // display a toast to user
+                Toast.makeText(HomeActivity.this, "Enjoy the app with smiles", Toast.LENGTH_SHORT).show();
+
                 return true;
+
             case R.id.menu_sign_out:
 
                 // method call to signOut User
@@ -189,7 +193,6 @@ public class HomeActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
 
     }
 

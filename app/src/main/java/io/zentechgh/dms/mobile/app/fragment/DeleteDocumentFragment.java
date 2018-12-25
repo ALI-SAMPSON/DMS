@@ -105,19 +105,21 @@ public class DeleteDocumentFragment extends Fragment {
 
         documentRef = FirebaseDatabase.getInstance().getReference("Documents");
 
+        documentsList = new ArrayList<>();
+
         recyclerView = view.findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(applicationContext));
 
-        //adapterDelete = new RecyclerViewAdapterDelete(applicationContext,documentsList);
+        adapterDelete = new RecyclerViewAdapterDelete(applicationContext,documentsList);
 
         recyclerView.setAdapter(adapterDelete);
 
-        documentsList = new ArrayList<>();
+        // method call to display documents
+        displayDocuments();
 
-        //displayDocuments();
-
-        //searchForDocument();
+        // method call to search for documents
+        searchForDocument();
 
         return view;
     }
@@ -190,10 +192,7 @@ public class DeleteDocumentFragment extends Fragment {
     // method to perform the search
     private void searchDocFile(String title){
 
-        DatabaseReference searchRef = FirebaseDatabase.getInstance().getReference("Documents")
-                .child(currentUser.getUid());
-
-        Query query = searchRef.orderByChild("search")
+        Query query = documentRef.orderByChild("search")
                 .startAt(title)
                 .endAt(title + "\uf8ff");
 
@@ -230,7 +229,7 @@ public class DeleteDocumentFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //documentRef.removeEventListener(dBListener);
+        documentRef.removeEventListener(dBListener);
     }
 
 }

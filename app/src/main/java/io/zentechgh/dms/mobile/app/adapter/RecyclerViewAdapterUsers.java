@@ -1,10 +1,14 @@
 package io.zentechgh.dms.mobile.app.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,6 +30,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Users;
+import io.zentechgh.dms.mobile.app.ui.AssignDocumentToUserActivity;
 
 public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerViewAdapterUsers.ViewHolder>{
 
@@ -33,6 +40,7 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
 
     // default constructor
     public RecyclerViewAdapterUsers(){}
+
 
     // defaultless constructor
     public RecyclerViewAdapterUsers(Context mCtx, List<Users> usersList){
@@ -72,23 +80,47 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
             Glide.with(mCtx).load(users.getDocumentUrl()).into(viewHolder.userImage);
         }
 
+
+        // getting string from sharePreference of Documents Details
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mCtx);
+        final String documentTitle = preferences.getString("documentTitle","");
+        final String documentTag = preferences.getString("documentTag","");
+        final String documentComment = preferences.getString("documentComment","");
+        final String documentImage = preferences.getString("documentImage","");
+        final String distributor = preferences.getString("distributor","");
+
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // creating alertDialog
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(mCtx)
                         .setTitle(R.string.title_assign)
-                        .setMessage(R.string.text_confirm + users.getUsername());
+                        .setMessage(R.string.text_confirm + " " + users.getUsername());
 
                 alertDialog.setPositiveButton(R.string.text_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        viewHolder.assignRef.child(users.getEmail());
+                        // assigns document to currentUser (to help trace documents later) - to be seen as "Sent Documents"
+                        viewHolder.assignRef.child(viewHolder.currentUser.getUid())
+                                .child("Sent Documents");
+                        HashMap<String,Object> assignDocToCurrentUser = new HashMap<>();
+                        assignDocToCurrentUser.put("Title", documentTitle);
+                        assignDocToCurrentUser.put("Tag", documentTag);
+                        assignDocToCurrentUser.put("Comment", documentComment);
+                        assignDocToCurrentUser.put("DocumentUrl", documentImage);
+                        assignDocToCurrentUser.put("Distributor",viewHolder.currentUser.getDisplayName());
+                        viewHolder.assignRef.push().updateChildren(assignDocToCurrentUser);
 
-                        HashMap<String,Object> assignDoc = new HashMap<>();
-                        assignDoc.put("Title", users.getUid());
-                        viewHolder.assignRef.push().setValue(assignDoc);
+                        // assigns document to another user (to help trace documents later) - to be seen as "Received Documents"
+                        viewHolder.assignRef.child(users.getUid()).child("Received Documents");
+                        HashMap<String,Object> assignDocToUser = new HashMap<>();
+                        assignDocToUser.put("Title", documentTitle);
+                        assignDocToUser.put("Tag", documentTag);
+                        assignDocToUser.put("Comment", documentComment);
+                        assignDocToUser.put("DocumentUrl", documentImage);
+                        assignDocToUser.put("Distributor",viewHolder.currentUser.getDisplayName());
+                        viewHolder.assignRef.push().updateChildren(assignDocToUser);
 
                     }
                 });
@@ -124,6 +156,8 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
         TextView userPhone;
         CardView cardView;
 
+        FirebaseUser currentUser;
+
         DatabaseReference assignRef;
 
         public ViewHolder(@NonNull View itemView) {
@@ -133,6 +167,8 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
             userName = itemView.findViewById(R.id.userName);
             userPhone = itemView.findViewById(R.id.userPhone);
             cardView = itemView.findViewById(R.id.cardView);
+
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
             assignRef  = FirebaseDatabase.getInstance().getReference("Users");
         }

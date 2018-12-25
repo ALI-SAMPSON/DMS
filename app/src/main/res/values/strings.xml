@@ -52,6 +52,9 @@
     <string name="text_confirm_assign" translatable="false">Assign this document ?</string>
     <string name="text_confirm" translatable="false">Are you sure you want to assign this document to</string>
     <string name="text_add_image">Please add an image of the document to proceed!</string>
+    <string name="title_smile" translatable="false">Smile</string>
+    <string name="text_smile" translatable="false">Enjoy the app with smiles</string>
+    <string name="title_assign_document" translatable="false">Assign Document</string>
 
     <string name="text_adding_document" translatable="false">Adding Document</string>
     <string name="text_please_wait" translatable="false">please wait...</string>

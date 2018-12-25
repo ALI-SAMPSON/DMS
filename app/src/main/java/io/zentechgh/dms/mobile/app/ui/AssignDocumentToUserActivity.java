@@ -7,11 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +40,12 @@ import static android.view.View.GONE;
 
 public class AssignDocumentToUserActivity extends AppCompatActivity {
 
-    ConstraintLayout constraintLayout;
+    // global variables
+    RelativeLayout relativeLayout;
+
+    Toolbar toolbar;
+
+    MaterialSearchView searchView;
 
     FirebaseAuth mAuth;
 
@@ -48,8 +59,6 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
     TextView document_title;
 
-    EditText editTextSearch;
-
     ProgressBar progressBar;
 
     RecyclerView recyclerView;
@@ -59,7 +68,31 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_document_to_user);
 
-        constraintLayout =  findViewById(R.id.constraintLayout);
+        relativeLayout =  findViewById(R.id.relativeLayout);
+
+        // getting reference to views
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle(R.string.title_assign_document);
+            //getSupportActionBar().setDisplayShowHomeEnabled(true);
+            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            //getSupportActionBar().setHomeButtonEnabled(true);
+        }
+
+        // getting string extra
+        String documentTitle = getIntent().getStringExtra("documentTitle");
+        String documentTag = getIntent().getStringExtra("documentTag");
+        String documentComment = getIntent().getStringExtra("documentComment");
+        String documentImage = getIntent().getStringExtra("documentImage");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -67,9 +100,11 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
         document_title = findViewById(R.id.document_title);
 
-        editTextSearch =  findViewById(R.id.editTextSearch);
-
         progressBar = findViewById(R.id.progressBar);
+
+        usersRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        usersList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -79,15 +114,11 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapterUsers);
 
-        usersList = new ArrayList<>();
-
-        usersRef = FirebaseDatabase.getInstance().getReference("Users");
-
         // method call to display users in recyclerView
         displayUsers();
 
         // method call to search for a user in the system
-        searchForUser();
+        //searchForUser();
 
 
     }
@@ -101,7 +132,6 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                //if(search_users.getText().toString().equals("")) {
                 //clears list
                 usersList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -129,35 +159,61 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 //Toast.makeText(getContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });
 
     }
 
-    // search for document in system
-    private void searchForUser(){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_assign,menu);
+        MenuItem item = menu.findItem(R.id.menu_search);
 
-        editTextSearch.addTextChangedListener(new TextWatcher() {
+        // Material SearchView
+        searchView = findViewById(R.id.search_view);
+        searchView.setMenuItem(item);
+        //searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
+        searchView.setEllipsize(true);
+        searchView.setSubmitOnClick(true);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public boolean onQueryTextSubmit(String username) {
+                // test if searchView is not empty
+                if(!username.isEmpty()){
+                    // method search to search for document by title
+                    searchUser(username.toLowerCase());
+                    searchView.clearFocus();
+                }
 
+                //else
+                else{
+                    searchUser("");
+                }
+
+                return true;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // method search to search for document by title
-                searchUser(s.toString().toLowerCase());
-            }
+            public boolean onQueryTextChange(String username) {
+                // test if searchView is not empty
+                if(!username.isEmpty()){
+                    searchUser(username.toLowerCase());
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                //else
+                else{
+                    searchUser("");
+                }
 
+                return true;
             }
         });
 
-    }
 
+        return true;
+    }
 
     // method to search for user in the system
     private void searchUser(String username) {
@@ -189,10 +245,16 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 //Toast.makeText(getContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // finishes activity and does not take user to the interface until user goes back again
+        finish();
+    }
 }

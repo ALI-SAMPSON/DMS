@@ -4,12 +4,14 @@ package io.zentechgh.dms.mobile.app.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -21,10 +23,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -40,9 +44,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -55,6 +61,8 @@ import io.zentechgh.dms.mobile.app.ui.HomeActivity;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
+
+import static android.app.Activity.RESULT_OK;
 
 @SuppressWarnings("ALL")
 public class AddDocumentFragment extends Fragment implements
@@ -81,9 +89,9 @@ public class AddDocumentFragment extends Fragment implements
 
     DatabaseReference documentRef, userRef;
 
-    StorageReference mStorageReference;
+    private StorageReference mStorageReference;
 
-    FirebaseStorage mFirebaseStorage;
+    private StorageTask mDocumentUploadTask;
 
     // models
     Users users;
@@ -141,10 +149,8 @@ public class AddDocumentFragment extends Fragment implements
 
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
 
-        // getting instance of Firebase Storage and Storage Reference
-        mFirebaseStorage = FirebaseStorage.getInstance();
-
-        mStorageReference = mFirebaseStorage.getReference();
+        // getting instance of Storage Reference
+        mStorageReference = FirebaseStorage.getInstance().getReference("Documents");
 
         scannedImageView = view.findViewById(R.id.scannedImageView);
 
@@ -225,7 +231,13 @@ public class AddDocumentFragment extends Fragment implements
                 break;
             case R.id.fab_gallery:
                 // method call
-                openGallery();
+                //openGallery();
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,REQUEST_CODE);
+
                 break;
 
             case R.id.upload_btn:
@@ -267,132 +279,6 @@ public class AddDocumentFragment extends Fragment implements
 
     }
 
-    private void checkIfFieldEmpty(){
-
-        String name = editTextTitle.getText().toString();
-        String comment = editTextComment.getText().toString();
-
-        if(scannedImageView.getDrawable() == null){
-            YoYo.with(Techniques.Flash).playOn(scannedImageView);
-            Toast.makeText(applicationContext, getString(R.string.text_add_image),
-                    Toast.LENGTH_SHORT).show();
-        }
-        if(TextUtils.isEmpty(name)){
-            YoYo.with(Techniques.Shake).playOn(editTextTitle);
-            editTextTitle.setError(getString(R.string.error_empty_field));
-        }
-        if(TextUtils.isEmpty(comment)){
-            YoYo.with(Techniques.Shake).playOn(editTextComment);
-            editTextComment.setError(getString(R.string.error_empty_field));
-        }
-        if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(comment) && scannedImageView.getDrawable() != null){
-            // method call
-            uploadDocument();
-        }
-
-    }
-
-    // method to upload entire document
-    private void uploadDocument(){
-
-        // display dialog
-        progressDialog.show();
-
-        // stores the name of the user who uploaded the file
-        String distributee = currentUser.getDisplayName();
-
-        // getting text
-        final String title = editTextTitle.getText().toString();
-        final String comment = editTextComment.getText().toString();
-        final String tag = spinnerTag.getSelectedItem().toString();
-        // convert title to lowercase to help in easy search
-        final String searchField = title.toLowerCase();
-
-        documents.setTitle(title);
-        documents.setTag(tag);
-        documents.setComment(comment);
-        documents.setDocumentUrl(documentUrl);
-        documents.setDistributee(distributee);
-        documents.setSearch(searchField);
-
-        documentRef.child(currentUser.getDisplayName())
-                .push().setValue(documents).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-
-                    // updates users field with document uploaded
-                    HashMap<String,Object> updateUserField = new HashMap<>();
-                    updateUserField.put("DocumentTitle",title);
-                    updateUserField.put("DocumentTag",tag);
-                    updateUserField.put("DocumentComment",comment);
-                    updateUserField.put("DocumentUrl",documentUrl);
-                    updateUserField.put("Search", searchField);
-                    userRef.child("Documents").push().setValue(updateUserField);
-
-                    // method call to upload document file
-                    uploadDocumentFile();
-
-                }
-                else{
-                    // display an error message
-                    Toast.makeText(applicationContext, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-                // dismiss the dialog
-                progressDialog.dismiss();
-            }
-        });
-
-
-    }
-
-    // method to upload the document file only
-    private void uploadDocumentFile(){
-
-        //final StorageReference documentFileRef = FirebaseStorage.getInstance()
-          //      .getReference();
-
-        final StorageReference documentFileRef = mStorageReference
-                .child(" Documents /" + System.currentTimeMillis() + ".jpg");
-
-
-        if(documentUri != null){
-
-            documentFileRef.putFile(documentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                   documentFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            // getting image uri and converting into string
-                            Uri downloadUrl = uri;
-                            documentUrl = downloadUrl.toString();
-                        }
-                    });
-
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // display an error message
-                    Toast.makeText(applicationContext, " Failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });;
-
-        }
-
-
-    }
 
     // clear fields
     private void cancelUpload(){
@@ -428,6 +314,20 @@ public class AddDocumentFragment extends Fragment implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK  && data!= null && data.getData() != null){
+            documentUri = data.getData();
+
+            Picasso.get().load(documentUri).into(scannedImageView);
+
+                //scannedImageView.setImageURI(documentUri);
+        }
+    }
+
+
+    /*
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
             documentUri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
             Bitmap bitmap;
@@ -445,6 +345,7 @@ public class AddDocumentFragment extends Fragment implements
 
         }
     }
+    */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -485,5 +386,165 @@ public class AddDocumentFragment extends Fragment implements
         }
 
     }
+
+    // check to make sure fields are not left empty
+    private void checkIfFieldEmpty(){
+
+        String title = editTextTitle.getText().toString();
+        String comment = editTextComment.getText().toString();
+
+        if(scannedImageView.getDrawable() == null){
+            YoYo.with(Techniques.Flash).playOn(scannedImageView);
+            Toast.makeText(applicationContext, getString(R.string.text_add_image),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        if(TextUtils.isEmpty(title)){
+            YoYo.with(Techniques.Shake).playOn(editTextTitle);
+            editTextTitle.setError(getString(R.string.error_empty_field));
+        }
+
+        if(TextUtils.isEmpty(comment)){
+            YoYo.with(Techniques.Shake).playOn(editTextComment);
+            editTextComment.setError(getString(R.string.error_empty_field));
+        }
+
+
+        /*if(mDocumentUploadTask != null && mDocumentUploadTask.isInProgress()){
+            Toast.makeText(applicationContext,"File upload in progress! Please wait...",Toast.LENGTH_SHORT).show();
+        }
+        */
+
+        if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(comment) && scannedImageView.getDrawable() != null){
+            // method call to upload document
+            uploadDocument();
+        }
+
+
+    }
+
+
+    // methof to return file extension
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = applicationContext.getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
+    }
+
+    // method to upload the document file only
+    private void  uploadDocument(){
+
+        // checks to make sure document uri is not empty
+        if(documentUri != null){
+
+            final StorageReference documentFileRef = mStorageReference
+                    .child(System.currentTimeMillis() + "." + getFileExtension(documentUri));
+
+            mDocumentUploadTask = documentFileRef.putFile(documentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    // delays the progress of 0 for 5 secs
+                    /*Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                           progressDialog.setMessage(0+"%");
+                        }
+                    },1000);
+                    */
+
+                    // get the image Url of the file uploaded
+                    documentFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // getting image uri and converting into string
+                            Uri downloadUrl = uri;
+                            documentUrl = downloadUrl.toString();
+                        }
+                    });
+
+                    // uploads details of document to database
+                    uploadDocumentDetails();
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // display an error message
+                    Toast.makeText(applicationContext, " Failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                            .getTotalByteCount());
+                    progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                }
+            });;
+
+        }
+        else{
+            // display a toast to notify user of no file selected
+            Toast.makeText(applicationContext,"No document file selected",Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    // method to upload entire document
+    private void uploadDocumentDetails(){
+
+        // display dialog
+        progressDialog.show();
+
+        // stores the name of the user who uploaded the file
+        String distributee = currentUser.getDisplayName();
+
+        // getting text
+        final String title = editTextTitle.getText().toString();
+        final String comment = editTextComment.getText().toString();
+        final String tag = spinnerTag.getSelectedItem().toString();
+        // convert title to lowercase to help in easy search
+        final String searchField = title.toLowerCase();
+
+        documents.setTitle(title);
+        documents.setTag(tag);
+        documents.setComment(comment);
+        documents.setDocumentUrl(documentUrl);
+        documents.setDistributee(distributee);
+        documents.setSearch(searchField);
+
+        documentRef.push().setValue(documents)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+
+                    // updates users field with document uploaded
+                    HashMap<String,Object> updateUserField = new HashMap<>();
+                    updateUserField.put("DocumentTitle",title);
+                    updateUserField.put("DocumentTag",tag);
+                    updateUserField.put("DocumentComment",comment);
+                    updateUserField.put("DocumentUrl",documentUrl);
+                    updateUserField.put("Search", searchField);
+                    userRef.child("Documents").push().setValue(updateUserField);
+
+                }
+                else{
+                    // display an error message
+                    Toast.makeText(applicationContext, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                // dismiss the dialog
+                progressDialog.dismiss();
+            }
+        });
+
+
+    }
+
 }
 

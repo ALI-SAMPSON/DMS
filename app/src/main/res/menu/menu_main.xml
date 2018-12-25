@@ -10,15 +10,13 @@
         app:showAsAction="never">
     </item>
 
-    <!-- menu item for search -->
     <item
-        android:id="@+id/menu_search"
-        android:title="@string/text_search"
-        android:icon="@drawable/ic_search"
-        android:orderInCategory="200"
-        app:showAsAction="ifRoom|collapseActionView">
-    </item>
-
+       android:id="@+id/menu_smile"
+       android:title="@string/title_smile"
+       android:icon="@drawable/ic_face"
+       android:orderInCategory="200"
+       app:showAsAction="ifRoom|collapseActionView">
+   </item>
 
 
 </menu>

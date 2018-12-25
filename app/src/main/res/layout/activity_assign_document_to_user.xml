@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,18 +8,37 @@
     android:layout_height="match_parent"
     tools:context=".ui.AssignDocumentToUserActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/light_red"
+        android:theme="@style/NoActionBar"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
+    </android.support.v7.widget.Toolbar>
+
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/search_view"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.miguelcatalan.materialsearchview.MaterialSearchView>
+
+
     <TextView
         android:id="@+id/document_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:text="@string/hint_title"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
         android:padding="5dp"
-        android:fontFamily="@font/lato"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:fontFamily="@font/lato"/>
 
-    <LinearLayout
+        <!--
+        <LinearLayout
         android:id="@+id/search_layout"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -42,25 +61,21 @@
             android:drawablePadding="@dimen/padding_normal"
             app:backgroundTint="@color/colorWhite"/>
     </LinearLayout>
+        -->
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/search_layout">
+        android:layout_below="@+id/document_title"
+        android:layout_margin="5dp">
     </android.support.v7.widget.RecyclerView>
 
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
