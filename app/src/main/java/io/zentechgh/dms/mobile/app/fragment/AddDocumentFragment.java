@@ -75,6 +75,8 @@ public class AddDocumentFragment extends Fragment implements
 
     private static final int PERMISSION_CODE = 123;
 
+    ProgressBar progressBar;
+
     ProgressDialog progressDialog;
 
     // uri of the document scanned
@@ -215,6 +217,8 @@ public class AddDocumentFragment extends Fragment implements
             }
         });
 
+        progressBar = view.findViewById(R.id.progressBar);
+
         // method call
         changeProgressDialogBackground();
 
@@ -230,13 +234,9 @@ public class AddDocumentFragment extends Fragment implements
                 openCamera();
                 break;
             case R.id.fab_gallery:
-                // method call
-                //openGallery();
 
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,REQUEST_CODE);
+                // method call
+                openGallery();
 
                 break;
 
@@ -311,26 +311,16 @@ public class AddDocumentFragment extends Fragment implements
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK  && data!= null && data.getData() != null){
-            documentUri = data.getData();
 
-            Picasso.get().load(documentUri).into(scannedImageView);
-
-                //scannedImageView.setImageURI(documentUri);
-        }
-    }
-
-
-    /*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 99 && resultCode == Activity.RESULT_OK) {
+            // getting uri from scanned image
             documentUri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-            Bitmap bitmap;
+            // library to load image uri into imageView
+            Picasso.get().load(documentUri).into(scannedImageView);
+            /*Bitmap bitmap;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), documentUri);
                 applicationContext.getContentResolver().delete(documentUri, null, null);
@@ -338,6 +328,7 @@ public class AddDocumentFragment extends Fragment implements
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            */
         }
 
         // open AppSettingDialog
@@ -345,7 +336,7 @@ public class AddDocumentFragment extends Fragment implements
 
         }
     }
-    */
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -438,22 +429,15 @@ public class AddDocumentFragment extends Fragment implements
         // checks to make sure document uri is not empty
         if(documentUri != null){
 
+            // display dialog
+            progressDialog.show();
+
             final StorageReference documentFileRef = mStorageReference
                     .child(System.currentTimeMillis() + "." + getFileExtension(documentUri));
 
             mDocumentUploadTask = documentFileRef.putFile(documentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                    // delays the progress of 0 for 5 secs
-                    /*Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                           progressDialog.setMessage(0+"%");
-                        }
-                    },1000);
-                    */
 
                     // get the image Url of the file uploaded
                     documentFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -462,12 +446,12 @@ public class AddDocumentFragment extends Fragment implements
                             // getting image uri and converting into string
                             Uri downloadUrl = uri;
                             documentUrl = downloadUrl.toString();
+
+                            // uploads details of document to database
+                            uploadDocumentDetails();
+
                         }
                     });
-
-                    // uploads details of document to database
-                    uploadDocumentDetails();
-
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -476,7 +460,9 @@ public class AddDocumentFragment extends Fragment implements
                     // display an error message
                     Toast.makeText(applicationContext, " Failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            });
+
+            /*.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                     double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
@@ -484,6 +470,7 @@ public class AddDocumentFragment extends Fragment implements
                     progressDialog.setMessage("Uploaded "+(int)progress+"%");
                 }
             });;
+            */
 
         }
         else{
@@ -498,10 +485,10 @@ public class AddDocumentFragment extends Fragment implements
     private void uploadDocumentDetails(){
 
         // display dialog
-        progressDialog.show();
+        //progressDialog.show();
 
         // stores the name of the user who uploaded the file
-        String distributee = currentUser.getDisplayName();
+        String distributor = currentUser.getDisplayName();
 
         // getting text
         final String title = editTextTitle.getText().toString();
@@ -514,7 +501,7 @@ public class AddDocumentFragment extends Fragment implements
         documents.setTag(tag);
         documents.setComment(comment);
         documents.setDocumentUrl(documentUrl);
-        documents.setDistributee(distributee);
+        documents.setDistributee(distributor);
         documents.setSearch(searchField);
 
         documentRef.push().setValue(documents)
@@ -532,6 +519,12 @@ public class AddDocumentFragment extends Fragment implements
                     updateUserField.put("Search", searchField);
                     userRef.child("Documents").push().setValue(updateUserField);
 
+                    // display an error message
+                    Toast.makeText(applicationContext, getResources().getString(R.string.document_added), Toast.LENGTH_LONG).show();
+
+                    // clear url after successful addition
+                    cleardocumentUrl();
+
                 }
                 else{
                     // display an error message
@@ -544,6 +537,11 @@ public class AddDocumentFragment extends Fragment implements
         });
 
 
+    }
+
+    private void cleardocumentUrl(){
+        documentUrl = null;
+        documentUri = null;
     }
 
 }

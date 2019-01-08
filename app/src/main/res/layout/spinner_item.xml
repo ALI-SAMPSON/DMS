@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:fontFamily="@font/lato"
-    android:textColor="@color/light_red"
+    android:textColor="@android:color/darker_gray"
     android:textSize="14sp">
 </TextView>

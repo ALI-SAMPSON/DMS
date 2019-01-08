@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white_ghost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.HomeActivity">
@@ -11,6 +12,7 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <!--
         <android.support.design.widget.AppBarLayout
@@ -22,7 +24,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorPrimaryDark"
                 app:titleTextColor="@color/colorWhite"
                 android:elevation="0dp"
                 android:layout_gravity="top"
@@ -48,10 +50,11 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/tab_layout_background"
             app:tabMode="fixed"
-            app:tabIconTint="@android:color/darker_gray"
-            app:tabTextColor="@android:color/darker_gray"
+            app:tabIconTint="@color/colorWhite"
+            app:tabTextColor="@color/colorWhite"
             app:tabIndicatorColor="@android:color/white"
-            app:tabSelectedTextColor="@color/light_red"
+            app:tabSelectedTextColor="@color/white_dim"
+            app:tabIndicatorHeight="0dp"
             app:tabTextAppearance="@style/tab_text"
             android:layout_alignParentBottom="true">
         </android.support.design.widget.TabLayout>
