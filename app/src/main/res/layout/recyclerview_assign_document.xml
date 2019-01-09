@@ -18,7 +18,7 @@
             android:id="@+id/document_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:src="@drawable/scanned_file"
             android:layout_margin="@dimen/margin_small"/>
 

@@ -38,7 +38,7 @@
     <!-- string for fragments -->
     <string name="text_add" translatable="false">Add</string>
     <string name="text_manage" translatable="false">Manage</string>
-    <string name="text_archive" translatable="false">Archive</string>
+    <string name="text_me" translatable="false">Me</string>
     <string name="text_delete" translatable="false">Delete</string>
     <string name="text_assign" translatable="false">Assign</string>
     <string name="text_submit" translatable="false">Submit</string>
@@ -56,6 +56,7 @@
     <string name="text_smile" translatable="false">Enjoy the app with smiles</string>
     <string name="title_assign_document" translatable="false">Assign Document</string>
     <string name="document_added" translatable="false">Document added successfully</string>
+    <string name="view_document" translatable="false">View Document</string>
 
     <string name="text_adding_document" translatable="false">Adding Document</string>
     <string name="text_please_wait" translatable="false">please wait...</string>

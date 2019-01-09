@@ -74,7 +74,7 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
 
         // checking if the document is not equal to null
         if(users.getImageUrl() == null){
-            viewHolder.userImage.setImageResource(R.mipmap.avatar_placeholder_round);
+            viewHolder.userImage.setImageResource(R.drawable.profile_icon);
         }
         else{
             Glide.with(mCtx).load(users.getDocumentUrl()).into(viewHolder.userImage);
@@ -89,7 +89,7 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
         final String documentImage = preferences.getString("documentImage","");
         final String distributor = preferences.getString("distributor","");
 
-        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // creating alertDialog
@@ -154,7 +154,6 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
         CircleImageView userImage;
         TextView userName;
         TextView userPhone;
-        CardView cardView;
 
         FirebaseUser currentUser;
 
@@ -166,13 +165,11 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
             userImage = itemView.findViewById(R.id.userImage);
             userName = itemView.findViewById(R.id.userName);
             userPhone = itemView.findViewById(R.id.userPhone);
-            cardView = itemView.findViewById(R.id.cardView);
 
             currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
             assignRef  = FirebaseDatabase.getInstance().getReference("Users");
         }
     }
-
 
 }

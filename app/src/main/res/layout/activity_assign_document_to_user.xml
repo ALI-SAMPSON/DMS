@@ -32,10 +32,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:text="@string/hint_title"
-        android:layout_marginTop="15dp"
+        android:layout_margin="5dp"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
         android:fontFamily="@font/lato"/>
+
+    <View
+        android:layout_below="@+id/document_title"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="5dp"
+        android:alpha="0.5"
+        android:background="@android:color/darker_gray"/>
 
         <!--
         <LinearLayout

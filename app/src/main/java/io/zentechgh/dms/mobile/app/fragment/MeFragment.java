@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 
 import io.zentechgh.dms.mobile.app.R;
 
-public class ArchiveDocumentFragment extends Fragment {
+public class MeFragment extends Fragment {
 
     View view;
 
-    public ArchiveDocumentFragment() {
+    public MeFragment() {
         // Required empty public constructor
     }
 
@@ -20,7 +20,7 @@ public class ArchiveDocumentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_archive_document, container, false);
+        view =  inflater.inflate(R.layout.fragment_me, container, false);
 
         return view;
     }

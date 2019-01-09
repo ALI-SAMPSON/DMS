@@ -1,6 +1,7 @@
 package io.zentechgh.dms.mobile.app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,8 @@ import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Documents;
+import io.zentechgh.dms.mobile.app.ui.ViewDocumentActivity;
+import maes.tech.intentanim.CustomIntent;
 
 public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerViewAdapterManage.ViewHolder> {
 
@@ -51,7 +54,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 
         // getting the position of each document
-        Documents documents = documentsList.get(position);
+        final Documents documents = documentsList.get(position);
 
         // getting text from the database and setting them to respective views
         viewHolder.documentTitle.setText(" Title : " + documents.getTitle());
@@ -71,7 +74,18 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             @Override
             public void onClick(View view) {
 
-                // open file for user to view
+                // open file to view
+                Intent intent = new Intent(mCtx,ViewDocumentActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // passing strings
+                intent.putExtra("file",documents.getDocumentUrl());
+                intent.putExtra("title",documents.getTitle());
+                intent.putExtra("tag",documents.getTag());
+                intent.putExtra("comment", documents.getComment());
+                mCtx.startActivity(intent);
+
+                // adding an intent transition from left-to-right
+                CustomIntent.customType(mCtx,"left-to-right");
 
             }
         });

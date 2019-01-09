@@ -1,20 +1,16 @@
 package io.zentechgh.dms.mobile.app.ui;
 
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,8 +31,6 @@ import java.util.List;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterUsers;
 import io.zentechgh.dms.mobile.app.model.Users;
-
-import static android.view.View.GONE;
 
 public class AssignDocumentToUserActivity extends AppCompatActivity {
 
@@ -72,6 +66,7 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
         // getting reference to views
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.title_assign_document);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -80,13 +75,6 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setTitle(R.string.title_assign_document);
-            //getSupportActionBar().setDisplayShowHomeEnabled(true);
-            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            //getSupportActionBar().setHomeButtonEnabled(true);
-        }
 
         // getting string extra
         String documentTitle = getIntent().getStringExtra("documentTitle");
