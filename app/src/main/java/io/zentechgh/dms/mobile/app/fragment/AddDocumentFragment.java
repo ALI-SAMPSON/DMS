@@ -485,7 +485,7 @@ public class AddDocumentFragment extends Fragment implements
     private void uploadDocumentDetails(){
 
         // display dialog
-        //progressDialog.show();
+        ///progressDialog.show();
 
         // stores the name of the user who uploaded the file
         String distributor = currentUser.getDisplayName();
