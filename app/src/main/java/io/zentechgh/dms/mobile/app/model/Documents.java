@@ -1,5 +1,7 @@
 package io.zentechgh.dms.mobile.app.model;
 
+import com.google.firebase.database.Exclude;
+
 public class Documents {
 
     private String Title;
@@ -9,6 +11,7 @@ public class Documents {
     private String Distributor;
     // help to search in lower and upper case
     private String search;
+    private String key;
 
     public Documents() {
     }
@@ -59,7 +62,7 @@ public class Documents {
         return Distributor;
     }
 
-    public void setDistributee(String distributor) {
+    public void setDistributor(String distributor) {
         Distributor = distributor;
     }
 
@@ -69,5 +72,16 @@ public class Documents {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+
+    @Exclude
+    public String getKey() {
+        return key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        this.key = key;
     }
 }

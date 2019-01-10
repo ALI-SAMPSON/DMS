@@ -53,7 +53,8 @@
             app:tabIconTint="@color/colorWhite"
             app:tabTextColor="@color/colorWhite"
             app:tabIndicatorColor="@android:color/white"
-            app:tabSelectedTextColor="@color/white_dim"
+            app:tabSelectedTextColor="@color/materialYellow"
+            android:fillViewport="true"
             app:tabIndicatorHeight="0dp"
             app:tabTextAppearance="@style/tab_text"
             android:layout_alignParentBottom="true">

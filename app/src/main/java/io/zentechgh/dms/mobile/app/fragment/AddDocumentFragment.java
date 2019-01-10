@@ -64,7 +64,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
 
-@SuppressWarnings("ALL")
 public class AddDocumentFragment extends Fragment implements
         View.OnClickListener,EasyPermissions.PermissionCallbacks {
 
@@ -501,7 +500,7 @@ public class AddDocumentFragment extends Fragment implements
         documents.setTag(tag);
         documents.setComment(comment);
         documents.setDocumentUrl(documentUrl);
-        documents.setDistributee(distributor);
+        documents.setDistributor(distributor);
         documents.setSearch(searchField);
 
         documentRef.push().setValue(documents)
