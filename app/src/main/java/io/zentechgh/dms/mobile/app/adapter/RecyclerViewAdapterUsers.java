@@ -77,7 +77,7 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
             viewHolder.userImage.setImageResource(R.drawable.profile_icon);
         }
         else{
-            Glide.with(mCtx).load(users.getDocumentUrl()).into(viewHolder.userImage);
+            Glide.with(mCtx).load(users.getImageUrl()).into(viewHolder.userImage);
         }
 
 
@@ -103,23 +103,25 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
 
                         // assigns document to currentUser (to help trace documents later) - to be seen as "Sent Documents"
                         viewHolder.assignRef.child(viewHolder.currentUser.getUid())
-                                .child("Sent Documents");
+                                .child("Sent Document");
                         HashMap<String,Object> assignDocToCurrentUser = new HashMap<>();
-                        assignDocToCurrentUser.put("Title", documentTitle);
-                        assignDocToCurrentUser.put("Tag", documentTag);
-                        assignDocToCurrentUser.put("Comment", documentComment);
-                        assignDocToCurrentUser.put("DocumentUrl", documentImage);
-                        assignDocToCurrentUser.put("Distributor",viewHolder.currentUser.getDisplayName());
+                        assignDocToCurrentUser.put("title", documentTitle);
+                        assignDocToCurrentUser.put("tag", documentTag);
+                        assignDocToCurrentUser.put("comment", documentComment);
+                        assignDocToCurrentUser.put("documentUrl", documentImage);
+                        assignDocToCurrentUser.put("distributor",viewHolder.currentUser.getDisplayName());
+                        assignDocToCurrentUser.put("search",documentTitle.toLowerCase());
                         viewHolder.assignRef.push().updateChildren(assignDocToCurrentUser);
 
                         // assigns document to another user (to help trace documents later) - to be seen as "Received Documents"
                         viewHolder.assignRef.child(users.getUid()).child("Received Documents");
                         HashMap<String,Object> assignDocToUser = new HashMap<>();
-                        assignDocToUser.put("Title", documentTitle);
-                        assignDocToUser.put("Tag", documentTag);
-                        assignDocToUser.put("Comment", documentComment);
-                        assignDocToUser.put("DocumentUrl", documentImage);
-                        assignDocToUser.put("Distributor",viewHolder.currentUser.getDisplayName());
+                        assignDocToUser.put("title", documentTitle);
+                        assignDocToUser.put("tag", documentTag);
+                        assignDocToUser.put("comment", documentComment);
+                        assignDocToUser.put("documentUrl", documentImage);
+                        assignDocToUser.put("distributor",viewHolder.currentUser.getDisplayName());
+                        assignDocToUser.put("search",documentTitle.toLowerCase());
                         viewHolder.assignRef.push().updateChildren(assignDocToUser);
 
                     }

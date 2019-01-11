@@ -9,6 +9,7 @@ public class Users {
     private String imageUrl;
     // field to help in search for username
     private String searchName;
+    private String role;
 
     // document fields
     private String documentName;
@@ -19,18 +20,14 @@ public class Users {
     public Users(){}
 
     public Users(String username, String uid, String email, String phone,String imageUrl,
-                 String searchName, String documentName,String documentComment, String documentTag,
-                 String documentUrl){
+                 String searchName, String role){
         this.username = username;
         this.uid = uid;
         this.email = email;
         this.phone = phone;
         this.imageUrl = imageUrl;
         this.searchName = searchName;
-        this.documentName = documentName;
-        this.documentComment = documentComment;
-        this.documentTag = documentTag;
-        this.documentUrl = documentUrl;
+        this.role = role;
     }
 
     // getter and setter methods for fields
@@ -82,36 +79,11 @@ public class Users {
         this.searchName = searchName;
     }
 
-    // getters and setters for user's document
-    public String getDocumentName() {
-        return documentName;
+    public String getRole() {
+        return role;
     }
 
-    public void setDocumentName(String documentName) {
-        this.documentName = documentName;
-    }
-
-    public String getDocumentComment() {
-        return documentComment;
-    }
-
-    public void setDocumentComment(String documentComment) {
-        this.documentComment = documentComment;
-    }
-
-    public String getDocumentTag() {
-        return documentTag;
-    }
-
-    public void setDocumentTag(String documentTag) {
-        this.documentTag = documentTag;
-    }
-
-    public String getDocumentUrl() {
-        return documentUrl;
-    }
-
-    public void setDocumentUrl(String documentUrl) {
-        this.documentUrl = documentUrl;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

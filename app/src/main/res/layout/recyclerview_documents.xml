@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_margin="@dimen/margin_small">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/document_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/scanned_file"
+            android:layout_margin="@dimen/margin_small"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/document_image"
+            android:layout_marginStart="@dimen/margin_normal">
+
+            <TextView
+                android:id="@+id/document_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_title"
+                android:layout_margin="@dimen/margin_small"
+                android:fontFamily="@font/lato"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/document_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_tag"
+                android:layout_margin="@dimen/margin_small"
+                android:fontFamily="@font/lato"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/document_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_comment"
+                android:layout_margin="@dimen/margin_small"
+                android:fontFamily="@font/lato"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/button_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_view"
+            android:layout_margin="@dimen/margin_small"
+            android:fontFamily="@font/lato"
+            android:layout_alignParentEnd="true"
+            android:textAllCaps="false"
+            android:textColor="@color/deep_red"
+            android:textSize="12sp"
+            android:background="@null"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

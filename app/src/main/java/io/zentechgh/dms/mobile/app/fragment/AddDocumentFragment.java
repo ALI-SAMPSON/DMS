@@ -319,15 +319,7 @@ public class AddDocumentFragment extends Fragment implements
             documentUri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
             // library to load image uri into imageView
             Picasso.get().load(documentUri).into(scannedImageView);
-            /*Bitmap bitmap;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), documentUri);
-                applicationContext.getContentResolver().delete(documentUri, null, null);
-                scannedImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            */
+
         }
 
         // open AppSettingDialog
@@ -398,12 +390,6 @@ public class AddDocumentFragment extends Fragment implements
             YoYo.with(Techniques.Shake).playOn(editTextComment);
             editTextComment.setError(getString(R.string.error_empty_field));
         }
-
-
-        /*if(mDocumentUploadTask != null && mDocumentUploadTask.isInProgress()){
-            Toast.makeText(applicationContext,"File upload in progress! Please wait...",Toast.LENGTH_SHORT).show();
-        }
-        */
 
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(comment) && scannedImageView.getDrawable() != null){
             // method call to upload document
@@ -522,7 +508,7 @@ public class AddDocumentFragment extends Fragment implements
                     Toast.makeText(applicationContext, getResources().getString(R.string.document_added), Toast.LENGTH_LONG).show();
 
                     // clear url after successful addition
-                    cleardocumentUrl();
+                    clearDocumentUrl();
 
                 }
                 else{
@@ -538,7 +524,7 @@ public class AddDocumentFragment extends Fragment implements
 
     }
 
-    private void cleardocumentUrl(){
+    private void clearDocumentUrl(){
         documentUrl = null;
         documentUri = null;
     }

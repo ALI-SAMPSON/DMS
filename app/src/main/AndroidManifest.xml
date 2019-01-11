@@ -44,17 +44,34 @@
             android:name=".ui.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.AssignDocumentToUserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"></activity>
-        <activity android:name=".ui.ViewDocumentActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".ui.ViewDocumentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar">
+
+        </activity>
+
+        <activity
+            android:name=".ui.SentDocumentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
         </activity>
+
+        <activity
+            android:name=".ui.ReceivedDocumentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>
