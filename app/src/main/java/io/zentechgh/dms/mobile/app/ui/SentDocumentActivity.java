@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +43,7 @@ import io.zentechgh.dms.mobile.app.model.Sent_Documents;
  */
 public class SentDocumentActivity extends AppCompatActivity{
 
+    // global variables
     ConstraintLayout constraintLayout;
 
     Toolbar toolbar;
@@ -73,7 +74,9 @@ public class SentDocumentActivity extends AppCompatActivity{
         constraintLayout = findViewById(R.id.constraintLayout);
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         toolbar_title = findViewById(R.id.toolbar_title);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,14 +130,15 @@ public class SentDocumentActivity extends AppCompatActivity{
 
                 }
 
-                // notify adapter of changes
-                adapterSent.notifyDataSetChanged();
 
                 if(!dataSnapshot.exists()){
                     // hides the recyclerView and displays the textView
                     recyclerView.setVisibility(View.GONE);
                     tv_no_document.setVisibility(View.VISIBLE);
                 }
+
+                // notify adapter of changes
+                adapterSent.notifyDataSetChanged();
 
                 // hides progressbar
                 progressBar.setVisibility(View.GONE);
@@ -175,17 +179,18 @@ public class SentDocumentActivity extends AppCompatActivity{
                 else{
                     searchDocument("");
                 }
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                return true;
             }
         });
 
 
         return true;
+
     }
 
     private void searchDocument(String title) {
@@ -226,15 +231,4 @@ public class SentDocumentActivity extends AppCompatActivity{
         finish();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.menu_search:
-
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

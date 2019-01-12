@@ -19,6 +19,8 @@ public class ViewDocumentActivity extends AppCompatActivity {
     // creating variable of type Toolbar
     Toolbar toolbar;
 
+    TextView toolbar_title;
+
     // creating variables of types ImageView and TextView
     ImageView document;
     TextView title;
@@ -35,8 +37,10 @@ public class ViewDocumentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_document);
 
+        // getting reference to views
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.view_document));
+        toolbar_title =  findViewById(R.id.toolbar_title);
+        toolbar.setTitle("");
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

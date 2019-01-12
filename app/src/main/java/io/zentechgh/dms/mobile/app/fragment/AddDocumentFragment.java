@@ -188,7 +188,6 @@ public class AddDocumentFragment extends Fragment implements
         uploadButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
-
         // onClickListener for main fab
         fab_main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,12 +399,11 @@ public class AddDocumentFragment extends Fragment implements
     }
 
 
-    // methof to return file extension
+    // method to return file extension
     private String getFileExtension(Uri uri){
         ContentResolver contentResolver = applicationContext.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-
     }
 
     // method to upload the document file only

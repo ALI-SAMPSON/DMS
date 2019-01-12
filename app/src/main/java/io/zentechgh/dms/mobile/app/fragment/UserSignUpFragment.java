@@ -170,6 +170,7 @@ public class UserSignUpFragment extends Fragment implements View.OnClickListener
                     users.setPhone(phone);
                     users.setSearchName(username.toLowerCase());
                     users.setRole("Distributor");
+                    users.setImageUrl("");
 
                     FirebaseDatabase.getInstance().getReference("Users")
                             .child(user.getUid())

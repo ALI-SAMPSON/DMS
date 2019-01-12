@@ -12,6 +12,7 @@
         <!--This would set the menu item color-->
         <!--<item name="android:textColor">@color/dark</item>
         <item name="android:windowFullscreen">false</item>-->
+        <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -24,6 +25,11 @@
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <!-- This style is where you define the tint color of your overflow menu button -->
+    <style name="actionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/colorWhite</item>
     </style>
 
 </resources>

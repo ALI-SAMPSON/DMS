@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_dim"
+    android:background="@color/colorWhite"
     tools:context=".ui.ViewDocumentActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -17,11 +17,21 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
             app:titleTextColor="@color/colorWhite"
-            android:elevation="0dp"
-            android:layout_gravity="top"
             app:theme="@style/NoActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view_document"
+                android:fontFamily="@font/lato"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="center"/>
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -32,7 +42,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato"
         android:textSize="16sp"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:text="@string/hint_title"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -43,7 +53,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato"
         android:textSize="16sp"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:text="@string/text_tag"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -54,7 +64,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato"
         android:textSize="16sp"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:text="@string/text_comment"
         app:layout_constraintTop_toBottomOf="@id/tv_tag"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -63,7 +73,7 @@
         android:id="@+id/document_file"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="5dp"
+        android:layout_margin="0.5dp"
         android:scaleType="fitXY"
         android:background="@drawable/image_border"
         app:layout_constraintTop_toBottomOf="@id/tv_comment"

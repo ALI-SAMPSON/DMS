@@ -221,6 +221,6 @@ public class ManageDocumentFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        documentRef.removeEventListener(dBListener);
+        //documentRef.removeEventListener(dBListener);
     }
 }
