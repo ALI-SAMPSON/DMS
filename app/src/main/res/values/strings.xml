@@ -11,7 +11,7 @@
     <string name="text_sign_up" translatable="false">Sign Up</string>
     <string name="text_already_member" translatable="false">Already a member? Sign In</string>
     <string name="text_not_a_member" translatable="false">Not yet a member? Sign Up</string>
-    <string name="forgot_password" translatable="false">Forgot Password?</string>
+    <string name="forgot_password" translatable="false">forgot Password? Reset here...</string>
     <string name="sign_up_successful" translatable="false">Sign Up Successful</string>
     <string name="sign_in_successful" translatable="false">Sign In Successful</string>
 
@@ -102,6 +102,13 @@
     <string name="role" translatable="false">Role</string>
 
     <string name="text_profile" translatable="false">My Profile</string>
+
+    <string name="text_forgot_password" translatable="false">Forgot Password?</string>
+    <string name="lbl_forgot_password" translatable="false">Forgot Password?</string>
+    <string name="msg_forgot_password" translatable="false">Please enter your email address to reset password</string>
+    <string name="btn_reset_password" translatable="false">Reset Password</string>
+
+    <string name="reset_password_instruction" translatable="false">We have sent you instructions to reset your password. Please visit your inbox!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
