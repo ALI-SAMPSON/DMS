@@ -98,7 +98,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(new Intent(SignInActivity.this,ForgotPasswordActivity.class));
 
         // Add a custom animation ot the activity
-        CustomIntent.customType(SignInActivity.this,"fadein-to-fadeout");
+        CustomIntent.customType(SignInActivity.this,"left-to-right");
 
         // finishes this activity(prevents user from going back to this activity when back button is pressed)
         finish();

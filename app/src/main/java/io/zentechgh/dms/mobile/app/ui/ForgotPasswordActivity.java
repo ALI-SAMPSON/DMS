@@ -48,6 +48,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         // getting reference to views
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         toolbar_title =  findViewById(R.id.toolbar_title);
         // setting supportActionBar to custom toolbar
         setSupportActionBar(toolbar);
@@ -56,7 +57,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // finish activity
+                // starts the Login activity
+                startActivity(new Intent(ForgotPasswordActivity.this,SignInActivity.class));
+
+                // Add a custom animation ot the activity
+                CustomIntent.customType(ForgotPasswordActivity.this,"right-to-left");
+
+                // finish the activity
                 finish();
             }
         });
@@ -84,13 +91,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             editTextEmail.setError(getString(R.string.error_empty_field));
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             // trigger's a shaking animation to alert user of no email entered
             YoYo.with(Techniques.Shake).playOn(editTextEmail);
             editTextEmail.setError(getString(R.string.error_invalid_email));
         }
 
-        if(!TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        else{
             // method call to reset password
             resetPassword();
         }
@@ -130,10 +137,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onBackPressed();
 
         // starts the Login activity
-        //startActivity(new Intent(ForgotPasswordActivity.this,SignInActivity.class));
+        startActivity(new Intent(ForgotPasswordActivity.this,SignInActivity.class));
 
         // Add a custom animation ot the activity
-        //CustomIntent.customType(ForgotPasswordActivity.this,"fadein-to-fadeout");
+        CustomIntent.customType(ForgotPasswordActivity.this,"right-to-left");
 
         // finish the activity
         finish();

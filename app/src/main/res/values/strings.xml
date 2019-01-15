@@ -103,10 +103,20 @@
 
     <string name="text_profile" translatable="false">My Profile</string>
 
-    <string name="text_forgot_password" translatable="false">Forgot Password?</string>
+    <string name="title_forgot_password" translatable="false">Forgot Password</string>
     <string name="lbl_forgot_password" translatable="false">Forgot Password?</string>
     <string name="msg_forgot_password" translatable="false">Please enter your email address to reset password</string>
     <string name="btn_reset_password" translatable="false">Reset Password</string>
+
+    <string name="title_add_users" translatable="false">Add Users</string>
+    <string name="title_manage_users" translatable="false">Manage Users</string>
+    <string name="title_archive_users" translatable="false">Archive Users</string>
+    <string name="title_other" translatable="false">Other</string>
+    <string name="title_share" translatable="false">Share</string>
+    <string name="title_sign_out" translatable="false">Sign Out</string>
+
+    <string name="navigation_drawer_open" translatable="false">Open Navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close Navigation drawer</string>
 
     <string name="reset_password_instruction" translatable="false">We have sent you instructions to reset your password. Please visit your inbox!</string>
 

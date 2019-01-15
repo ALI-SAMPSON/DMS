@@ -33,8 +33,7 @@
             android:name=".ui.SignInSignUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
-        </activity>
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".ui.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
@@ -60,7 +59,19 @@
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.SignInActivity"
+        <activity
+            android:name=".ui.SignInActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.ForgotPasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar">
+        </activity>
+        <activity android:name=".ui.AdminHomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
@@ -69,11 +80,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ui.ForgotPasswordActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" >
         </activity>
     </application>
 

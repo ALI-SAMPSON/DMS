@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_add"
+            android:icon="@drawable/ic_add_users"
+            android:title="@string/title_add_users" />
+
+        <item
+            android:id="@+id/menu_manage"
+            android:icon="@drawable/ic_manage_users"
+            android:title="@string/title_manage_users" />
+
+        <item
+            android:id="@+id/menu_archive"
+            android:icon="@drawable/ic_archive_users"
+            android:title="@string/title_archive_users" />
+
+    </group>
+
+    <!-- Separate Menu for sign out -->
+
+    <item android:title="@string/title_other">
+
+
+        <menu>
+            <item
+                android:id="@+id/menu_share"
+                android:icon="@drawable/ic_share"
+                android:title="@string/title_share" />
+            <item
+                android:id="@+id/menu_sign_out"
+                android:icon="@drawable/ic_sign_out"
+                android:title="@string/title_sign_out" />
+        </menu>
+
+    </item>
+
+</menu>
