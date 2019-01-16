@@ -3,8 +3,6 @@ package io.zentechgh.dms.mobile.app.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -44,7 +40,7 @@ public class RecyclerViewAdapterManageUser extends RecyclerView.Adapter<Recycler
 
     @NonNull
     @Override
-    public RecyclerViewAdapterManageUser.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
 
         // inflating layout resource file
         View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_manage_user,viewGroup,false);
@@ -113,6 +109,7 @@ public class RecyclerViewAdapterManageUser extends RecyclerView.Adapter<Recycler
 
     @Override
     public int getItemCount() {
+        // return list size
         return usersList.size();
     }
 
@@ -123,7 +120,6 @@ public class RecyclerViewAdapterManageUser extends RecyclerView.Adapter<Recycler
         TextView userName;
         TextView userPhone;
         ImageView button_delete;
-
 
         DatabaseReference assignRef;
 

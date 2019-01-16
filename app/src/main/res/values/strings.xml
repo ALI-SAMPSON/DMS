@@ -35,6 +35,8 @@
 
     <string name="text_home" translatable="false">Home</string>
 
+    <string name="text_no_users" translatable="false">No Users Added</string>
+
     <string name="text_comment" translatable="false">Add Comment...</string>
     <string name="sign_out_msg" translatable="false">Are you sure you want to sign out?</string>
 

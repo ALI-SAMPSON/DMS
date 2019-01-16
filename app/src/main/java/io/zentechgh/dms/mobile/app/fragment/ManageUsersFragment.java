@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +42,8 @@ public class ManageUsersFragment extends Fragment {
    ConstraintLayout constraintLayout;
 
     EditText editTextSearch;
+
+    TextView tv_no_users;
 
     RecyclerView recyclerView;
 
@@ -79,6 +82,8 @@ public class ManageUsersFragment extends Fragment {
 
         // initializing variables
         editTextSearch = view.findViewById(R.id.editTextSearch);
+
+        tv_no_users = view.findViewById(R.id.tv_no_users);
 
         progressBar = view.findViewById(R.id.progressBar);
 
@@ -122,6 +127,12 @@ public class ManageUsersFragment extends Fragment {
 
                     assert users != null;
 
+                    // sets visibility to visible on views
+                    editTextSearch.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    // sets visibility to visible on textView
+                    tv_no_users.setVisibility(View.GONE);
+
                         // add users
                         usersList.add(users);
 
@@ -132,6 +143,16 @@ public class ManageUsersFragment extends Fragment {
 
                 // dismiss progressBar
                 progressBar.setVisibility(View.GONE);
+
+                // if no user exist in db
+                if(!dataSnapshot.exists()){
+                    // sets visibility to visible on views
+                    editTextSearch.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    // sets visibility to visible on textView
+                    tv_no_users.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
@@ -182,7 +203,9 @@ public class ManageUsersFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                // clear list
                 usersList.clear();
+
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Users users = snapshot.getValue(Users.class);
 
@@ -194,14 +217,16 @@ public class ManageUsersFragment extends Fragment {
                 }
 
                 // notify data change in adapter
-                adapterUsers.notifyDataSetChanged();
+                adapterManageUser.notifyDataSetChanged();
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Toast.makeText(getContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+
+                // display message if exception occurs
                 Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+
             }
         });
 
