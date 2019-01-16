@@ -9,4 +9,12 @@
         <item>Outgoing</item>
     </string-array>
 
+    <!-- array of tags -->
+    <string-array name="user_type">
+        <item>None</item>
+        <item>Admin</item>
+        <item>Author</item>
+        <item>Distributee</item>
+    </string-array>
+
 </resources>

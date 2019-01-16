@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_add"
+        android:title="@string/text_add"
+        android:icon="@drawable/ic_add_document"/>
+
+    <item
+        android:id="@+id/menu_manage"
+        android:title="@string/text_manage"
+        android:icon="@drawable/ic_manage_document"/>
+
+    <item
+        android:id="@+id/menu_assign"
+        android:title="@string/text_assign"
+        android:icon="@drawable/ic_share_document"/>
+    <item
+        android:id="@+id/menu_me"
+        android:title="@string/text_me"
+        android:icon="@drawable/ic_me"/>
+
+</menu>

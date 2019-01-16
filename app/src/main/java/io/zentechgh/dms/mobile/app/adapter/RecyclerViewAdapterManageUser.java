@@ -1,20 +1,15 @@
 package io.zentechgh.dms.mobile.app.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,30 +25,29 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Users;
-import io.zentechgh.dms.mobile.app.ui.AssignDocumentToUserActivity;
 
-public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerViewAdapterUsers.ViewHolder>{
+public class RecyclerViewAdapterManageUser extends RecyclerView.Adapter<RecyclerViewAdapterManageUser.ViewHolder>{
 
     // global variables
     private Context mCtx;
     private List<Users> usersList;
 
     // default constructor
-    public RecyclerViewAdapterUsers(){}
+    public RecyclerViewAdapterManageUser(){}
 
 
     // defaultless constructor
-    public RecyclerViewAdapterUsers(Context mCtx, List<Users> usersList){
+    public RecyclerViewAdapterManageUser(Context mCtx, List<Users> usersList){
         this.mCtx = mCtx;
         this.usersList = usersList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public RecyclerViewAdapterManageUser.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
 
         // inflating layout resource file
-        View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_users,viewGroup,false);
+        View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_manage_user,viewGroup,false);
 
         // getting an instance of the viewHolder class
         ViewHolder viewHolder = new ViewHolder(view);
@@ -81,15 +75,8 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
         }
 
 
-        // getting string from sharePreference of Documents Details
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mCtx);
-        final String documentTitle = preferences.getString("documentTitle","");
-        final String documentTag = preferences.getString("documentTag","");
-        final String documentComment = preferences.getString("documentComment","");
-        final String documentImage = preferences.getString("documentImage","");
-        final String distributor = preferences.getString("distributor","");
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // creating alertDialog
@@ -101,28 +88,7 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        // assigns document to currentUser (to help trace documents later) - to be seen as "Sent Documents"
-                        viewHolder.assignRef.child(viewHolder.currentUser.getUid())
-                                .child("Sent Document");
-                        HashMap<String,Object> assignDocToCurrentUser = new HashMap<>();
-                        assignDocToCurrentUser.put("title", documentTitle);
-                        assignDocToCurrentUser.put("tag", documentTag);
-                        assignDocToCurrentUser.put("comment", documentComment);
-                        assignDocToCurrentUser.put("documentUrl", documentImage);
-                        assignDocToCurrentUser.put("distributor",viewHolder.currentUser.getDisplayName());
-                        assignDocToCurrentUser.put("search",documentTitle.toLowerCase());
-                        viewHolder.assignRef.push().updateChildren(assignDocToCurrentUser);
-
-                        // assigns document to another user (to help trace documents later) - to be seen as "Received Documents"
-                        viewHolder.assignRef.child(users.getUid()).child("Received Documents");
-                        HashMap<String,Object> assignDocToUser = new HashMap<>();
-                        assignDocToUser.put("title", documentTitle);
-                        assignDocToUser.put("tag", documentTag);
-                        assignDocToUser.put("comment", documentComment);
-                        assignDocToUser.put("documentUrl", documentImage);
-                        assignDocToUser.put("distributor",viewHolder.currentUser.getDisplayName());
-                        assignDocToUser.put("search",documentTitle.toLowerCase());
-                        viewHolder.assignRef.push().updateChildren(assignDocToUser);
+                       // delete user
 
                     }
                 });
@@ -156,8 +122,8 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
         CircleImageView userImage;
         TextView userName;
         TextView userPhone;
+        ImageView button_delete;
 
-        FirebaseUser currentUser;
 
         DatabaseReference assignRef;
 
@@ -167,8 +133,7 @@ public class RecyclerViewAdapterUsers  extends RecyclerView.Adapter<RecyclerView
             userImage = itemView.findViewById(R.id.userImage);
             userName = itemView.findViewById(R.id.userName);
             userPhone = itemView.findViewById(R.id.userPhone);
-
-            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            button_delete = itemView.findViewById(R.id.button_delete);
 
             assignRef  = FirebaseDatabase.getInstance().getReference("Users");
         }

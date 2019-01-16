@@ -32,10 +32,7 @@ import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterAssign;
-import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterManage;
-import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterUsers;
 import io.zentechgh.dms.mobile.app.model.Documents;
-import io.zentechgh.dms.mobile.app.model.Users;
 import io.zentechgh.dms.mobile.app.ui.HomeActivity;
 
 /**

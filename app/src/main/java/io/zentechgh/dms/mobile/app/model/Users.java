@@ -1,5 +1,7 @@
 package io.zentechgh.dms.mobile.app.model;
 
+import com.google.firebase.database.Exclude;
+
 public class Users {
 
     private String uid;
@@ -8,26 +10,21 @@ public class Users {
     private String phone;
     private String imageUrl;
     // field to help in search for username
-    private String searchName;
-    private String role;
-
-    // document fields
-    private String documentName;
-    private String documentComment;
-    private String documentTag;
-    private String documentUrl;
+    private String search;
+    private String userType;
+    private String key;
 
     public Users(){}
 
     public Users(String username, String uid, String email, String phone,String imageUrl,
-                 String searchName, String role){
+                 String search, String usertype){
         this.username = username;
         this.uid = uid;
         this.email = email;
         this.phone = phone;
         this.imageUrl = imageUrl;
-        this.searchName = searchName;
-        this.role = role;
+        this.search = search;
+        this.userType = usertype;
     }
 
     // getter and setter methods for fields
@@ -71,19 +68,29 @@ public class Users {
         this.imageUrl = imageUrl;
     }
 
-    public String getSearchName() {
-        return searchName;
+    public String getSearch() {
+        return search;
     }
 
-    public void setSearchName(String searchName) {
-        this.searchName = searchName;
+    public void setSearch(String search) {
+        this.search = search;
     }
 
-    public String getRole() {
-        return role;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    @Exclude
+    public String getKey() {
+        return key;
+    }
+
+    @Exclude
+    public void setKey(String key) {
+        this.key = key;
     }
 }

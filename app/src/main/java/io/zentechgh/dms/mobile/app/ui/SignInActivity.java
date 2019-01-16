@@ -73,6 +73,21 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser() != null){
+            // start the home activity
+            startActivity(new Intent(SignInActivity.this,HomeActivity.class));
+
+            // Add a custom animation ot the activity
+            CustomIntent.customType(SignInActivity.this,"fadein-to-fadeout");
+
+            // finishes this activity(prevents user from going back to this activity when back button is pressed)
+            finish();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()){

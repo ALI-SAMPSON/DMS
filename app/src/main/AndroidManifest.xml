@@ -33,12 +33,19 @@
             android:name=".ui.SignInSignUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.SignInActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar">
+        </activity>
         <activity
             android:name=".ui.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.AssignDocumentToUserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
@@ -59,12 +66,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".ui.SignInActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
-        </activity>
         <activity
             android:name=".ui.ForgotPasswordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"

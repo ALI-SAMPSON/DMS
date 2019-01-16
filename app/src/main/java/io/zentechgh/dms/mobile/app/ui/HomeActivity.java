@@ -4,7 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,113 +19,117 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.ViewPagerAdapterHome;
 import io.zentechgh.dms.mobile.app.fragment.AddDocumentFragment;
+import io.zentechgh.dms.mobile.app.fragment.ArchiveUsersFragment;
 import io.zentechgh.dms.mobile.app.fragment.DeleteDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.AssignDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.ManageDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.MeFragment;
+import io.zentechgh.dms.mobile.app.model.Users;
 import maes.tech.intentanim.CustomIntent;
 
 @SuppressWarnings("ALL")
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener{
+
     // Global views declaration
     Toolbar toolbar;
-    TabLayout tabLayout;
-    ViewPager viewPager;
+    TextView toolbar_title;
+    BottomNavigationView bottom_nav_view;
+
+    CircleImageView profile_image;
 
     FirebaseAuth mAuth;
 
-    ProgressBar progressBar;
+    FirebaseUser currentUser;
 
-    private int[] tabIcons = {
-            R.drawable.ic_add,
-            R.drawable.ic_manage,
-            R.drawable.ic_delete,
-            R.drawable.ic_assign,
-            R.drawable.ic_me
-    };
+    DatabaseReference userRef;
+
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setTitle("");
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-        }
+        toolbar =  findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        toolbar_title = findViewById(R.id.toolbar_title);
+        // reference to imageView
+        profile_image = findViewById(R.id.profile_image);
+        setSupportActionBar(toolbar);
 
-        mAuth = FirebaseAuth.getInstance();
+        bottom_nav_view =  findViewById(R.id.bottom_nav_view);
+
+        // setting on navigationitemSelectedListener
+        bottom_nav_view.setOnNavigationItemSelectedListener(this);
+
+        mAuth =  FirebaseAuth.getInstance();
+
+        currentUser = mAuth.getCurrentUser();
+
+        userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
 
         progressBar = findViewById(R.id.progressBar);
 
-        tabLayout =  findViewById(R.id.tab_layout);
-        viewPager = findViewById(R.id.view_pager);
-        // method call to setUpViewPager with viewPager
-        setupViewPager(viewPager);
-        // setting tabLayout with viewPager
-        tabLayout.setupWithViewPager(viewPager);
-        // method call to setUpTabLayout with Icons
-        setupTabIcons();
+        // method call to load user info
+        loadUserProfile();
 
-        // changes tabColor on selected tab
-        onTabSelectedColor();
+        // load first fragment(in this case addDocumentFragment)
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container,new AddDocumentFragment()).commit();
 
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        // creating an object of the ViewPagerAdapter class
-        ViewPagerAdapterHome viewPagerAdapter = new ViewPagerAdapterHome(getSupportFragmentManager());
-        // calling method to add fragments using the viewPagerAdapter
-        viewPagerAdapter.addFragment(new AddDocumentFragment(),getString(R.string.text_add));
-        viewPagerAdapter.addFragment(new ManageDocumentFragment(), getString(R.string.text_manage));
-        viewPagerAdapter.addFragment(new DeleteDocumentFragment(), getString(R.string.text_delete));
-        viewPagerAdapter.addFragment(new AssignDocumentFragment(),getString(R.string.text_assign));
-        viewPagerAdapter.addFragment(new MeFragment(), getString(R.string.text_me));
-        // setting adapter to viewPager
-        viewPager.setAdapter(viewPagerAdapter);
-    }
 
-    private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
-        tabLayout.getTabAt(4).setIcon(tabIcons[4]);
-    }
+    // load user image into image View
+    private void loadUserProfile(){
 
-
-    // changes color of tab selected
-    private void onTabSelectedColor(){
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        userRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int tabIconColor = ContextCompat.getColor(HomeActivity.this, R.color.materialYellow);
-                tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Users user = dataSnapshot.getValue(Users.class);
+                assert user != null;
+
+                if(user.getImageUrl() == null){
+
+                    // loads default icon if user imageUrl is null
+                    Glide.with(HomeActivity.this).load(R.drawable.profile_icon).into(profile_image);
+                }
+                else{
+
+                    // loads user imageUrl into imageView if user imageUrl is not null
+                    Glide.with(HomeActivity.this).load(user.getImageUrl()).into(profile_image);
+                }
+
+
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                int tabIconColor = ContextCompat.getColor(HomeActivity.this, R.color.colorWhite);
-                tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // display message if exception is thrown
+                Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
 
@@ -153,6 +161,44 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        // reserving fragment for fragment selected
+        Fragment selectedFragment = null;
+
+        switch (menuItem.getItemId()){
+
+            case R.id.menu_add:
+                // assign resepective fragment to the fragment variable
+                selectedFragment = new AddDocumentFragment();
+                break;
+
+            case R.id.menu_manage:
+                // assign resepective fragment to the fragment variable
+                selectedFragment = new ManageDocumentFragment();
+                break;
+
+            case R.id.menu_assign:
+                // assign resepective fragment to the fragment variable
+                selectedFragment = new AssignDocumentFragment();
+                break;
+
+            case R.id.menu_me:
+                // assign resepective fragment to the fragment variable
+                selectedFragment = new MeFragment();
+                break;
+
+        }
+
+        // starts fragment depending on the one clicked
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                selectedFragment).commit();
+
+        return true;
+    }
+
+
     // method that signs user out of the system
     private void signOutUser(){
 
@@ -167,8 +213,8 @@ public class HomeActivity extends AppCompatActivity {
                 // show dialog
                 progressBar.setVisibility(View.VISIBLE);
 
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         // dismiss dialog
@@ -178,7 +224,7 @@ public class HomeActivity extends AppCompatActivity {
                         mAuth.signOut();
 
                         // restarts the activity
-                        startActivity(new Intent(HomeActivity.this,SignInSignUpActivity.class));
+                        startActivity(new Intent(HomeActivity.this,SignInActivity.class));
 
                         // Add a custom animation ot the activity
                         CustomIntent.customType(HomeActivity.this,"fadein-to-fadeout");

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/round_edittext_background">
+            android:background="@drawable/round_edittext_bg">
             <EditText
                 android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"

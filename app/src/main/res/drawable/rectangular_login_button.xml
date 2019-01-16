@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <stroke
+        android:color="@color/colorWhite"
+        android:width="0dp"/>
+
+    <gradient
+        android:angle="45"
+        android:startColor="@color/light_red"
+        android:centerColor="@color/deep_red"
+        android:endColor="@color/light_red">
+    </gradient>
+
+    <corners
+        android:radius="0dp">
+    </corners>
+
+</shape>

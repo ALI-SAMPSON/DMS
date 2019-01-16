@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
-import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterUsers;
+import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterUser;
 import io.zentechgh.dms.mobile.app.model.Users;
 
 public class AssignDocumentToUserActivity extends AppCompatActivity {
@@ -47,7 +47,7 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
     DatabaseReference usersRef;
 
-    RecyclerViewAdapterUsers adapterUsers;
+    RecyclerViewAdapterUser adapterUsers;
 
     List<Users> usersList;
 
@@ -98,7 +98,7 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapterUsers = new RecyclerViewAdapterUsers(this,usersList);
+        adapterUsers = new RecyclerViewAdapterUser(this,usersList);
 
         recyclerView.setAdapter(adapterUsers);
 
