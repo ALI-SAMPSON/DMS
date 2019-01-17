@@ -14,13 +14,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tv_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:fontFamily="@font/lato_bold"
+            android:text="@string/text_users_list"
+            android:layout_centerHorizontal="true"
+            android:textSize="22sp"
+            android:textColor="@android:color/darker_gray"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/search_layout"
+            android:layout_below="@+id/tv_heading"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/round_edittext_bg">
+            android:background="@drawable/round_edittext_bg"
+            android:visibility="gone">
             <EditText
                 android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"
@@ -34,8 +48,7 @@
                 android:hint="@string/hint_search"
                 android:drawableStart="@drawable/ic_search_grey"
                 android:drawablePadding="@dimen/padding_normal"
-                app:backgroundTint="@color/colorWhite"
-                android:visibility="gone"/>
+                app:backgroundTint="@color/colorWhite"/>
         </LinearLayout>
 
         <ProgressBar

@@ -10,7 +10,7 @@
         android:id="@+id/userImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
         android:src="@drawable/profile_icon"

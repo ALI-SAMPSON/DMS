@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,7 +31,6 @@ import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterManageUser;
-import io.zentechgh.dms.mobile.app.adapter.RecyclerViewAdapterUser;
 import io.zentechgh.dms.mobile.app.model.Users;
 import io.zentechgh.dms.mobile.app.ui.AdminHomeActivity;
 
@@ -39,23 +39,27 @@ public class ManageUsersFragment extends Fragment {
     View view;
 
     // for snackbar
-   ConstraintLayout constraintLayout;
+    ConstraintLayout constraintLayout;
+
+    LinearLayout search_layout;
 
     EditText editTextSearch;
 
     TextView tv_no_users;
 
-    RecyclerView recyclerView;
-
-    RecyclerViewAdapterManageUser adapterManageUser;
-
-    ValueEventListener dBListener;
+    TextView tv_heading;
 
     DatabaseReference usersRef;
 
     List<Users> usersList;
 
     ProgressBar progressBar;
+
+    RecyclerView recyclerView;
+
+    RecyclerViewAdapterManageUser adapterManageUser;
+
+    ValueEventListener dBListener;
 
     AdminHomeActivity applicationContext;
 
@@ -78,12 +82,16 @@ public class ManageUsersFragment extends Fragment {
 
         constraintLayout = view.findViewById(R.id.constraintLayout);
 
+        search_layout = view.findViewById(R.id.search_layout);
+
         progressBar = view.findViewById(R.id.progressBar);
 
         // initializing variables
         editTextSearch = view.findViewById(R.id.editTextSearch);
 
         tv_no_users = view.findViewById(R.id.tv_no_users);
+
+        tv_heading = view.findViewById(R.id.tv_heading);
 
         progressBar = view.findViewById(R.id.progressBar);
 
@@ -121,20 +129,30 @@ public class ManageUsersFragment extends Fragment {
 
                 //clears list
                 usersList.clear();
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     Users users = snapshot.getValue(Users.class);
 
                     assert users != null;
 
-                    // sets visibility to visible on views
-                    editTextSearch.setVisibility(View.VISIBLE);
+                    // sets visibility to visible on view
+                    tv_heading.setVisibility(View.VISIBLE);
+
+                    // sets visibility to visible on view
+                    search_layout.setVisibility(View.VISIBLE);
+
+                    // sets visibility to visible on view
                     recyclerView.setVisibility(View.VISIBLE);
+
                     // sets visibility to visible on textView
                     tv_no_users.setVisibility(View.GONE);
 
-                        // add users
-                        usersList.add(users);
+                    // gets the unique key of users
+                    users.setKey(snapshot.getKey());
+
+                    // add users
+                    usersList.add(users);
 
                 }
 
@@ -146,10 +164,17 @@ public class ManageUsersFragment extends Fragment {
 
                 // if no user exist in db
                 if(!dataSnapshot.exists()){
-                    // sets visibility to visible on views
-                    editTextSearch.setVisibility(View.GONE);
+
+                    // sets visibility to gone on textView
+                    tv_heading.setVisibility(View.GONE);
+
+                    // sets visibility to gone on search layout
+                    search_layout.setVisibility(View.GONE);
+
+                    // sets visibility to gone on recyclerView
                     recyclerView.setVisibility(View.GONE);
-                    // sets visibility to visible on textView
+
+                    // sets visibility to gone on textView
                     tv_no_users.setVisibility(View.VISIBLE);
                 }
 
@@ -207,9 +232,22 @@ public class ManageUsersFragment extends Fragment {
                 usersList.clear();
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
                     Users users = snapshot.getValue(Users.class);
 
                     assert users != null;
+
+                    // sets visibility to visible on view
+                    tv_heading.setVisibility(View.VISIBLE);
+
+                    // sets visibility to visible on view
+                    search_layout.setVisibility(View.VISIBLE);
+
+                    // sets visibility to visible on view
+                    recyclerView.setVisibility(View.VISIBLE);
+
+                    // sets visibility to visible on textView
+                    tv_no_users.setVisibility(View.GONE);
 
                     // add found user
                     usersList.add(users);

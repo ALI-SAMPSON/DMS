@@ -35,7 +35,13 @@
 
     <string name="text_home" translatable="false">Home</string>
 
+    <string name="text_dashboard" translatable="false">Admin DashBoard</string>
+
+    <string name="text_welcome_admin" translatable="false">Welcome Admin</string>
+
     <string name="text_no_users" translatable="false">No Users Added</string>
+
+    <string name="text_users_list" translatable="false">List of Users</string>
 
     <string name="text_comment" translatable="false">Add Comment...</string>
     <string name="sign_out_msg" translatable="false">Are you sure you want to sign out?</string>
@@ -54,10 +60,18 @@
     <string name="title_assign" translatable="false">Assign Document</string>
     <string name="text_yes" translatable="false">YES</string>
     <string name="text_no" translatable="false">NO</string>
+    <string name="text_delete_dialog" translatable="false">DELETE</string>
+    <string name="text_dismiss_dialog" translatable="false">DISMISS</string>
     <string name="text_proceed" translatable="false">PROCEED</string>
     <string name="text_cancel" translatable="false">Cancel</string>
-    <string name="text_confirm_assign" translatable="false">Assign this document ?</string>
+    <string name="text_confirm_assign" translatable="false">Assign this document?</string>
     <string name="text_confirm" translatable="false">Are you sure you want to assign this document to</string>
+    <string name="title_delete" translatable="false">Are you sure?</string>
+    <string name="text_confirm_delete" translatable="false">
+        Deleting this account will result in completely removing user account from the system
+        and user wont be able to access the app
+    </string>
+    <string name="hint_enter_current_password">Enter your current password</string>
     <string name="text_add_image">Please add an image of the document to proceed!</string>
     <string name="title_smile" translatable="false">Smile</string>
     <string name="text_smile" translatable="false">Enjoy the app with smiles</string>

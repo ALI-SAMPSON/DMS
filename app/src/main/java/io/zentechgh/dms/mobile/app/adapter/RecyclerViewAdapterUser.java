@@ -62,8 +62,8 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
         final Users users = usersList.get(position);
 
         // getting text from the database and setting them to respective views
-        viewHolder.userName.setText(" Username: " + users.getUsername());
-        viewHolder.userPhone.setText(" Phone : " + users.getPhone());
+        viewHolder.userName.setText(users.getUsername());
+        viewHolder.userPhone.setText(users.getPhone());
 
         // checking if the document is not equal to null
         if(users.getImageUrl() == null){

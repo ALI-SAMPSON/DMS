@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.AdminHomeActivity"
-    tools:openDrawer="start">
+    tools:context=".ui.AdminHomeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,13 +20,38 @@
             android:background="@color/light_red"
             android:elevation="5dp"
             android:theme="@style/ToolbarTheme"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_dashboard"
+                android:fontFamily="@font/lato"
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="center"/>
+
+        </android.support.v7.widget.Toolbar>
 
         <!-- container to place in fragments -->
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_welcome_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_welcome_admin"
+                android:fontFamily="@font/lato_bold"
+                android:textSize="20sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 
