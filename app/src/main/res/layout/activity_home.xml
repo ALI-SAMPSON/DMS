@@ -29,8 +29,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:src="@drawable/profile_icon"
                     android:scaleType="centerCrop"/>
@@ -56,17 +56,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/bottom_nav_view"
-            android:layout_below="@+id/appBarLayout"/>
+            android:layout_below="@+id/appBarLayout">
+
+            <TextView
+                android:id="@+id/tv_welcome_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_welcome_admin"
+                android:fontFamily="@font/lato_bold"
+                android:textSize="20sp"
+                android:textColor="@color/light_red"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_nav_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_red"
+            android:background="@color/white_grey_light"
             android:layout_alignParentBottom="true"
             app:menu="@menu/bottom_nav_menu"
-            app:itemTextColor="@color/white_ghost"
-            app:itemIconTint="@color/white_ghost"
             app:elevation="5dp"/>
 
         <ProgressBar

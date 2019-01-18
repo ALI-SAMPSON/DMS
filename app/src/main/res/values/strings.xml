@@ -43,6 +43,8 @@
 
     <string name="text_no_documents" translatable="false">No documents added yet</string>
 
+    <string name="text_no_document_to_assign" translatable="false">No documents yet to assign</string>
+
     <string name="text_users_list" translatable="false">List of Users</string>
 
     <string name="text_archive_documents" translatable="false">Archive Documents</string>
@@ -82,6 +84,8 @@
     <string name="title_assign_document" translatable="false">Assign Document</string>
     <string name="document_added" translatable="false">Document added successfully</string>
     <string name="view_document" translatable="false">View Document</string>
+
+    <string name="document_viewer" translatable="false">Document Viewer</string>
 
     <string name="text_adding_document" translatable="false">Adding Document</string>
     <string name="text_please_wait" translatable="false">please wait...</string>

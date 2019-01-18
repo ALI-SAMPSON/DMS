@@ -3,8 +3,10 @@ package io.zentechgh.dms.mobile.app.ui.user;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.zentechgh.dms.mobile.app.R;
@@ -33,6 +36,7 @@ import io.zentechgh.dms.mobile.app.fragment.user.AddDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.user.AssignDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.user.ManageDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.user.MeFragment;
+import io.zentechgh.dms.mobile.app.helper.BottomNavigationViewHelper;
 import io.zentechgh.dms.mobile.app.model.Users;
 import io.zentechgh.dms.mobile.app.ui.SignInActivity;
 import maes.tech.intentanim.CustomIntent;
@@ -44,6 +48,9 @@ public class HomeActivity extends AppCompatActivity
     // Global views declaration
     Toolbar toolbar;
     TextView toolbar_title;
+
+    TextView tv_welcome_title;
+
     BottomNavigationView bottom_nav_view;
 
     CircleImageView profile_image;
@@ -68,10 +75,15 @@ public class HomeActivity extends AppCompatActivity
         profile_image = findViewById(R.id.profile_image);
         setSupportActionBar(toolbar);
 
+
         bottom_nav_view =  findViewById(R.id.bottom_nav_view);
 
         // setting on navigationitemSelectedListener
         bottom_nav_view.setOnNavigationItemSelectedListener(this);
+
+        // disables default shift animation
+        BottomNavigationViewHelper.disableShiftMode(bottom_nav_view);
+        bottom_nav_view.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
 
         mAuth =  FirebaseAuth.getInstance();
 
@@ -79,14 +91,23 @@ public class HomeActivity extends AppCompatActivity
 
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
 
+        tv_welcome_title = findViewById(R.id.tv_welcome_title);
+
+        // sets visibility to visible
+        tv_welcome_title.setVisibility(View.VISIBLE);
+
+        // display a welcome message together with users name
+        tv_welcome_title.setText(" Welcome " + currentUser.getDisplayName());
+
         progressBar = findViewById(R.id.progressBar);
 
         // method call to load user info
         loadUserProfile();
 
         // load first fragment(in this case addDocumentFragment)
-        getSupportFragmentManager().beginTransaction()
+        /*getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container,new AddDocumentFragment()).commit();
+                */
 
     }
 
@@ -181,6 +202,8 @@ public class HomeActivity extends AppCompatActivity
                 break;
 
         }
+
+        tv_welcome_title.setVisibility(View.GONE);
 
         // starts fragment depending on the one clicked
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

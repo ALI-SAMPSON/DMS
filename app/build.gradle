@@ -74,6 +74,9 @@ dependencies {
     // material searchView Library
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
+    // bottom navigation view library
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.2'
+
     // scan library dependency
     implementation project(':scanlibrary')
 

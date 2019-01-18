@@ -14,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,6 +49,10 @@ public class ManageDocumentFragment extends Fragment {
 
     // for snackbar
     RelativeLayout relativeLayout;
+
+    TextView tv_no_document;
+
+    LinearLayout search_layout;
 
     EditText editTextSearch;
 
@@ -82,6 +88,8 @@ public class ManageDocumentFragment extends Fragment {
 
         relativeLayout = view.findViewById(R.id.relativeLayout);
 
+        search_layout = view.findViewById(R.id.search_layout);
+
         // getting instance of the FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
@@ -89,6 +97,8 @@ public class ManageDocumentFragment extends Fragment {
         currentUser = mAuth.getCurrentUser();
 
         progressBar = view.findViewById(R.id.progressBar);
+
+        tv_no_document = view.findViewById(R.id.tv_no_document);
 
         // initializing variables
         editTextSearch = view.findViewById(R.id.editTextSearch);
@@ -123,16 +133,46 @@ public class ManageDocumentFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                documentsList.clear();
+                // checks if no document exist in database
 
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                if(!dataSnapshot.exists()){
 
-                    Documents documents = snapshot.getValue(Documents.class);
+                    // sets visibility to gone on view
+                    search_layout.setVisibility(View.GONE);
 
-                    // add rooms in db to the list in respect to their positions
-                    documentsList.add(documents);
+                    // sets visibility to gone on view
+                    recyclerView.setVisibility(View.GONE);
+
+                    // sets visibility to visible on view
+                    tv_no_document.setVisibility(View.VISIBLE);
+
 
                 }
+                else {
+
+                    // adds document to list
+                    documentsList.clear();
+
+                    for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+
+                        Documents documents = snapshot.getValue(Documents.class);
+
+                        // sets visibility to visible on view
+                        search_layout.setVisibility(View.VISIBLE);
+
+                        // sets visibility to visible on view
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // sets visibility to gone on view
+                        tv_no_document.setVisibility(View.GONE);
+
+                        // add rooms in db to the list in respect to their positions
+                        documentsList.add(documents);
+
+                    }
+
+                }
+
 
                 // notify adapter if there is data change
                 adapterManage.notifyDataSetChanged();

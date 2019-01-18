@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,6 +61,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         viewHolder.documentTitle.setText(" Title : " + documents.getTitle());
         viewHolder.documentTag.setText(" Tag : " + documents.getTag());
         viewHolder.documentComment.setText(" Comment : " + documents.getComment());
+        viewHolder.distributee.setText(" Distributee : " + documents.getDistributee());
 
         // checking if the document is not equal to null
         if(documents.getDocumentUrl() == null){
@@ -112,16 +114,18 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         TextView documentTitle;
         TextView documentTag;
         TextView documentComment;
-        Button buttonView;
+        TextView distributee;
+        ImageButton buttonView;
         CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             documentImage = itemView.findViewById(R.id.document_image);
-            documentTitle = itemView.findViewById(R.id.document_title);
-            documentTag = itemView.findViewById(R.id.document_tag);
-            documentComment = itemView.findViewById(R.id.document_comment);
+            documentTitle = itemView.findViewById(R.id.tv_document_title);
+            documentTag = itemView.findViewById(R.id.tv_document_tag);
+            documentComment = itemView.findViewById(R.id.tv_document_comment);
+            distributee = itemView.findViewById(R.id.tv_distributee);
             buttonView = itemView.findViewById(R.id.button_view);
             cardView = itemView.findViewById(R.id.cardView);
 

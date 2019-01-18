@@ -464,7 +464,7 @@ public class AddDocumentFragment extends Fragment implements
         ///progressDialog.show();
 
         // stores the name of the user who uploaded the file
-        String distributor = currentUser.getDisplayName();
+        String distributee = currentUser.getDisplayName();
 
         // getting text
         final String title = editTextTitle.getText().toString();
@@ -477,7 +477,7 @@ public class AddDocumentFragment extends Fragment implements
         documents.setTag(tag);
         documents.setComment(comment);
         documents.setDocumentUrl(documentUrl);
-        documents.setDistributee(distributor);
+        documents.setDistributee(distributee);
         documents.setSearch(searchField);
 
         documentRef.push().setValue(documents)
