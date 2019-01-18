@@ -59,7 +59,7 @@
         android:background="@android:color/darker_gray"/>
 
 
-    <ImageView
+    <ImageButton
         android:id="@+id/button_delete"
         android:layout_width="20dp"
         android:layout_height="20dp"

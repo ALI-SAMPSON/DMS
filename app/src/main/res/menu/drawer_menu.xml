@@ -17,17 +17,22 @@
 
         <item
             android:id="@+id/menu_archive"
-            android:icon="@drawable/ic_archive_users"
-            android:title="@string/title_archive_users" />
+            android:icon="@drawable/ic_archive_document"
+            android:title="@string/title_archive_document" />
 
     </group>
 
     <!-- Separate Menu for sign out -->
 
     <item android:title="@string/title_other">
-
-
+        
         <menu>
+
+            <item
+                android:id="@+id/menu_archived_documents"
+                android:icon="@drawable/ic_archived_document"
+                android:title="@string/title_archived_document" />
+
             <item
                 android:id="@+id/menu_share"
                 android:icon="@drawable/ic_share"

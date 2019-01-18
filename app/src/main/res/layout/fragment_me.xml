@@ -6,7 +6,7 @@
     android:background="@color/white_ghost"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragment.MeFragment">
+    tools:context=".fragment.user.MeFragment">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"

@@ -6,7 +6,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.ReceivedDocumentActivity">
+    tools:context=".ui.user.ReceivedDocumentActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"

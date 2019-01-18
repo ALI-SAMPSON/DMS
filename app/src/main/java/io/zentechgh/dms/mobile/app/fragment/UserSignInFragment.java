@@ -29,7 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Users;
-import io.zentechgh.dms.mobile.app.ui.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
 import io.zentechgh.dms.mobile.app.ui.SignInSignUpActivity;
 import maes.tech.intentanim.CustomIntent;
 

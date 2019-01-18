@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_margin="@dimen/margin_small">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/document_image"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/scanned_file"
+            android:layout_margin="@dimen/margin_small"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/document_image"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/tv_document_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_title"
+                android:layout_margin="3dp"
+                android:fontFamily="@font/lato"/>
+
+            <TextView
+                android:id="@+id/tv_document_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_tag"
+                android:layout_margin="3dp"
+                android:fontFamily="@font/lato" />
+
+            <TextView
+                android:id="@+id/tv_document_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_comment"
+                android:layout_margin="3dp"
+                android:fontFamily="@font/lato"/>
+
+            <TextView
+                android:id="@+id/tv_distributee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_distributee"
+                android:layout_margin="3dp"
+                android:fontFamily="@font/lato" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_view"
+            android:layout_margin="@dimen/margin_small"
+            android:fontFamily="@font/lato"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:textAllCaps="false"
+            android:textColor="@color/deep_red"
+            android:textSize="14sp"
+            android:background="@null"/>
+
+        <Button
+            android:id="@+id/button_unarchive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_unarchive"
+            android:layout_margin="@dimen/margin_small"
+            android:fontFamily="@font/lato"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:textAllCaps="false"
+            android:textColor="@color/deep_red"
+            android:textSize="14sp"
+            android:background="@null"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_below="@+id/button_unarchive"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:progressBarStyleSmall"
+            android:layout_margin="5dp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

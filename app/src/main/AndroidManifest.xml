@@ -33,34 +33,34 @@
             android:name=".ui.SignInSignUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.user.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".ui.AssignDocumentToUserActivity"
+            android:name=".ui.user.AssignDocumentToUserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".ui.ViewDocumentActivity"
+            android:name=".ui.user.ViewDocumentUserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".ui.SentDocumentActivity"
+            android:name=".ui.user.SentDocumentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".ui.ReceivedDocumentActivity"
+            android:name=".ui.user.ReceivedDocumentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
@@ -68,9 +68,9 @@
             android:name=".ui.ForgotPasswordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
-            android:name=".ui.AdminHomeActivity"
+            android:name=".ui.admin.AdminHomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
@@ -80,7 +80,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SplashScreenActivity"></activity>
+        <activity android:name=".ui.SplashScreenActivity" />
+        <activity
+            android:name=".ui.admin.ArchivedDocumentsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".ui.admin.ViewDocumentAdminActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar"></activity>
     </application>
 
 </manifest>

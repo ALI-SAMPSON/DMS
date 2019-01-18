@@ -14,6 +14,7 @@ import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.ViewPagerAdapter;
 import io.zentechgh.dms.mobile.app.fragment.UserSignInFragment;
 import io.zentechgh.dms.mobile.app.fragment.UserSignUpFragment;
+import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
 
 public class SignInSignUpActivity extends AppCompatActivity {
 

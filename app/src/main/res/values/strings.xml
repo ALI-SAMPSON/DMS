@@ -39,9 +39,13 @@
 
     <string name="text_welcome_admin" translatable="false">Welcome Admin</string>
 
-    <string name="text_no_users" translatable="false">No Users Added</string>
+    <string name="text_no_users" translatable="false">No users added</string>
+
+    <string name="text_no_documents" translatable="false">No documents added yet</string>
 
     <string name="text_users_list" translatable="false">List of Users</string>
+
+    <string name="text_archive_documents" translatable="false">Archive Documents</string>
 
     <string name="text_comment" translatable="false">Add Comment...</string>
     <string name="sign_out_msg" translatable="false">Are you sure you want to sign out?</string>
@@ -54,7 +58,7 @@
     <string name="text_delete" translatable="false">Delete</string>
     <string name="text_assign" translatable="false">Assign</string>
     <string name="text_submit" translatable="false">Submit</string>
-    <string name="text_view" translatable="false">View</string>
+    <string name="text_view" translatable="false">view</string>
     <string name="text_add_user" translatable="false">User</string>
     <string name="text_choose" translatable="false">Choose from Gallery</string>
     <string name="title_assign" translatable="false">Assign Document</string>
@@ -77,7 +81,7 @@
     <string name="text_smile" translatable="false">Enjoy the app with smiles</string>
     <string name="title_assign_document" translatable="false">Assign Document</string>
     <string name="document_added" translatable="false">Document added successfully</string>
-    <string name="view_document" translatable="false">View File</string>
+    <string name="view_document" translatable="false">View Document</string>
 
     <string name="text_adding_document" translatable="false">Adding Document</string>
     <string name="text_please_wait" translatable="false">please wait...</string>
@@ -123,6 +127,8 @@
 
     <string name="no_received_documents" translatable="false">No received documents yet</string>
 
+    <string name="no_archived_documents" translatable="false">No archived documents yet</string>
+
     <string name="no_sent_documents" translatable="false">No sent documents yet</string>
 
     <string name="role" translatable="false">Role</string>
@@ -136,7 +142,9 @@
 
     <string name="title_add_users" translatable="false">Add Users</string>
     <string name="title_manage_users" translatable="false">Manage Users</string>
-    <string name="title_archive_users" translatable="false">Archive Users</string>
+    <string name="title_archive_document" translatable="false">Archive Documents</string>
+    <string name="title_archived_document" translatable="false">Archived Documents</string>
+    <string name="text_unarchive" translatable="false">unarchive</string>
     <string name="title_other" translatable="false">Other</string>
     <string name="title_share" translatable="false">Share</string>
     <string name="title_sign_out" translatable="false">Sign Out</string>

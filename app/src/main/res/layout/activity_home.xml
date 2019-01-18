@@ -6,7 +6,7 @@
     android:background="@color/white_ghost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.HomeActivity">
+    tools:context=".ui.user.HomeActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"

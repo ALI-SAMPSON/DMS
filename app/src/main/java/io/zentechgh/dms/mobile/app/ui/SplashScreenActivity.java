@@ -8,8 +8,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import io.zentechgh.dms.mobile.app.R;
-import io.zentechgh.dms.mobile.app.model.Admin;
 import io.zentechgh.dms.mobile.app.prefs.SavedSharePreference;
+import io.zentechgh.dms.mobile.app.ui.admin.AdminHomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
 import maes.tech.intentanim.CustomIntent;
 
 public class SplashScreenActivity extends AppCompatActivity {
