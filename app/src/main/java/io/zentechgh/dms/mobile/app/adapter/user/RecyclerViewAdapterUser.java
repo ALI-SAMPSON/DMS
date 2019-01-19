@@ -11,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +26,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.model.ReceivedDocuments;
+import io.zentechgh.dms.mobile.app.model.SentDocuments;
 import io.zentechgh.dms.mobile.app.model.Users;
 
 public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAdapterUser.ViewHolder>{
@@ -59,28 +64,29 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
 
         // getting the position of each document
-        final Users users = usersList.get(position);
+        final Users user = usersList.get(position);
 
         // getting text from the database and setting them to respective views
-        viewHolder.userName.setText(users.getUsername());
-        viewHolder.userPhone.setText(users.getPhone());
+        viewHolder.userName.setText(user.getUsername());
+        viewHolder.userPhone.setText(user.getPhone());
 
         // checking if the document is not equal to null
-        if(users.getImageUrl() == null){
+        if(user.getImageUrl() == null){
             viewHolder.userImage.setImageResource(R.drawable.profile_icon);
         }
         else{
-            Glide.with(mCtx).load(users.getImageUrl()).into(viewHolder.userImage);
+            Glide.with(mCtx).load(user.getImageUrl()).into(viewHolder.userImage);
         }
 
 
         // getting string from sharePreference of Documents Details
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mCtx);
-        final String documentTitle = preferences.getString("documentTitle","");
-        final String documentTag = preferences.getString("documentTag","");
-        final String documentComment = preferences.getString("documentComment","");
-        final String documentImage = preferences.getString("documentImage","");
-        final String distributor = preferences.getString("distributor","");
+        final String documentImage = preferences.getString("document_image","");
+        final String documentTitle = preferences.getString("document_title","");
+        final String documentTag = preferences.getString("document_tag","");
+        final String documentComment = preferences.getString("document_comment","");
+        final String documentSearch = preferences.getString("document_search","");
+        final String distributor = preferences.getString("document_distributee","");
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,34 +94,64 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
                 // creating alertDialog
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(mCtx)
                         .setTitle(R.string.title_assign)
-                        .setMessage(R.string.text_confirm + " " + users.getUsername());
+                        .setMessage(R.string.text_confirm + " " + user.getUsername());
 
                 alertDialog.setPositiveButton(R.string.text_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        // assigns document to currentUser (to help trace documents later) - to be seen as "Sent Documents"
-                        viewHolder.assignRef.child(viewHolder.currentUser.getUid())
-                                .child("Sent Document");
-                        HashMap<String,Object> assignDocToCurrentUser = new HashMap<>();
-                        assignDocToCurrentUser.put("title", documentTitle);
-                        assignDocToCurrentUser.put("tag", documentTag);
-                        assignDocToCurrentUser.put("comment", documentComment);
-                        assignDocToCurrentUser.put("documentUrl", documentImage);
-                        assignDocToCurrentUser.put("distributor",viewHolder.currentUser.getDisplayName());
-                        assignDocToCurrentUser.put("search",documentTitle.toLowerCase());
-                        viewHolder.assignRef.push().updateChildren(assignDocToCurrentUser);
+                        // setting fields for Model SentDocuments
+                        viewHolder.sentDocuments.setDocumentUrl(documentImage);
+                        viewHolder.sentDocuments.setTitle(documentTitle);
+                        viewHolder.sentDocuments.setTag(documentTag);
+                        viewHolder.sentDocuments.setComment(documentComment);
+                        viewHolder.sentDocuments.setSearch(documentSearch);
+                        viewHolder.sentDocuments.setDistributor(distributor);
 
-                        // assigns document to another user (to help trace documents later) - to be seen as "Received Documents"
-                        viewHolder.assignRef.child(users.getUid()).child("Received Documents");
-                        HashMap<String,Object> assignDocToUser = new HashMap<>();
-                        assignDocToUser.put("title", documentTitle);
-                        assignDocToUser.put("tag", documentTag);
-                        assignDocToUser.put("comment", documentComment);
-                        assignDocToUser.put("documentUrl", documentImage);
-                        assignDocToUser.put("distributor",viewHolder.currentUser.getDisplayName());
-                        assignDocToUser.put("search",documentTitle.toLowerCase());
-                        viewHolder.assignRef.push().updateChildren(assignDocToUser);
+                        // assigns document to currentUser (to help trace documents later)  and to the corresponding user
+                        viewHolder.sendDocRef.child(viewHolder.currentUser.getUid()).push().setValue(viewHolder.sentDocuments)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+
+                                            viewHolder.receivedDocuments.setSender(distributor);
+
+                                            // setting fields for Model ReceivedDocuments
+                                            viewHolder.receivedDocuments.setDocumentUrl(documentImage);
+                                            viewHolder.receivedDocuments.setTitle(documentTitle);
+                                            viewHolder.receivedDocuments.setTag(documentTag);
+                                            viewHolder.receivedDocuments.setComment(documentComment);
+                                            viewHolder.receivedDocuments.setDistributor(distributor);
+                                            viewHolder.receivedDocuments.setSender(viewHolder.currentUser.getDisplayName());
+                                            viewHolder.receivedDocuments.setSearch(distributor);
+
+                                            viewHolder.receivedDocRef.child(user.getUid()).push().setValue(viewHolder.receivedDocRef)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                           if(task.isSuccessful()){
+
+                                                               // display a success message is document is successfully assigned
+                                                               Toast.makeText(mCtx,R.string.message_document_assigned,Toast.LENGTH_LONG).show();
+
+                                                           }
+                                                           else {
+                                                               // display message if exception is thrown
+                                                               Toast.makeText(mCtx,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                                           }
+                                                        }
+                                                    });
+
+
+                                        }
+                                        else{
+                                            // display message if exception is thrown
+                                            Toast.makeText(mCtx,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+
 
                     }
                 });
@@ -150,9 +186,17 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
         TextView userName;
         TextView userPhone;
 
+        SentDocuments sentDocuments;
+
+        ReceivedDocuments receivedDocuments;
+
         FirebaseUser currentUser;
 
         DatabaseReference assignRef;
+
+        DatabaseReference sendDocRef;
+
+        DatabaseReference receivedDocRef;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -161,9 +205,18 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
             userName = itemView.findViewById(R.id.userName);
             userPhone = itemView.findViewById(R.id.userPhone);
 
+            sentDocuments = new SentDocuments();
+
+            receivedDocuments = new ReceivedDocuments();
+
             currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
             assignRef  = FirebaseDatabase.getInstance().getReference("Users");
+
+            sendDocRef = FirebaseDatabase.getInstance().getReference("SentDocuments");
+
+            receivedDocRef = FirebaseDatabase.getInstance().getReference("ReceivedDocuments");
+
         }
     }
 

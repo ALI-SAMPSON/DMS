@@ -39,6 +39,8 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
+    TextView toolbar_title;
+
     MaterialSearchView searchView;
 
     FirebaseAuth mAuth;
@@ -66,7 +68,8 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
         // getting reference to views
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.title_assign_document);
+        toolbar_title = findViewById(R.id.toolbar_title);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -77,10 +80,12 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
         });
 
         // getting string extra
-        String documentTitle = getIntent().getStringExtra("documentTitle");
-        String documentTag = getIntent().getStringExtra("documentTag");
-        String documentComment = getIntent().getStringExtra("documentComment");
-        String documentImage = getIntent().getStringExtra("documentImage");
+        String documentImage = getIntent().getStringExtra("document_image");
+        String documentTitle = getIntent().getStringExtra("document_title");
+        String documentTag = getIntent().getStringExtra("document_tag");
+        String documentComment = getIntent().getStringExtra("document_comment");
+        String document_search = getIntent().getStringExtra("document_search");
+        String documentDistributee = getIntent().getStringExtra("document_distributee");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -142,11 +147,12 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
                 // dismiss progressBar
                progressBar.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                //Toast.makeText(getContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+                // display message if error occurs
                 Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });

@@ -12,16 +12,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.AssignDocumentToUserActivity;
+import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
+import maes.tech.intentanim.CustomIntent;
 
 public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerViewAdapterAssign.ViewHolder> {
 
@@ -53,7 +59,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
 
         // getting the position of each document
         final Documents documents = documentsList.get(position);
@@ -62,6 +68,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
         viewHolder.documentTitle.setText(" Title : " + documents.getTitle());
         viewHolder.documentTag.setText(" Tag : " + documents.getTag());
         viewHolder.documentComment.setText(" Comment : " + documents.getComment());
+        viewHolder.distributee.setText(" Distributee : " + documents.getDistributee());
 
         // checking if the document is not equal to null
         if(documents.getDocumentUrl() == null){
@@ -71,15 +78,9 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
             Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.documentImage);
         }
 
-        // getting details
-        final String document_title = documents.getTitle();
-        final String document_tag = documents.getTag();
-        final String document_comment = documents.getComment();
-        final String document_image_url = documents.getDocumentUrl();
-        final String distributor = documents.getDistributee();
 
         // set OnClick Listener for each item in cardview(document)
-        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.button_assign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // do something
@@ -95,22 +96,26 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
 
                         //start AssignDocument activity and passes document details to it
                       Intent intentAssign = new Intent(mCtx,AssignDocumentToUserActivity.class);
-                        intentAssign.putExtra("documentTitle",document_title);
-                        intentAssign.putExtra("documentTag",document_tag);
-                        intentAssign.putExtra("documentComment",document_comment);
-                        intentAssign.putExtra("documentImage",document_image_url);
-                        intentAssign.putExtra("distributor",distributor);
-                      intentAssign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intentAssign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intentAssign.putExtra("document_image",documents.getDocumentUrl());
+                        intentAssign.putExtra("document_title",documents.getTitle());
+                        intentAssign.putExtra("document_tag",documents.getTag());
+                        intentAssign.putExtra("document_comment", documents.getComment());
+                        intentAssign.putExtra("document_search", documents.getSearch());
+                        intentAssign.putExtra("document_distributee",documents.getDistributee());
+                        ///intentAssign.putExtra("sent_by", viewHolder.currrentUser.getDisplayName());
                       mCtx.startActivity(intentAssign);
 
                       // storing the information in sharePreferences
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mCtx).edit();
-                        editor.putString("documentTitle",document_title);
-                        editor.putString("documentTag",document_tag);
-                        editor.putString("documentComment",document_comment);
-                        editor.putString("documentImage",document_image_url);
-                        editor.putString("distributor",distributor);
+                        editor.putString("document_image",documents.getDocumentUrl());
+                        editor.putString("document_title",documents.getTitle());
+                        editor.putString("document_tag",documents.getTag());
+                        editor.putString("document_comment",documents.getComment());
+                        editor.putString("document_search",documents.getSearch());
+                        editor.putString("document_distributee",documents.getDistributee());
                         editor.apply();
+
 
                     }
                 });
@@ -130,6 +135,25 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
             }
         });
 
+
+        viewHolder.button_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // open file to view
+                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // passing strings
+                intent.putExtra("file",documents.getDocumentUrl());
+                intent.putExtra("title",documents.getTitle());
+                intent.putExtra("tag",documents.getTag());
+                intent.putExtra("comment", documents.getComment());
+                mCtx.startActivity(intent);
+
+                // adding an intent transition from left-to-right
+                CustomIntent.customType(mCtx,"fadein-to-fadeout");
+            }
+        });
+
     }
 
     @Override
@@ -144,16 +168,26 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
         TextView documentTitle;
         TextView documentTag;
         TextView documentComment;
+        TextView distributee;
+        ImageButton button_assign;
+        ImageButton button_view;
         CardView cardView;
+
+        FirebaseUser currrentUser;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             documentImage = itemView.findViewById(R.id.document_image);
-            documentTitle = itemView.findViewById(R.id.document_title);
-            documentTag = itemView.findViewById(R.id.document_tag);
-            documentComment = itemView.findViewById(R.id.document_comment);
+            documentTitle = itemView.findViewById(R.id.tv_document_title);
+            documentTag = itemView.findViewById(R.id.tv_document_tag);
+            documentComment = itemView.findViewById(R.id.tv_document_comment);
+            distributee = itemView.findViewById(R.id.tv_distributee);
+            button_assign = itemView.findViewById(R.id.button_assign);
+            button_view = itemView.findViewById(R.id.button_view);
             cardView = itemView.findViewById(R.id.cardView);
+
+            currrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         }
     }

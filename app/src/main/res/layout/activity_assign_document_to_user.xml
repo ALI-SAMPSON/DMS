@@ -14,8 +14,18 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/light_red"
         android:theme="@style/NoActionBar"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleTextAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_users"
+            android:fontFamily="@font/lato"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="center"/>
+
     </android.support.v7.widget.Toolbar>
 
     <com.miguelcatalan.materialsearchview.MaterialSearchView
@@ -24,52 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </com.miguelcatalan.materialsearchview.MaterialSearchView>
-
-
-    <TextView
-        android:id="@+id/document_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:text="@string/hint_title"
-        android:layout_margin="5dp"
-        android:layout_centerHorizontal="true"
-        android:padding="5dp"
-        android:fontFamily="@font/lato"/>
-
-    <View
-        android:layout_below="@+id/document_title"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="5dp"
-        android:alpha="0.5"
-        android:background="@android:color/darker_gray"/>
-
-        <!--
-        <LinearLayout
-        android:id="@+id/search_layout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/round_edittext_bg"
-        app:layout_constraintTop_toBottomOf="@+id/document_title">
-        <EditText
-            android:id="@+id/editTextSearch"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="@font/lato"
-            android:textSize="16sp"
-            android:textColor="@color/dark"
-            android:inputType="textMultiLine|textAutoComplete|textAutoCorrect"
-            android:hint="@string/hint_search"
-            android:drawableStart="@drawable/ic_search_grey"
-            android:drawablePadding="@dimen/padding_normal"
-            app:backgroundTint="@color/colorWhite"/>
-    </LinearLayout>
-        -->
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -81,9 +45,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/document_title"
-        android:layout_margin="5dp">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="0dp">
     </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

@@ -19,7 +19,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:background="@drawable/round_edittext_bg"
             android:visibility="gone">
             <EditText
@@ -50,7 +50,7 @@
             android:layout_below="@+id/search_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:visibility="gone">
         </android.support.v7.widget.RecyclerView>
 
@@ -67,12 +67,12 @@
 
         <!-- Main floating action button -->
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_assign"
+            android:id="@+id/fab_users"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="5dp"
             android:layout_margin="@dimen/fab_margin_normal"
-            android:src="@drawable/ic_assign_doc"
+            android:src="@drawable/ic_users"
             app:backgroundTint="@color/deep_red"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"/>

@@ -63,14 +63,15 @@
     <string name="text_view" translatable="false">view</string>
     <string name="text_add_user" translatable="false">User</string>
     <string name="text_choose" translatable="false">Choose from Gallery</string>
-    <string name="title_assign" translatable="false">Assign Document</string>
+    <string name="title_assign" translatable="false">Are you sure?</string>
     <string name="text_yes" translatable="false">YES</string>
     <string name="text_no" translatable="false">NO</string>
     <string name="text_delete_dialog" translatable="false">DELETE</string>
     <string name="text_dismiss_dialog" translatable="false">DISMISS</string>
     <string name="text_proceed" translatable="false">PROCEED</string>
     <string name="text_cancel" translatable="false">Cancel</string>
-    <string name="text_confirm_assign" translatable="false">Assign this document?</string>
+    <string name="text_confirm_assign" translatable="false">Assigning this document means that a user to whom the document
+        is assigned to can view the document</string>
     <string name="text_confirm" translatable="false">Are you sure you want to assign this document to</string>
     <string name="title_delete" translatable="false">Are you sure?</string>
     <string name="text_confirm_delete" translatable="false">
@@ -82,10 +83,13 @@
     <string name="title_smile" translatable="false">Smile</string>
     <string name="text_smile" translatable="false">Enjoy the app with smiles</string>
     <string name="title_assign_document" translatable="false">Assign Document</string>
+    <string name="title_users" translatable="false">Users</string>
     <string name="document_added" translatable="false">Document added successfully</string>
     <string name="view_document" translatable="false">View Document</string>
 
     <string name="document_viewer" translatable="false">Document Viewer</string>
+
+    <string name="message_document_assigned" translatable="false">document assigned successfully</string>
 
     <string name="text_adding_document" translatable="false">Adding Document</string>
     <string name="text_please_wait" translatable="false">please wait...</string>

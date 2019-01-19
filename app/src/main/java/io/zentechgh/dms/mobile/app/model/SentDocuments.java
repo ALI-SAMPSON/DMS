@@ -8,7 +8,7 @@ public class SentDocuments {
     private String Comment;
     private String Tag;
     private String DocumentUrl;
-    private String Distributor;
+    private String Distributee;
     // help to search in lower and upper case
     private String search;
     private String key;
@@ -17,12 +17,13 @@ public class SentDocuments {
     }
 
     public SentDocuments(String title, String comment, String tag,
-                         String documentUrl, String distributor, String search) {
+                         String documentUrl, String distributee, String search) {
         this.Title = title;
         this.Comment = comment;
         this.Tag = tag;
         this.DocumentUrl = documentUrl;
-        this.Distributor = distributor;
+        this.Distributee = distributee;
+        this.search = search;
     }
 
     // getters and setters for document
@@ -58,12 +59,12 @@ public class SentDocuments {
         DocumentUrl = documentUrl;
     }
 
-    public String getDistributor() {
-        return Distributor;
+    public String getDistributee() {
+        return Distributee;
     }
 
-    public void setDistributor(String distributor) {
-        Distributor = distributor;
+    public void setDistributor(String distributee) {
+        Distributee = distributee;
     }
 
     public String getSearch() {

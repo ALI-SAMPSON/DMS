@@ -2,6 +2,7 @@ package io.zentechgh.dms.mobile.app.fragment.user;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -35,6 +36,7 @@ import java.util.List;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.user.RecyclerViewAdapterAssign;
 import io.zentechgh.dms.mobile.app.model.Documents;
+import io.zentechgh.dms.mobile.app.ui.user.AssignDocumentToUserActivity;
 import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
 
 /**
@@ -59,7 +61,7 @@ public class AssignDocumentFragment extends Fragment {
 
     RecyclerView recyclerView;
 
-    FloatingActionButton fab_assign;
+    FloatingActionButton fab_users;
 
     RecyclerViewAdapterAssign adapterAssign;
 
@@ -109,7 +111,7 @@ public class AssignDocumentFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
 
-        fab_assign = view.findViewById(R.id.fab_assign);
+        fab_users = view.findViewById(R.id.fab_users);
 
         documentRef = FirebaseDatabase.getInstance().getReference("Documents");
 
@@ -275,10 +277,16 @@ public class AssignDocumentFragment extends Fragment {
     // assign document to user
     private void assignDocument(){
 
-        fab_assign.setOnClickListener(new View.OnClickListener() {
+        fab_users.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // do nothing
+
+                // open users activity
+                Intent intent = new Intent(applicationContext, AssignDocumentToUserActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
             }
         });
 

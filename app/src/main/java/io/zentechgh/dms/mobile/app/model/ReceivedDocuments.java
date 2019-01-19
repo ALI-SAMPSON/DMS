@@ -9,6 +9,7 @@ public class ReceivedDocuments {
     private String Tag;
     private String DocumentUrl;
     private String Distributor;
+    private String Sender;
     // help to search in lower and upper case
     private String search;
     private String key;
@@ -17,12 +18,14 @@ public class ReceivedDocuments {
     }
 
     public ReceivedDocuments(String title, String comment, String tag,
-                             String documentUrl, String distributor, String search) {
+                             String documentUrl, String distributor, String sender, String search) {
         this.Title = title;
         this.Comment = comment;
         this.Tag = tag;
         this.DocumentUrl = documentUrl;
         this.Distributor = distributor;
+        this.Sender = sender;
+        this.search = search;
     }
 
     // getters and setters for document
@@ -60,6 +63,14 @@ public class ReceivedDocuments {
 
     public String getDistributor() {
         return Distributor;
+    }
+
+    public String getSender() {
+        return Sender;
+    }
+
+    public void setSender(String sender) {
+        Sender = sender;
     }
 
     public void setDistributor(String distributor) {

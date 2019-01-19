@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
 
         // getting the position of each document
         final Documents documents = documentsList.get(position);
@@ -71,14 +73,17 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.documentImage);
         }
 
-        // onclick listener for view button
-        viewHolder.buttonView.setOnClickListener(new View.OnClickListener() {
+        // onclick listener for image view
+        viewHolder.documentImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+
+                // add a smooth zoom in animation before opening image in preview
+                YoYo.with(Techniques.ZoomInUp).playOn(viewHolder.documentImage);
 
                 // open file to view
                 Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // passing strings
                 intent.putExtra("file",documents.getDocumentUrl());
                 intent.putExtra("title",documents.getTitle());
@@ -87,7 +92,28 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                 mCtx.startActivity(intent);
 
                 // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"left-to-right");
+                CustomIntent.customType(mCtx,"fadein-to-fadeout");
+            }
+        });
+
+
+        // onclick listener for view button
+        viewHolder.buttonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // open file to view
+                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // passing strings
+                intent.putExtra("file",documents.getDocumentUrl());
+                intent.putExtra("title",documents.getTitle());
+                intent.putExtra("tag",documents.getTag());
+                intent.putExtra("comment", documents.getComment());
+                mCtx.startActivity(intent);
+
+                // adding an intent transition from left-to-right
+                CustomIntent.customType(mCtx,"fadein-to-fadeout");
 
             }
         });

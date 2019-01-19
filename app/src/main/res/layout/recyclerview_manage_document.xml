@@ -4,12 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:clickable="true"
     android:focusable="true"
     app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="0dp"
-    android:foreground="?attr/selectableItemBackground"
     android:layout_margin="3dp">
 
     <RelativeLayout
@@ -20,7 +19,8 @@
         <ImageView
             android:id="@+id/document_image"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:src="@drawable/scanned_file"
             android:layout_margin="@dimen/margin_small"/>
@@ -36,38 +36,35 @@
             android:layout_marginStart="@dimen/margin_normal">
 
             <TextView
-                android:id="@+id/document_title"
+                android:id="@+id/tv_document_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/hint_title"
                 android:layout_margin="@dimen/margin_small"
-                android:fontFamily="@font/lato"
-                android:textSize="14sp"/>
+                android:fontFamily="@font/lato"/>
 
                 <TextView
-                    android:id="@+id/document_tag"
+                    android:id="@+id/tv_document_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_tag"
                     android:layout_margin="@dimen/margin_small"
-                    android:fontFamily="@font/lato"
-                    android:textSize="14sp"/>
+                    android:fontFamily="@font/lato"/>
 
             <TextView
-                android:id="@+id/document_comment"
+                android:id="@+id/tv_document_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_comment"
                 android:layout_margin="@dimen/margin_small"
-                android:fontFamily="@font/lato"
-                android:textSize="14sp"/>
+                android:fontFamily="@font/lato"/>
 
             <TextView
                 android:id="@+id/tv_distributee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_distributee"
-                android:layout_margin="3dp"
+                android:layout_margin="5dp"
                 android:fontFamily="@font/lato" />
 
         </LinearLayout>
@@ -80,8 +77,6 @@
             android:src="@drawable/ic_view"
             android:layout_margin="5dp"
             android:layout_alignParentEnd="true"
-            android:textAllCaps="false"
-            android:textColor="@color/deep_red"
             android:background="@null"/>
 
     </RelativeLayout>
