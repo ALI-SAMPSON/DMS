@@ -8,7 +8,7 @@ public class ReceivedDocuments {
     private String Comment;
     private String Tag;
     private String DocumentUrl;
-    private String Distributor;
+    private String Distributee;
     private String Sender;
     // help to search in lower and upper case
     private String search;
@@ -18,12 +18,12 @@ public class ReceivedDocuments {
     }
 
     public ReceivedDocuments(String title, String comment, String tag,
-                             String documentUrl, String distributor, String sender, String search) {
+                             String documentUrl, String distributee, String sender, String search) {
         this.Title = title;
         this.Comment = comment;
         this.Tag = tag;
         this.DocumentUrl = documentUrl;
-        this.Distributor = distributor;
+        this.Distributee = distributee;
         this.Sender = sender;
         this.search = search;
     }
@@ -61,8 +61,12 @@ public class ReceivedDocuments {
         DocumentUrl = documentUrl;
     }
 
-    public String getDistributor() {
-        return Distributor;
+    public String getDistributee() {
+        return Distributee;
+    }
+
+    public void setDistributee(String distributee) {
+        Distributee = distributee;
     }
 
     public String getSender() {
@@ -71,10 +75,6 @@ public class ReceivedDocuments {
 
     public void setSender(String sender) {
         Sender = sender;
-    }
-
-    public void setDistributor(String distributor) {
-        Distributor = distributor;
     }
 
     public String getSearch() {

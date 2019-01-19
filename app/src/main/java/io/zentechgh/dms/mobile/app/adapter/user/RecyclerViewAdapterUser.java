@@ -86,7 +86,7 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
         final String documentTag = preferences.getString("document_tag","");
         final String documentComment = preferences.getString("document_comment","");
         final String documentSearch = preferences.getString("document_search","");
-        final String distributor = preferences.getString("document_distributee","");
+        final String distributee = preferences.getString("document_distributee","");
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +106,7 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
                         viewHolder.sentDocuments.setTag(documentTag);
                         viewHolder.sentDocuments.setComment(documentComment);
                         viewHolder.sentDocuments.setSearch(documentSearch);
-                        viewHolder.sentDocuments.setDistributor(distributor);
+                        viewHolder.sentDocuments.setDistributee(distributee);
 
                         // assigns document to currentUser (to help trace documents later)  and to the corresponding user
                         viewHolder.sendDocRef.child(viewHolder.currentUser.getUid()).push().setValue(viewHolder.sentDocuments)
@@ -115,16 +115,14 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
 
-                                            viewHolder.receivedDocuments.setSender(distributor);
-
                                             // setting fields for Model ReceivedDocuments
                                             viewHolder.receivedDocuments.setDocumentUrl(documentImage);
                                             viewHolder.receivedDocuments.setTitle(documentTitle);
                                             viewHolder.receivedDocuments.setTag(documentTag);
                                             viewHolder.receivedDocuments.setComment(documentComment);
-                                            viewHolder.receivedDocuments.setDistributor(distributor);
+                                            viewHolder.receivedDocuments.setDistributee(distributee);
                                             viewHolder.receivedDocuments.setSender(viewHolder.currentUser.getDisplayName());
-                                            viewHolder.receivedDocuments.setSearch(distributor);
+                                            viewHolder.receivedDocuments.setSearch(documentSearch);
 
                                             viewHolder.receivedDocRef.child(user.getUid()).push().setValue(viewHolder.receivedDocRef)
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {

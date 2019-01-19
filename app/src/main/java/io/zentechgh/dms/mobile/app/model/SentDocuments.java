@@ -63,7 +63,7 @@ public class SentDocuments {
         return Distributee;
     }
 
-    public void setDistributor(String distributee) {
+    public void setDistributee(String distributee) {
         Distributee = distributee;
     }
 
