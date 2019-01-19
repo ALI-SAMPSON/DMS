@@ -91,6 +91,8 @@
 
     <string name="message_document_assigned" translatable="false">document assigned successfully</string>
 
+    <string name="text_sender" translatable="false">Sender</string>
+
     <string name="text_adding_document" translatable="false">Adding Document</string>
     <string name="text_please_wait" translatable="false">please wait...</string>
 
