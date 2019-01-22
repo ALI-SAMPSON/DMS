@@ -111,13 +111,20 @@ public class HomeActivity extends AppCompatActivity
         // method call to change progressDialog style according to build version
         changeProgressDialogStyle();
 
-        // load first fragment(in this case addDocumentFragment)
-        /*getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container,new AddDocumentFragment()).commit();
-                */
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser() != null){
+
+            // load first fragment(in this case addDocumentFragment)
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container,new AddDocumentFragment()).commit();
+
+        }
+    }
 
     // load user image into image View
     private void loadUserProfile(){

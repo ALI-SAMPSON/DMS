@@ -24,10 +24,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.fragment.admin.AddUsersFragment;
 import io.zentechgh.dms.mobile.app.fragment.admin.ArchiveDocumentsFragment;
 import io.zentechgh.dms.mobile.app.fragment.admin.ManageUsersFragment;
+import io.zentechgh.dms.mobile.app.fragment.user.AddDocumentFragment;
+import io.zentechgh.dms.mobile.app.model.Admin;
+import io.zentechgh.dms.mobile.app.prefs.SavedSharePreference;
 import io.zentechgh.dms.mobile.app.ui.SignInActivity;
 import maes.tech.intentanim.CustomIntent;
 
@@ -39,6 +49,8 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
 
     TextView tv_welcome_title;
 
+    TextView username;
+
     DrawerLayout drawer;
 
     NavigationView nav_view;
@@ -46,6 +58,12 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
     ActionBarDrawerToggle toggle;
 
     ProgressDialog progressDialog;
+
+    Admin admin;
+
+    DatabaseReference adminRef;
+
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +81,11 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
         drawer =  findViewById(R.id.drawer_layout);
 
         nav_view = findViewById(R.id.nav_view);
+
+        // setting on item selected listener on navigation view
         nav_view.setNavigationItemSelectedListener(this);
+
+        username = nav_view.getHeaderView(0).findViewById(R.id.tv_username);
 
         toggle = new ActionBarDrawerToggle(this,drawer,
                 toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -71,22 +93,74 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
         // take care of the rotation of the navigation icon
         toggle.syncState();
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // instance of the Admin class
+        admin = new Admin();
+
+        adminRef  = FirebaseDatabase.getInstance().getReference("Admin");
 
         // sets visibility to visible
         tv_welcome_title.setVisibility(View.VISIBLE);
 
-        /*if(savedInstanceState == null){
-            // starting AddUsers Fragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new AddUsersFragment()).commit();
-            nav_view.setCheckedItem(R.id.menu_add);
-        }
-        */
+        // instance of the firebase Auth class
+        mAuth = FirebaseAuth.getInstance();
+
+        // method call to load admin details
+        loadAdminDetails();
 
         // method call to change progressDialog style according to build version
         changeProgressDialogStyle();
 
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // checks if there is any currently logged in admin
+        if(SavedSharePreference.getEmail(AdminHomeActivity.this).length() != 0){
+
+            // sets visibility to visible
+            tv_welcome_title.setVisibility(View.GONE);
+
+            // load first fragment(in this case addDocumentFragment)
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container,new AddUsersFragment()).commit();
+
+            // sets the first fragment as checked
+            nav_view.getMenu().getItem(0).setCheckable(true);
+
+        }
+
+    }
+
+
+    // method to load admin details esp. username from database
+    private void loadAdminDetails(){
+
+        adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                    Admin admin = snapshot.getValue(Admin.class);
+
+                    assert admin != null;
+
+                    username.setText(admin.getUsername());
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // display message if exception occurs
+                Toast.makeText(AdminHomeActivity.this, databaseError.getMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
     @Override
@@ -100,8 +174,8 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
                 tv_welcome_title.setVisibility(View.GONE);
 
                 // starting AddUsers Fragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new AddUsersFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new AddUsersFragment()).commit();
 
                 break;
 
@@ -228,6 +302,9 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
 
                         // log admin out of the system and clear all stored data
                         clearEmail(AdminHomeActivity.this);
+
+                        // sign out any FirebaseAuth instance
+                        mAuth.signOut();
 
                         // send admin to login activity
                         startActivity(new Intent(AdminHomeActivity.this, SignInActivity.class));

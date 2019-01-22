@@ -84,10 +84,10 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
         final Documents documents = documentsList.get(position);
 
         // getting text from the database and setting them to respective views
-        viewHolder.document_title.setText(documents.getTitle());
-        viewHolder.document_tag.setText(documents.getTag());
-        viewHolder.document_comment.setText(documents.getComment());
-        viewHolder.document_distributee.setText(documents.getDistributee());
+        viewHolder.document_title.setText("Title : " + documents.getTitle());
+        viewHolder.document_tag.setText("Tag : " + documents.getTag());
+        viewHolder.document_comment.setText("Comment : " + documents.getComment());
+        viewHolder.document_distributee.setText("Distributee : " + documents.getDistributee());
 
         // checking if the document is not equal to null
         if(documents.getDocumentUrl() == null){
@@ -97,6 +97,25 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
         else{
             Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.document_image);
         }
+
+
+        // onclick listener for imageView
+        viewHolder.document_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // passes image url of document to activity
+                Intent intent = new Intent(mCtx, ViewDocumentAdminActivity.class);
+                intent.putExtra("document_url",documents.getDocumentUrl());
+                intent.putExtra("document_title",documents.getTitle());
+                intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_comment",documents.getComment());
+                intent.putExtra("document_distributee",documents.getDistributee());
+                mCtx.startActivity(intent);
+
+
+            }
+        });
 
         // onclick listener for button to view document
         viewHolder.button_view.setOnClickListener(new View.OnClickListener() {

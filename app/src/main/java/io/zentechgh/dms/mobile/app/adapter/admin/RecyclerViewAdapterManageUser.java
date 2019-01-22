@@ -115,7 +115,7 @@ public class RecyclerViewAdapterManageUser extends RecyclerView.Adapter<Recycler
                         // reference to the EditText in the layout file (custom_dialog)
                         final EditText editTextPassword = dialogView.findViewById(R.id.editTextPassword);
 
-                        dialogBuilder.setTitle("Delete Document?");
+                        dialogBuilder.setTitle("Remove User Account?");
                         dialogBuilder.setMessage("Please enter your password");
                         dialogBuilder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
                             @Override

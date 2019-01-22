@@ -23,7 +23,7 @@
         <!--<item name="android:textColor">@color/dark</item>-->
         <item name="android:windowFullscreen">true</item>
         <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/darker_gray</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>

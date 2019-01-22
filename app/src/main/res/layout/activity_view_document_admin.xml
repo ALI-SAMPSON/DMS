@@ -5,13 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@color/light_gray"
     tools:context=".ui.admin.ViewDocumentAdminActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        android:translationZ="0.1dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -19,14 +21,15 @@
             android:layout_height="?attr/actionBarSize"
             android:gravity="center"
             app:titleTextColor="@color/colorWhite"
-            app:theme="@style/NoActionBar"
+            android:background="@color/light_gray"
+            android:theme="@style/NoActionBarFullScreen"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/view_document"
+                android:text="@string/document_viewer"
                 android:fontFamily="@font/lato"
                 android:textSize="16sp"
                 android:textColor="@color/colorWhite"
@@ -36,46 +39,64 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/layout_border_admin"
-        android:layout_margin="40dp"
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
+        android:textSize="16sp"
+        android:layout_margin="10dp"
+        android:text="@string/hint_title"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@drawable/layout_border_admin"
-            android:layout_margin="40dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+    <TextView
+        android:id="@+id/tv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
+        android:textSize="16sp"
+        android:layout_margin="10dp"
+        android:text="@string/text_tag"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
+        android:textSize="16sp"
+        android:layout_margin="10dp"
+        android:text="@string/text_comment"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tv_tag"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
-            <ImageView
-                android:id="@+id/document_file"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="0.5dp"
-                android:scaleType="fitXY"
-                android:background="@drawable/layout_border_admin"
-                app:layout_constraintTop_toBottomOf="@id/tv_comment"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:contentDescription="@string/todo" />
+    <ImageView
+        android:id="@+id/document_file"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_margin="0.5dp"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/todo" />
 
-        </LinearLayout>
-
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:visibility="gone"
-            android:layout_centerInParent="true"/>
-
-    </RelativeLayout>
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        style="?android:progressBarStyle"
+        android:layout_margin="5dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

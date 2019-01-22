@@ -259,22 +259,32 @@ public class AddUsersFragment extends Fragment implements View.OnClickListener{
 
                             }
                             else {
+
                                 // display a error message
                                 Snackbar.make(constraintLayout,task.getException().getMessage(),Snackbar.LENGTH_LONG).show();
                             }
+
+                            // sign out user
+                            mAuth.signOut();
 
                         }
                     });
 
                 }
                 else{
+
                     // display a error message
                     Snackbar.make(constraintLayout,task.getException().getMessage(),Snackbar.LENGTH_LONG).show();
                 }
 
+                // sign out user
+                mAuth.signOut();
+
                 // dismiss progressBar
                 progressBar.setVisibility(View.GONE);
+
             }
+
         });
 
     }

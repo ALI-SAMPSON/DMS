@@ -49,7 +49,8 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar_title =  findViewById(R.id.toolbar_title);
         toolbar.setTitle("");
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,13 +96,6 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
 
                     // loads documentUrl into imageView
                     Glide.with(ViewDocumentUserActivity.this).load(documentUrl).into(document);
-
-                    // setting text to the textViews
-                    title.setText(" Title : " + documentTitle);
-
-                    tag.setText(" Tag : " + documentTag);
-
-                    comment.setText(" Comment : " + documentComment);
 
 
                 }
