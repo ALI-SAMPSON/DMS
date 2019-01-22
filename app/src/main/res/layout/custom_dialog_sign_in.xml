@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white_snow"
+    android:layout_margin="10dp"
+    android:elevation="0dp">
+
+        <Button
+            android:id="@+id/admin_login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato"
+            android:text="@string/text_sign_in_admin"
+            android:textColor="@color/light_red"
+            android:layout_margin="0dp"
+            android:background="@null"
+            android:layout_gravity="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Button
+            android:id="@+id/user_login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato"
+            android:text="@string/text_sign_in_user"
+            android:textColor="@color/light_red"
+            android:layout_margin="0dp"
+            android:background="@null"
+            android:gravity="center"
+            android:layout_gravity="end"
+            app:layout_constraintTop_toBottomOf="@+id/admin_login_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</android.support.constraint.ConstraintLayout>

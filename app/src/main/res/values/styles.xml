@@ -47,4 +47,8 @@
         <item name="android:tint">@color/colorWhite</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/light_green</item>
+    </style>
+
 </resources>

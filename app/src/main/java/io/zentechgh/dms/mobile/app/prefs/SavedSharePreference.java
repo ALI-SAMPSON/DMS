@@ -17,7 +17,7 @@ public class SavedSharePreference {
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_UID, uid);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getUid(Context ctx)
@@ -29,7 +29,7 @@ public class SavedSharePreference {
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_EMAIL, email);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getEmail(Context ctx)

@@ -230,13 +230,12 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
                         clearEmail(AdminHomeActivity.this);
 
                         // send admin to login activity
-                        Intent intentSignout = new Intent(AdminHomeActivity.this, SignInActivity.class);
+                        startActivity(new Intent(AdminHomeActivity.this, SignInActivity.class));
 
-                        // add flags
-                        intentSignout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
+                        // adds an intent transition
                         CustomIntent.customType(AdminHomeActivity.this, "fadein-to-fadeout");
 
+                        // finish activity
                         finish();
 
                     }

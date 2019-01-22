@@ -107,7 +107,7 @@ public class RecyclerViewAdapterManageUser extends RecyclerView.Adapter<Recycler
                     public void onClick(DialogInterface dialog, int which) {
 
 
-                        final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(mCtx);
+                        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mCtx);
                         LayoutInflater inflater = LayoutInflater.from(mCtx);
                         final View dialogView  = inflater.inflate(R.layout.custom_dialog_confirm_password,null);
                         dialogBuilder.setView(dialogView);
@@ -209,7 +209,7 @@ public class RecyclerViewAdapterManageUser extends RecyclerView.Adapter<Recycler
                             }
                         });
 
-                        android.support.v7.app.AlertDialog alert = dialogBuilder.create();
+                        AlertDialog alert = dialogBuilder.create();
                         alert.show();
 
 

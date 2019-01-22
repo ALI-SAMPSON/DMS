@@ -1,9 +1,11 @@
 package io.zentechgh.dms.mobile.app.ui.user;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
@@ -63,6 +65,8 @@ public class HomeActivity extends AppCompatActivity
 
     ProgressBar progressBar;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +107,9 @@ public class HomeActivity extends AppCompatActivity
 
         // method call to load user info
         loadUserProfile();
+
+        // method call to change progressDialog style according to build version
+        changeProgressDialogStyle();
 
         // load first fragment(in this case addDocumentFragment)
         /*getSupportFragmentManager().beginTransaction()
@@ -225,14 +232,15 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 // show dialog
-                progressBar.setVisibility(View.VISIBLE);
+                progressDialog.show();
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
                         // dismiss dialog
-                        progressBar.setVisibility(View.GONE);
+                        progressDialog.dismiss();
 
                         // do something
                         mAuth.signOut();
@@ -261,6 +269,28 @@ public class HomeActivity extends AppCompatActivity
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+    }
+
+    // method to change ProgressDialog style based on the android version of user's phone
+    private void changeProgressDialogStyle(){
+
+        // if the build sdk version >= android 5.0
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            //sets the background color according to android version
+            progressDialog = new ProgressDialog(this, ProgressDialog.THEME_HOLO_DARK);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setTitle("");
+            progressDialog.setMessage("signing out...");
+        }
+        //else do this
+        else{
+            //sets the background color according to android version
+            progressDialog = new ProgressDialog(this, ProgressDialog.THEME_HOLO_LIGHT);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setTitle("");
+            progressDialog.setMessage("signing out...");
+        }
 
     }
 
