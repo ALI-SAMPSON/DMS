@@ -14,7 +14,7 @@ import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.ViewPagerAdapter;
 import io.zentechgh.dms.mobile.app.fragment.UserSignInFragment;
 import io.zentechgh.dms.mobile.app.fragment.UserSignUpFragment;
-import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
 
 public class SignInSignUpActivity extends AppCompatActivity {
 
@@ -65,7 +65,7 @@ public class SignInSignUpActivity extends AppCompatActivity {
         super.onStart();
         if(mAuth.getCurrentUser() != null){
             // starts home activity
-            Intent intent = new Intent(SignInSignUpActivity.this,HomeActivity.class);
+            Intent intent = new Intent(SignInSignUpActivity.this,UserHomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             // finish activity

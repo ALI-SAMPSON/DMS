@@ -1,6 +1,5 @@
 package io.zentechgh.dms.mobile.app.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -43,7 +42,7 @@ import io.zentechgh.dms.mobile.app.model.Admin;
 import io.zentechgh.dms.mobile.app.model.Users;
 import io.zentechgh.dms.mobile.app.prefs.SavedSharePreference;
 import io.zentechgh.dms.mobile.app.ui.admin.AdminHomeActivity;
-import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
 import maes.tech.intentanim.CustomIntent;
 
 import static android.view.View.GONE;
@@ -107,7 +106,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         // checks if there is any currently logged in user
         if(mAuth.getCurrentUser() != null){
             // start the home activity
-            startActivity(new Intent(SignInActivity.this,HomeActivity.class));
+            startActivity(new Intent(SignInActivity.this,UserHomeActivity.class));
 
             // Add a custom animation ot the activity
             CustomIntent.customType(SignInActivity.this,"fadein-to-fadeout");
@@ -118,7 +117,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         // checks if there is any currently logged in admin
         if(SavedSharePreference.getEmail(SignInActivity.this).length() != 0){
-            // starts the HomeActivity
+            // starts the UserHomeActivity
             startActivity(new Intent(SignInActivity.this,AdminHomeActivity.class));
             // Adds a fadein-fadeout animations to the activity
             CustomIntent.customType(SignInActivity.this,"fadein-to-fadeout");
@@ -267,7 +266,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             Toast.makeText(SignInActivity.this,getString(R.string.sign_in_successful),Toast.LENGTH_SHORT).show();
 
                             // start the home activity
-                            startActivity(new Intent(SignInActivity.this,HomeActivity.class));
+                            startActivity(new Intent(SignInActivity.this,UserHomeActivity.class));
 
                             // Add a custom animation ot the activity
                             CustomIntent.customType(SignInActivity.this,"fadein-to-fadeout");
@@ -423,7 +422,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(SignInActivity.this,getString(R.string.sign_in_successful),Toast.LENGTH_SHORT).show();
 
             // start the home activity
-            startActivity(new Intent(SignInActivity.this,HomeActivity.class));
+            startActivity(new Intent(SignInActivity.this,UserHomeActivity.class));
 
             // Add a custom animation ot the activity
             CustomIntent.customType(SignInActivity.this,"fadein-to-fadeout");

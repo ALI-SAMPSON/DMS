@@ -45,7 +45,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Users;
-import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
 import io.zentechgh.dms.mobile.app.ui.user.ReceivedDocumentActivity;
 import io.zentechgh.dms.mobile.app.ui.user.SentDocumentActivity;
 import maes.tech.intentanim.CustomIntent;
@@ -81,12 +81,13 @@ public class MeFragment extends Fragment implements
 
     ProgressBar progressBar;
 
-    HomeActivity applicationContext;
+    UserHomeActivity applicationContext;
 
+    // context creation
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        applicationContext = (HomeActivity) context;
+        applicationContext = (UserHomeActivity) context;
     }
 
     public MeFragment() {
@@ -343,7 +344,7 @@ public class MeFragment extends Fragment implements
                     profile_image.setImageResource(R.drawable.profile_icon);
                 }
 
-                tv_type.setText("Type : " + user.getUserType());
+                tv_type.setText(" Type : " + user.getUserType());
 
 
             }

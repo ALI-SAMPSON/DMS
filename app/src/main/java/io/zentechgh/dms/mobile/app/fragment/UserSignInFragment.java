@@ -29,7 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Users;
-import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
 import io.zentechgh.dms.mobile.app.ui.SignInSignUpActivity;
 import maes.tech.intentanim.CustomIntent;
 
@@ -181,7 +181,7 @@ public class UserSignInFragment extends Fragment  implements View.OnClickListene
             Toast.makeText(applicationContext,getString(R.string.sign_in_successful),Toast.LENGTH_SHORT).show();
 
             // start the home activity
-            startActivity(new Intent(getActivity(),HomeActivity.class));
+            startActivity(new Intent(getActivity(),UserHomeActivity.class));
 
             // Add a custom animation ot the activity
             CustomIntent.customType(applicationContext,"fadein-to-fadeout");

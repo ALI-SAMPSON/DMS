@@ -87,7 +87,7 @@
             android:elevation="5dp"
             android:layout_margin="@dimen/fab_margin_normal"
             android:src="@drawable/ic_users"
-            app:backgroundTint="@color/deep_red"
+            app:backgroundTint="@color/icon_color"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"/>
 

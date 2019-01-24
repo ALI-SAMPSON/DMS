@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +45,7 @@ import static android.view.View.GONE;
 public class ReceivedDocumentActivity extends AppCompatActivity{
 
     // global variables
-    ConstraintLayout constraintLayout;
+    RelativeLayout relativeLayout;
 
     Toolbar toolbar;
 
@@ -73,7 +74,7 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_received_document);
 
-        constraintLayout = findViewById(R.id.constraintLayout);
+        relativeLayout = findViewById(R.id.relativeLayout);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -105,6 +106,8 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
 
         dBRef = FirebaseDatabase.getInstance().getReference("ReceivedDocuments")
                 .child(currentUser.getUid());
+
+        recyclerView.setAdapter(adapterReceived);
 
         // method call
         displayDocuments();
@@ -143,6 +146,8 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
                         // displays the recyclerView
                         recyclerView.setVisibility(View.VISIBLE);
 
+                        received_documents.setKey(snapshot.getKey());
+
                         // adds to list
                         documentsList.add(received_documents);
 
@@ -164,7 +169,7 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
                 progressBar.setVisibility(View.GONE);
 
                 // display Error message
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -191,12 +196,19 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
                 else{
                     searchDocument("");
                 }
-                return false;
+                return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onQueryTextChange(String title) {
+                if(!title.isEmpty()){
+                    // method search to search for document by title
+                    searchDocument(title.toLowerCase());
+                }
+                else{
+                    searchDocument("");
+                }
+                return true;
             }
         });
 
@@ -245,7 +257,7 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // display Error message
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });
 

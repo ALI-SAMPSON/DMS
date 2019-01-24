@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.user.HomeActivity"
+            android:name=".ui.user.UserHomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />

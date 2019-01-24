@@ -96,7 +96,7 @@
                     android:textSize="16sp"
                     android:gravity="center"
                     android:text="@string/role"
-                    android:textColor="@color/deep_red"/>
+                    android:textColor="@color/light_green"/>
 
             </LinearLayout>
 
@@ -130,7 +130,7 @@
                     android:textSize="18sp"
                     android:layout_centerHorizontal="true"
                     android:text="@string/sent_documents"
-                    android:textColor="@color/deep_red"/>
+                    android:textColor="@color/materialDarkYellow"/>
 
             </RelativeLayout>
 
@@ -164,7 +164,7 @@
                     android:textSize="18sp"
                     android:layout_centerHorizontal="true"
                     android:text="@string/received_documents"
-                    android:textColor="@color/deep_red"/>
+                    android:textColor="@color/skyblue"/>
 
             </RelativeLayout>
 

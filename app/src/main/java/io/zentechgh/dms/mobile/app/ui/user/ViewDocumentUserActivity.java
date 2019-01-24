@@ -33,7 +33,7 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     // variables to getStringExtra(strings passed from recyclerViewManage)
-    String documentUrl,documentTitle,documentTag, documentComment, documentDistributee;
+    String documentUrl,documentTitle,documentTag, documentComment, documentDistributee, documentSender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
         documentTag = getIntent().getStringExtra("document_tag");
         documentComment = getIntent().getStringExtra("document_comment");
         documentDistributee = getIntent().getStringExtra("document_distributee");
+        documentSender = getIntent().getStringExtra("document_sender");
 
         // method call to display document details
         displayDocumentDetails();

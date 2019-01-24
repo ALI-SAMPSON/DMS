@@ -38,7 +38,7 @@ public class ManageUsersFragment extends Fragment {
 
     View view;
 
-    // for snackbar
+    // for snack bar
     ConstraintLayout constraintLayout;
 
     LinearLayout search_layout;

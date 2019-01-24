@@ -2,14 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- menu item for sign out -->
-    <item
-        android:id="@+id/menu_sign_out"
-        android:title="@string/text_sign_out"
-        android:orderInCategory="100"
-        app:showAsAction="never">
-    </item>
-
     <!-- menu item for search -->
     <item
         android:id="@+id/menu_search"

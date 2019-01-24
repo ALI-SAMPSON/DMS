@@ -44,7 +44,7 @@ import static android.view.View.GONE;
 public class SentDocumentActivity extends AppCompatActivity{
 
     // global variables
-    ConstraintLayout constraintLayout;
+    RelativeLayout relativeLayout;
 
     Toolbar toolbar;
 
@@ -55,8 +55,6 @@ public class SentDocumentActivity extends AppCompatActivity{
     TextView tv_no_search_result;
 
     MaterialSearchView searchView;
-
-    SentDocuments sentDocuments;
 
     List<SentDocuments> documentsList;
 
@@ -75,7 +73,7 @@ public class SentDocumentActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_sent_document);
 
-        constraintLayout = findViewById(R.id.constraintLayout);
+        relativeLayout = findViewById(R.id.relativeLayout);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -105,9 +103,10 @@ public class SentDocumentActivity extends AppCompatActivity{
 
         adapterSent = new RecyclerViewAdapterSent(this, documentsList);
 
-        sentDocuments = new SentDocuments();
+        dBRef = FirebaseDatabase.getInstance().getReference("SentDocuments")
+                .child(currentUser.getUid());
 
-        dBRef = FirebaseDatabase.getInstance().getReference("SentDocuments").child(currentUser.getUid());
+        recyclerView.setAdapter(adapterSent);
 
         // method call
         displayDocuments();
@@ -147,7 +146,7 @@ public class SentDocumentActivity extends AppCompatActivity{
                         recyclerView.setVisibility(View.VISIBLE);
 
                         // getting snapshot of each element
-                        sentDocuments.setKey(snapshot.getKey());
+                        sent_documents.setKey(snapshot.getKey());
 
                         // adds documents to list
                         documentsList.add(sent_documents);
@@ -170,7 +169,7 @@ public class SentDocumentActivity extends AppCompatActivity{
                 progressBar.setVisibility(View.GONE);
 
                 // display Error message
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -201,7 +200,14 @@ public class SentDocumentActivity extends AppCompatActivity{
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String title) {
+                if(!title.isEmpty()){
+                    // method search to search for document by title
+                    searchDocument(title.toLowerCase());
+                }
+                else{
+                    searchDocument("");
+                }
                 return true;
             }
         });
@@ -232,6 +238,7 @@ public class SentDocumentActivity extends AppCompatActivity{
                     // clear list
                     documentsList.clear();
                     for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+
                         SentDocuments sent_documents = snapshot.getValue(SentDocuments.class);
 
                         // displays the recycler view
@@ -252,7 +259,7 @@ public class SentDocumentActivity extends AppCompatActivity{
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // display Error message
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });
 

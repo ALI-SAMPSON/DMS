@@ -46,13 +46,12 @@ import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.model.Users;
-import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -111,7 +110,7 @@ public class AddDocumentFragment extends Fragment implements
     private AppCompatSpinner spinnerTag;
     private ArrayAdapter<CharSequence> arrayAdapter;
 
-    HomeActivity applicationContext;
+    UserHomeActivity applicationContext;
 
     public AddDocumentFragment() {
         // Required empty public constructor
@@ -120,7 +119,7 @@ public class AddDocumentFragment extends Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        applicationContext = (HomeActivity) context;
+        applicationContext = (UserHomeActivity) context;
     }
 
     @Override

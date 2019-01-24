@@ -36,8 +36,7 @@ import java.util.List;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.user.RecyclerViewAdapterAssign;
 import io.zentechgh.dms.mobile.app.model.Documents;
-import io.zentechgh.dms.mobile.app.ui.user.AssignDocumentToUserActivity;
-import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
 import io.zentechgh.dms.mobile.app.ui.user.UsersActivity;
 
 import static android.view.View.GONE;
@@ -78,7 +77,7 @@ public class AssignDocumentFragment extends Fragment {
 
     ProgressBar progressBar;
 
-    HomeActivity applicationContext;
+    UserHomeActivity applicationContext;
 
 
     public AssignDocumentFragment() {
@@ -88,7 +87,7 @@ public class AssignDocumentFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        applicationContext = (HomeActivity)context;
+        applicationContext = (UserHomeActivity)context;
     }
 
     @Override

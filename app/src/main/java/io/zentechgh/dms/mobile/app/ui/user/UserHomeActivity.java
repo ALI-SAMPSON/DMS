@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -30,7 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.zentechgh.dms.mobile.app.R;
@@ -44,7 +42,7 @@ import io.zentechgh.dms.mobile.app.ui.SignInActivity;
 import maes.tech.intentanim.CustomIntent;
 
 @SuppressWarnings("ALL")
-public class HomeActivity extends AppCompatActivity
+public class UserHomeActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     // Global views declaration
@@ -67,10 +65,12 @@ public class HomeActivity extends AppCompatActivity
 
     ProgressDialog progressDialog;
 
+    AlertDialog.Builder builder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_user_home);
 
         toolbar =  findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -126,12 +126,12 @@ public class HomeActivity extends AppCompatActivity
                 if(user.getImageUrl() == null){
 
                     // loads default icon if user imageUrl is null
-                    Glide.with(HomeActivity.this).load(R.drawable.profile_icon).into(profile_image);
+                    Glide.with(getApplicationContext()).load(R.drawable.profile_icon).into(profile_image);
                 }
                 else{
 
                     // loads user imageUrl into imageView if user imageUrl is not null
-                    Glide.with(HomeActivity.this).load(user.getImageUrl()).into(profile_image);
+                    Glide.with(getApplicationContext()).load(user.getImageUrl()).into(profile_image);
                 }
 
 
@@ -140,7 +140,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // display message if exception is thrown
-                Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserHomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -161,7 +161,7 @@ public class HomeActivity extends AppCompatActivity
             case R.id.menu_smile:
 
                 // display a toast with the user's name
-                Toast.makeText(HomeActivity.this, " Welcome " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserHomeActivity.this, " Welcome " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
 
                 return true;
 
@@ -216,55 +216,120 @@ public class HomeActivity extends AppCompatActivity
 
 
     // method that signs user out of the system
-    private void signOutUser(){
+    private void signOutUser() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-        builder.setTitle(getString(R.string.text_sign_out));
-        builder.setMessage(getString(R.string.sign_out_msg));
+        /* set theme style according the os version of device.
+            e.g (sets theme of alert dialog to dark for all devices
+           with os version 5.0 and above)*/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+            builder.setTitle(getString(R.string.text_sign_out));
+            builder.setMessage(getString(R.string.sign_out_msg));
 
-                // show dialog
-                progressDialog.show();
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                    // show dialog
+                    progressDialog.show();
 
-                        // dismiss dialog
-                        progressDialog.dismiss();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        // do something
-                        mAuth.signOut();
+                            // dismiss dialog
+                            progressDialog.dismiss();
 
-                        // restarts the activity
-                        startActivity(new Intent(HomeActivity.this,SignInActivity.class));
+                            // do something
+                            mAuth.signOut();
 
-                        // Add a custom animation ot the activity
-                        CustomIntent.customType(HomeActivity.this,"fadein-to-fadeout");
+                            // restarts the activity
+                            startActivity(new Intent(UserHomeActivity.this, SignInActivity.class));
 
-                        // finish the activity
-                        finish();
+                            // Add a custom animation ot the activity
+                            CustomIntent.customType(UserHomeActivity.this, "fadein-to-fadeout");
 
-                    }
-                },3000);
+                            // finish the activity
+                            finish();
 
-            }
-        });
+                        }
+                    }, 3000);
 
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
+                }
+            });
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
 
+            //creates the alert dialog
+            AlertDialog alertDialog = builder.create();
+
+            // display the alertDialog
+            alertDialog.show();
+
+        }
+         /* set theme style according the os version of device.
+          e.g (sets theme of alert dialog to dark for all devices
+          with os version 5.0 and below)*/
+        else {
+
+            builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+            builder.setTitle(getString(R.string.text_sign_out));
+            builder.setMessage(getString(R.string.sign_out_msg));
+
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    // show dialog
+                    progressDialog.show();
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            // dismiss dialog
+                            progressDialog.dismiss();
+
+                            // do something
+                            mAuth.signOut();
+
+                            // restarts the activity
+                            startActivity(new Intent(UserHomeActivity.this, SignInActivity.class));
+
+                            // Add a custom animation ot the activity
+                            CustomIntent.customType(UserHomeActivity.this, "fadein-to-fadeout");
+
+                            // finish the activity
+                            finish();
+
+                        }
+                    }, 3000);
+
+                }
+            });
+
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            //creates the alert dialog
+            AlertDialog alertDialog = builder.create();
+
+            // display the alertDialog
+            alertDialog.show();
+
+        }
     }
 
     // method to change ProgressDialog style based on the android version of user's phone

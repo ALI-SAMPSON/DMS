@@ -85,10 +85,11 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                 Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // passing strings
-                intent.putExtra("file",documents.getDocumentUrl());
-                intent.putExtra("title",documents.getTitle());
-                intent.putExtra("tag",documents.getTag());
-                intent.putExtra("comment", documents.getComment());
+                intent.putExtra("document_url",documents.getDocumentUrl());
+                intent.putExtra("document_title",documents.getTitle());
+                intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_comment", documents.getComment());
+                intent.putExtra("document_distributee", documents.getDistributee());
                 mCtx.startActivity(intent);
 
                 // adding an intent transition from left-to-right
@@ -106,10 +107,11 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                 Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // passing strings
-                intent.putExtra("file",documents.getDocumentUrl());
-                intent.putExtra("title",documents.getTitle());
-                intent.putExtra("tag",documents.getTag());
-                intent.putExtra("comment", documents.getComment());
+                intent.putExtra("document_url",documents.getDocumentUrl());
+                intent.putExtra("document_title",documents.getTitle());
+                intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_comment", documents.getComment());
+                intent.putExtra("document_distributee", documents.getDistributee());
                 mCtx.startActivity(intent);
 
                 // adding an intent transition from left-to-right
@@ -118,13 +120,6 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             }
         });
 
-        // set OnClick Listener for each item in cardview(document)
-        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // do something
-            }
-        });
 
     }
 

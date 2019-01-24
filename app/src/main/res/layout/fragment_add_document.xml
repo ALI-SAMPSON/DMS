@@ -223,7 +223,7 @@
         android:elevation="5dp"
         android:src="@drawable/ic_scan"
         android:visibility="invisible"
-        app:backgroundTint="@color/materialYellow"
+        app:backgroundTint="@color/materialDarkYellow"
         app:layout_constraintBottom_toTopOf="@+id/fab_main"
         app:layout_constraintEnd_toEndOf="@+id/scannedImageView"
         app:layout_constraintStart_toStartOf="@+id/scannedImageView"/>
@@ -236,7 +236,7 @@
         android:elevation="5dp"
         android:layout_margin="@dimen/fab_margin_normal"
         android:src="@drawable/ic_add_white"
-        app:backgroundTint="@color/deep_red"
+        app:backgroundTint="@color/icon_color"
         app:layout_constraintBottom_toBottomOf="@+id/scannedImageView"
         app:layout_constraintTop_toBottomOf="@+id/scannedImageView"
         app:layout_constraintEnd_toEndOf="@+id/scannedImageView"

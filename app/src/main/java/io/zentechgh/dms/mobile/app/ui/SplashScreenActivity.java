@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.prefs.SavedSharePreference;
 import io.zentechgh.dms.mobile.app.ui.admin.AdminHomeActivity;
-import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
 import maes.tech.intentanim.CustomIntent;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -54,7 +54,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         else if(mAuth.getCurrentUser() != null){
             // start the activity
-            startActivity(new Intent(SplashScreenActivity.this,HomeActivity.class));
+            startActivity(new Intent(SplashScreenActivity.this,UserHomeActivity.class));
 
             // Add a custom animation ot the activity
             CustomIntent.customType(SplashScreenActivity.this,"fadein-to-fadeout");

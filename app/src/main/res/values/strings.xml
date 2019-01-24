@@ -79,6 +79,9 @@
         Deleting this account will result in completely removing user account from the system
         and user wont be able to access the app
     </string>
+    <string name="message_confirm_delete" translatable="false">
+        Are you sure you want to delete this document?
+    </string>
     <string name="hint_enter_current_password">Enter your current password</string>
     <string name="text_add_image">Please add an image of the document to proceed!</string>
     <string name="title_smile" translatable="false">Smile</string>
