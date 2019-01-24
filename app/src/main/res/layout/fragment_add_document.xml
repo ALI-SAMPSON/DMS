@@ -235,7 +235,7 @@
         android:layout_height="wrap_content"
         android:elevation="5dp"
         android:layout_margin="@dimen/fab_margin_normal"
-        android:src="@drawable/ic_add_document"
+        android:src="@drawable/ic_add_white"
         app:backgroundTint="@color/deep_red"
         app:layout_constraintBottom_toBottomOf="@+id/scannedImageView"
         app:layout_constraintTop_toBottomOf="@+id/scannedImageView"
@@ -243,7 +243,6 @@
         app:layout_constraintStart_toStartOf="@+id/scannedImageView"/>
 
 </android.support.constraint.ConstraintLayout>
-
 
 </ScrollView>
 

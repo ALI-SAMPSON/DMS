@@ -83,7 +83,7 @@ public class ViewDocumentAdminActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
 
                     // loads documentUrl into imageView
-                    Glide.with(ViewDocumentAdminActivity.this).load(documentUrl).into(document_image);
+                    Glide.with(getApplicationContext()).load(documentUrl).into(document_image);
 
 
                 }

@@ -34,7 +34,7 @@ import io.zentechgh.dms.mobile.app.model.Users;
 
 import static android.view.View.GONE;
 
-public class AssignDocumentToUserActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity {
 
     // global variables
     RelativeLayout relativeLayout;
@@ -55,7 +55,6 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
 
     List<Users> usersList;
 
-    TextView document_title;
 
     ProgressBar progressBar;
 
@@ -68,7 +67,7 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_assign_document_to_user);
+        setContentView(R.layout.activity_users);
 
         relativeLayout =  findViewById(R.id.relativeLayout);
 
@@ -78,7 +77,7 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
         //toolbar_title.setText("Assign To...");
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,19 +85,10 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
             }
         });
 
-        // getting string extra
-        String documentImage = getIntent().getStringExtra("document_image");
-        String documentTitle = getIntent().getStringExtra("document_title");
-        String documentTag = getIntent().getStringExtra("document_tag");
-        String documentComment = getIntent().getStringExtra("document_comment");
-        String document_search = getIntent().getStringExtra("document_search");
-        String documentDistributee = getIntent().getStringExtra("document_distributee");
 
         mAuth = FirebaseAuth.getInstance();
 
         currentUser = mAuth.getCurrentUser();
-
-        document_title = findViewById(R.id.document_title);
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -121,7 +111,6 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
         // method call to display users in recyclerView
         displayUsers();
 
-
     }
 
     // message to read the admin from the database
@@ -140,7 +129,7 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
                     tv_no_users.setVisibility(View.VISIBLE);
 
                     // hides the recycler view
-                    recyclerView.setVisibility(GONE);
+                    recyclerView.setVisibility(View.GONE);
 
                 }
                 else{
@@ -157,7 +146,7 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
                         if(!users.getUid().equals(currentUser.getUid())){
 
                             // hides the text view
-                            tv_no_users.setVisibility(GONE);
+                            tv_no_users.setVisibility(View.GONE);
 
                             // displays the recycler view
                             recyclerView.setVisibility(View.VISIBLE);
@@ -173,7 +162,7 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
                 adapterUsers.notifyDataSetChanged();
 
                 // dismiss progressBar
-                progressBar.setVisibility(GONE);
+                progressBar.setVisibility(View.GONE);
 
             }
 
@@ -296,4 +285,5 @@ public class AssignDocumentToUserActivity extends AppCompatActivity {
         // finishes activity and does not take user to the interface until user goes back again
         finish();
     }
+
 }

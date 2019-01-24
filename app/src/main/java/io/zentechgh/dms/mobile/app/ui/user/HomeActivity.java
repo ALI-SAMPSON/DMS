@@ -114,18 +114,6 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(mAuth.getCurrentUser() != null){
-
-            // load first fragment(in this case addDocumentFragment)
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container,new AddDocumentFragment()).commit();
-
-        }
-    }
-
     // load user image into image View
     private void loadUserProfile(){
 
@@ -172,8 +160,8 @@ public class HomeActivity extends AppCompatActivity
 
             case R.id.menu_smile:
 
-                // display a toast to user
-                Toast.makeText(HomeActivity.this, "Enjoy the app with smiles", Toast.LENGTH_SHORT).show();
+                // display a toast with the user's name
+                Toast.makeText(HomeActivity.this, " Welcome " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
 
                 return true;
 

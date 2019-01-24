@@ -34,6 +34,9 @@ import java.util.List;
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.user.RecyclerViewAdapterReceived;
 import io.zentechgh.dms.mobile.app.model.ReceivedDocuments;
+import io.zentechgh.dms.mobile.app.model.SentDocuments;
+
+import static android.view.View.GONE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +51,8 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
     TextView toolbar_title;
 
     TextView tv_no_document;
+
+    TextView tv_no_search_result;
 
     MaterialSearchView searchView;
 
@@ -74,7 +79,7 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
         toolbar.setTitle("");
         toolbar_title = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +88,8 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
         });
 
         tv_no_document = findViewById(R.id.tv_no_document);
+
+        tv_no_search_result = findViewById(R.id.tv_no_search_result);
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -109,30 +116,37 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
         // display progressbar
         progressBar.setVisibility(View.VISIBLE);
 
-        dBRef.child("Documents").addValueEventListener(new ValueEventListener() {
+        dBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // clear list
-                documentsList.clear();
-
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-
-                    ReceivedDocuments received_documents = snapshot.getValue(ReceivedDocuments.class);
-
-                    // hides the textView and displays the recyclerView
-                    tv_no_document.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-
-                    // adds to list
-                    documentsList.add(received_documents);
-
-                }
-
 
                 if(!dataSnapshot.exists()){
-                    // hides the recyclerView and displays the textView
-                    recyclerView.setVisibility(View.GONE);
+
+                    // displays the textView
                     tv_no_document.setVisibility(View.VISIBLE);
+
+                    // hides the recyclerView
+                    recyclerView.setVisibility(View.GONE);
+
+                }
+                else{
+                    // clear list
+                    documentsList.clear();
+
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+
+                        ReceivedDocuments received_documents = snapshot.getValue(ReceivedDocuments.class);
+
+                        // hides the textView
+                        tv_no_document.setVisibility(View.GONE);
+
+                        // displays the recyclerView
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // adds to list
+                        documentsList.add(received_documents);
+
+                    }
                 }
 
                 // notify adapter of changes
@@ -192,21 +206,36 @@ public class ReceivedDocumentActivity extends AppCompatActivity{
 
     private void searchDocument(String title) {
 
-        Query query = dBRef.child("Documents").orderByChild("search")
+        Query query = dBRef.orderByChild("search")
                 .startAt(title)
                 .endAt(title + "\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // clear list
-                documentsList.clear();
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
 
-                    ReceivedDocuments received_documents = snapshot.getValue(ReceivedDocuments.class);
+                if(!dataSnapshot.exists()){
+                    // displays this textView to tell user that no search results found
+                    tv_no_search_result.setVisibility(View.VISIBLE);
 
-                    // adds document to list
-                    documentsList.add(received_documents);
+                    // hides the recycler view
+                    recyclerView.setVisibility(GONE);
+                }
+                else{
+                    // clear list
+                    documentsList.clear();
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+
+                        ReceivedDocuments received_documents = snapshot.getValue(ReceivedDocuments.class);
+
+                        // displays the recycler view
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // hides this textView to tell user that no search results found
+                        tv_no_search_result.setVisibility(View.GONE);
+
+                        documentsList.add(received_documents);
+                    }
                 }
 
                 // notify adapter of changes

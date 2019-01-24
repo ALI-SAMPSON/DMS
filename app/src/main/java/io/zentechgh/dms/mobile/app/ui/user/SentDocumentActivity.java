@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,8 @@ import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.user.RecyclerViewAdapterSent;
 import io.zentechgh.dms.mobile.app.model.SentDocuments;
 
+import static android.view.View.GONE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -49,7 +52,11 @@ public class SentDocumentActivity extends AppCompatActivity{
 
     TextView tv_no_document;
 
+    TextView tv_no_search_result;
+
     MaterialSearchView searchView;
+
+    SentDocuments sentDocuments;
 
     List<SentDocuments> documentsList;
 
@@ -74,7 +81,7 @@ public class SentDocumentActivity extends AppCompatActivity{
         toolbar.setTitle("");
         toolbar_title = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +90,8 @@ public class SentDocumentActivity extends AppCompatActivity{
         });
 
         tv_no_document = findViewById(R.id.tv_no_document);
+
+        tv_no_search_result = findViewById(R.id.tv_no_search_result);
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -96,8 +105,9 @@ public class SentDocumentActivity extends AppCompatActivity{
 
         adapterSent = new RecyclerViewAdapterSent(this, documentsList);
 
-        dBRef = FirebaseDatabase.getInstance().getReference("SentDocuments")
-                .child(currentUser.getUid());
+        sentDocuments = new SentDocuments();
+
+        dBRef = FirebaseDatabase.getInstance().getReference("SentDocuments").child(currentUser.getUid());
 
         // method call
         displayDocuments();
@@ -109,29 +119,40 @@ public class SentDocumentActivity extends AppCompatActivity{
         // display progressbar
         progressBar.setVisibility(View.VISIBLE);
 
-        dBRef.child("Documents").addValueEventListener(new ValueEventListener() {
+        dBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // clear list
-                documentsList.clear();
-
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    SentDocuments sent_documents = snapshot.getValue(SentDocuments.class);
-
-                    // hides the textView and displays the recyclerView
-                    tv_no_document.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-
-                    // adds to list
-                    documentsList.add(sent_documents);
-
-                }
-
 
                 if(!dataSnapshot.exists()){
-                    // hides the recyclerView and displays the textView
-                    recyclerView.setVisibility(View.GONE);
+
+                    // displays the textView
                     tv_no_document.setVisibility(View.VISIBLE);
+
+                    // hides the recyclerView
+                    recyclerView.setVisibility(View.GONE);
+
+                }
+                else{
+                    // clear list
+                    documentsList.clear();
+
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+
+                        SentDocuments sent_documents = snapshot.getValue(SentDocuments.class);
+
+                        // hides the textView
+                        tv_no_document.setVisibility(View.GONE);
+
+                        // displays the recycler view
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // getting snapshot of each element
+                        sentDocuments.setKey(snapshot.getKey());
+
+                        // adds documents to list
+                        documentsList.add(sent_documents);
+
+                    }
                 }
 
                 // notify adapter of changes
@@ -192,20 +213,37 @@ public class SentDocumentActivity extends AppCompatActivity{
 
     private void searchDocument(String title) {
 
-        Query query = dBRef.child("Documents").orderByChild("search")
+        Query query = dBRef.orderByChild("search")
                 .startAt(title)
                 .endAt(title + "\uf8ff");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // clear list
-                documentsList.clear();
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    SentDocuments sent_documents = snapshot.getValue(SentDocuments.class);
 
-                    documentsList.add(sent_documents);
+                if(!dataSnapshot.exists()){
+                    // displays this textView to tell user that no search results found
+                    tv_no_search_result.setVisibility(View.VISIBLE);
+
+                    // hides the recycler view
+                    recyclerView.setVisibility(GONE);
                 }
+                else{
+                    // clear list
+                    documentsList.clear();
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                        SentDocuments sent_documents = snapshot.getValue(SentDocuments.class);
+
+                        // displays the recycler view
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // hides this textView to tell user that no search results found
+                        tv_no_search_result.setVisibility(View.GONE);
+
+                        documentsList.add(sent_documents);
+                    }
+                }
+
 
                 // notify adapter of changes
                 adapterSent.notifyDataSetChanged();

@@ -113,28 +113,6 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // checks if there is any currently logged in admin
-        if(SavedSharePreference.getEmail(AdminHomeActivity.this).length() != 0){
-
-            // sets visibility to visible
-            tv_welcome_title.setVisibility(View.GONE);
-
-            // load first fragment(in this case addDocumentFragment)
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container,new AddUsersFragment()).commit();
-
-            // sets the first fragment as checked
-            nav_view.getMenu().getItem(0).setCheckable(true);
-
-        }
-
-    }
-
-
     // method to load admin details esp. username from database
     private void loadAdminDetails(){
 

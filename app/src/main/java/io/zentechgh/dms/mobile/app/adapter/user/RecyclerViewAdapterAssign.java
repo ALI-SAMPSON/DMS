@@ -79,7 +79,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
         }
 
 
-        // set OnClick Listener for each item in cardview(document)
+        // set OnClick Listener for share button on cardview(document)
         viewHolder.button_assign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +97,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                         //start AssignDocument activity and passes document details to it
                       Intent intentAssign = new Intent(mCtx,AssignDocumentToUserActivity.class);
                         intentAssign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intentAssign.putExtra("document_image",documents.getDocumentUrl());
+                        intentAssign.putExtra("document_url",documents.getDocumentUrl());
                         intentAssign.putExtra("document_title",documents.getTitle());
                         intentAssign.putExtra("document_tag",documents.getTag());
                         intentAssign.putExtra("document_comment", documents.getComment());
@@ -108,7 +108,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
 
                       // storing the information in sharePreferences
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mCtx).edit();
-                        editor.putString("document_image",documents.getDocumentUrl());
+                        editor.putString("document_url",documents.getDocumentUrl());
                         editor.putString("document_title",documents.getTitle());
                         editor.putString("document_tag",documents.getTag());
                         editor.putString("document_comment",documents.getComment());
@@ -135,7 +135,63 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
             }
         });
 
+        // set OnClick Listener for onItem click(document)
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // do something
 
+                // creating alertDialog
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(mCtx)
+                        .setTitle(R.string.title_assign)
+                        .setMessage(R.string.text_confirm_assign);
+
+                alertDialog.setPositiveButton(R.string.text_proceed, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //start AssignDocument activity and passes document details to it
+                        Intent intentAssign = new Intent(mCtx,AssignDocumentToUserActivity.class);
+                        intentAssign.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intentAssign.putExtra("document_url",documents.getDocumentUrl());
+                        intentAssign.putExtra("document_title",documents.getTitle());
+                        intentAssign.putExtra("document_tag",documents.getTag());
+                        intentAssign.putExtra("document_comment", documents.getComment());
+                        intentAssign.putExtra("document_search", documents.getSearch());
+                        intentAssign.putExtra("document_distributee",documents.getDistributee());
+                        ///intentAssign.putExtra("sent_by", viewHolder.currrentUser.getDisplayName());
+                        mCtx.startActivity(intentAssign);
+
+                        // storing the information in sharePreferences
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mCtx).edit();
+                        editor.putString("document_url",documents.getDocumentUrl());
+                        editor.putString("document_title",documents.getTitle());
+                        editor.putString("document_tag",documents.getTag());
+                        editor.putString("document_comment",documents.getComment());
+                        editor.putString("document_search",documents.getSearch());
+                        editor.putString("document_distributee",documents.getDistributee());
+                        editor.apply();
+
+
+                    }
+                });
+
+                alertDialog.setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // dismiss dialog
+                        dialog.dismiss();
+                    }
+                });
+
+                // creating and showing alert dialog
+                AlertDialog alert = alertDialog.create();
+                alert.show();
+
+            }
+        });
+
+        // on click listener for button to view document
         viewHolder.button_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,10 +199,32 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                 Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // passing strings
-                intent.putExtra("file",documents.getDocumentUrl());
-                intent.putExtra("title",documents.getTitle());
-                intent.putExtra("tag",documents.getTag());
-                intent.putExtra("comment", documents.getComment());
+                intent.putExtra("document_url",documents.getDocumentUrl());
+                intent.putExtra("document_title",documents.getTitle());
+                intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_comment", documents.getComment());
+                intent.putExtra("document_distributee", documents.getDistributee());
+                mCtx.startActivity(intent);
+
+                // adding an intent transition from left-to-right
+                CustomIntent.customType(mCtx,"fadein-to-fadeout");
+            }
+        });
+
+
+        // on click listener for imageView
+        viewHolder.documentImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // open file to view
+                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // passing strings
+                intent.putExtra("document_url",documents.getDocumentUrl());
+                intent.putExtra("document_title",documents.getTitle());
+                intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_comment", documents.getComment());
+                intent.putExtra("document_distributee", documents.getDistributee());
                 mCtx.startActivity(intent);
 
                 // adding an intent transition from left-to-right

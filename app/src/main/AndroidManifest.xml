@@ -79,15 +79,19 @@
             android:name=".ui.admin.AdminHomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
-        </activity>
+            android:theme="@style/NoActionBar"></activity>
         <activity android:name=".ui.SplashScreenActivity" />
         <activity
             android:name=".ui.admin.ArchivedDocumentsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"></activity>
-        <activity android:name=".ui.admin.ViewDocumentAdminActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".ui.admin.ViewDocumentAdminActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".ui.user.UsersActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar"></activity>

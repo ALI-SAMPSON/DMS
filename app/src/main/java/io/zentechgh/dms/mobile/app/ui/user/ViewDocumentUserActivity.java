@@ -28,11 +28,12 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
     TextView title;
     TextView tag;
     TextView comment;
+    TextView distributee;
 
     ProgressBar progressBar;
 
     // variables to getStringExtra(strings passed from recyclerViewManage)
-    String documentUrl,documentTitle,documentTag, documentComment;
+    String documentUrl,documentTitle,documentTag, documentComment, documentDistributee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +65,15 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
         title =  findViewById(R.id.tv_title);
         tag = findViewById(R.id.tv_tag);
         comment = findViewById(R.id.tv_comment);
+        distributee = findViewById(R.id.tv_distributee);
 
         progressBar = findViewById(R.id.progressBar);
 
-        documentUrl = getIntent().getStringExtra("file");
-        documentTitle = getIntent().getStringExtra("title");
-        documentTag = getIntent().getStringExtra("tag");
-        documentComment = getIntent().getStringExtra("comment");
+        documentUrl = getIntent().getStringExtra("document_url");
+        documentTitle = getIntent().getStringExtra("document_title");
+        documentTag = getIntent().getStringExtra("document_tag");
+        documentComment = getIntent().getStringExtra("document_comment");
+        documentDistributee = getIntent().getStringExtra("document_distributee");
 
         // method call to display document details
         displayDocumentDetails();
@@ -95,7 +98,7 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
 
                     // loads documentUrl into imageView
-                    Glide.with(ViewDocumentUserActivity.this).load(documentUrl).into(document);
+                    Glide.with(getApplicationContext()).load(documentUrl).into(document);
 
 
                 }

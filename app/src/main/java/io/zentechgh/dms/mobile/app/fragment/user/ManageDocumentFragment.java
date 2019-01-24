@@ -36,6 +36,8 @@ import io.zentechgh.dms.mobile.app.adapter.user.RecyclerViewAdapterManage;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
 
+import static android.view.View.GONE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -51,6 +53,8 @@ public class ManageDocumentFragment extends Fragment {
     RelativeLayout relativeLayout;
 
     TextView tv_no_document;
+
+    TextView tv_no_search_result;
 
     LinearLayout search_layout;
 
@@ -97,6 +101,8 @@ public class ManageDocumentFragment extends Fragment {
         currentUser = mAuth.getCurrentUser();
 
         progressBar = view.findViewById(R.id.progressBar);
+
+        tv_no_search_result = view.findViewById(R.id.tv_no_search_result);
 
         tv_no_document = view.findViewById(R.id.tv_no_document);
 
@@ -229,14 +235,33 @@ public class ManageDocumentFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                // clears list
-                documentsList.clear();
-               for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                if(!dataSnapshot.exists()){
+                    // displays this textView to tell user that no search results found
+                    tv_no_search_result.setVisibility(View.VISIBLE);
 
-                   Documents documents = snapshot.getValue(Documents.class);
+                    // hides the recycler view
+                    recyclerView.setVisibility(GONE);
+                }
 
-                   documentsList.add(documents);
-               }
+                else{
+
+                    // clears list
+                    documentsList.clear();
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                        Documents documents = snapshot.getValue(Documents.class);
+
+                        // displays the recycler view
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // hides this textView to tell user that no search results found
+                        tv_no_search_result.setVisibility(View.GONE);
+
+                        documentsList.add(documents);
+                    }
+
+                }
+
 
                 // notify adapter if there is data change
                 adapterManage.notifyDataSetChanged();

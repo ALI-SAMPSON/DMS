@@ -9,15 +9,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.model.ReceivedDocuments;
+import io.zentechgh.dms.mobile.app.model.SentDocuments;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
 import maes.tech.intentanim.CustomIntent;
 
@@ -41,7 +50,7 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
 
         // inflating layout resource file
-        View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_documents,viewGroup,false);
+        View view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerview_my_documents,viewGroup,false);
 
         // getting an instance of the viewHolder class
         ViewHolder viewHolder = new ViewHolder(view);
@@ -51,25 +60,26 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
 
         // getting the position of each document
-        final ReceivedDocuments documents = documentsList.get(position);
+        final ReceivedDocuments receivedDocuments = documentsList.get(position);
 
         // getting text from the database and setting them to respective views
-        viewHolder.documentTitle.setText(" Title : " + documents.getTitle());
-        viewHolder.documentTag.setText(" Tag : " + documents.getTag());
-        viewHolder.documentComment.setText(" Comment : " + documents.getComment());
+        viewHolder.documentTitle.setText(" Title : " + receivedDocuments.getTitle());
+        viewHolder.documentTag.setText(" Tag : " + receivedDocuments.getTag());
+        viewHolder.documentComment.setText(" Comment : " + receivedDocuments.getComment());
+        viewHolder.documentDistributee.setText(" Distributee : " + receivedDocuments.getDistributee());
 
         // checking if the document is not equal to null
-        if(documents.getDocumentUrl() == null){
+        if(receivedDocuments.getDocumentUrl() == null){
             viewHolder.documentImage.setImageResource(R.drawable.scanned_file);
         }
         else {
-            Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.documentImage);
+            Glide.with(mCtx).load(receivedDocuments.getDocumentUrl()).into(viewHolder.documentImage);
         }
 
-        // onclick listener for view button
+        // onclick listener for view button to view document
         viewHolder.buttonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,10 +88,10 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
                 Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 // passing strings
-                intent.putExtra("file",documents.getDocumentUrl());
-                intent.putExtra("title",documents.getTitle());
-                intent.putExtra("tag",documents.getTag());
-                intent.putExtra("comment", documents.getComment());
+                intent.putExtra("file",receivedDocuments.getDocumentUrl());
+                intent.putExtra("title",receivedDocuments.getTitle());
+                intent.putExtra("tag",receivedDocuments.getTag());
+                intent.putExtra("comment", receivedDocuments.getComment());
                 mCtx.startActivity(intent);
 
                 // adding an intent transition from left-to-right
@@ -90,11 +100,30 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
             }
         });
 
-        // set OnClick Listener for each item in cardview(document)
-        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+        // set OnClick Listener to delete an item from received document table(document)
+        viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // do something
+
+                ReceivedDocuments selectedDocument = documentsList.get(position);
+
+                String selectedKey = selectedDocument.getKey();
+
+                viewHolder.dbRef.child(selectedKey).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                       if(task.isSuccessful()){
+                           // display success message
+                           Toast.makeText(mCtx, R.string.message_document_deleted, Toast.LENGTH_SHORT).show();
+                       }
+                       else {
+                           // display message if error occurs
+                           Toast.makeText(mCtx, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                       }
+                    }
+                });
+
+
             }
         });
 
@@ -112,8 +141,15 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
         TextView documentTitle;
         TextView documentTag;
         TextView documentComment;
-        Button buttonView;
+        TextView documentDistributee;
+        ImageButton buttonDelete;
+        ImageButton buttonView;
         CardView cardView;
+
+        FirebaseUser currentUser;
+
+        // getting ref to all files user sent
+        DatabaseReference dbRef;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,8 +158,14 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
             documentTitle = itemView.findViewById(R.id.document_title);
             documentTag = itemView.findViewById(R.id.document_tag);
             documentComment = itemView.findViewById(R.id.document_comment);
+            documentDistributee = itemView.findViewById(R.id.document_distributee);
+            buttonDelete = itemView.findViewById(R.id.button_delete);
             buttonView = itemView.findViewById(R.id.button_view);
             cardView = itemView.findViewById(R.id.cardView);
+
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+            dbRef = FirebaseDatabase.getInstance().getReference("ReceivedDocuments").child(currentUser.getUid());
 
         }
     }

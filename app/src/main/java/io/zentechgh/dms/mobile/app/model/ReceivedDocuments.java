@@ -19,13 +19,13 @@ public class ReceivedDocuments {
 
     public ReceivedDocuments(String title, String comment, String tag,
                              String documentUrl, String distributee, String sender, String search) {
-        this.Title = title;
-        this.Comment = comment;
-        this.Tag = tag;
-        this.DocumentUrl = documentUrl;
-        this.Distributee = distributee;
-        this.Sender = sender;
-        this.search = search;
+        Title = title;
+        Comment = comment;
+        Tag = tag;
+        DocumentUrl = documentUrl;
+        Distributee = distributee;
+        Sender = sender;
+        search = search;
     }
 
     // getters and setters for document

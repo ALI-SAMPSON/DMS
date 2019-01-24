@@ -64,6 +64,7 @@
     <string name="text_add_user" translatable="false">User</string>
     <string name="text_choose" translatable="false">Choose from Gallery</string>
     <string name="title_assign" translatable="false">Are you sure?</string>
+    <string name="title_assign_user" translatable="false">Assign To This User?</string>
     <string name="text_yes" translatable="false">YES</string>
     <string name="text_no" translatable="false">NO</string>
     <string name="text_delete_dialog" translatable="false">DELETE</string>
@@ -72,7 +73,7 @@
     <string name="text_cancel" translatable="false">Cancel</string>
     <string name="text_confirm_assign" translatable="false">Assigning this document means that a user to whom the document
         is assigned to can view the document</string>
-    <string name="text_confirm" translatable="false">Are you sure you want to assign this document to</string>
+    <string name="text_confirm" translatable="false">Are you sure you want to assign this document to this user?</string>
     <string name="title_delete" translatable="false">Are you sure?</string>
     <string name="text_confirm_delete" translatable="false">
         Deleting this account will result in completely removing user account from the system
@@ -113,7 +114,7 @@
 
     <!-- Permission Rationale string -->
     <string name="text_permission_select_profile" translatable="false">
-        Permissions are required in order to use the upload images to this application
+        Permissions are required in order to update your profile by accessing your camera or photos
     </string>
 
     <string name="text_instruction" translatable="false">
@@ -121,6 +122,8 @@
     </string>
 
     <string name="text_tag" translatable="false">Tag</string>
+
+    <string name="title_assign_to" translatable="false">Assign To...</string>
 
     <string name="text_user_type" translatable="false">User Type</string>
     <string name="text_admin" translatable="false">Admin</string>
@@ -131,15 +134,19 @@
 
     <string name="hint_contact_details" translatable="false">Contact Details</string>
 
-    <string name="received_documents" translatable="false">Received Files</string>
+    <string name="received_documents" translatable="false">Received Documents</string>
 
-    <string name="sent_documents" translatable="false">Sent Files</string>
+    <string name="sent_documents" translatable="false">Sent Documents</string>
 
     <string name="no_received_documents" translatable="false">No received documents yet</string>
 
     <string name="no_archived_documents" translatable="false">No archived documents yet</string>
 
     <string name="no_sent_documents" translatable="false">No sent documents yet</string>
+
+    <string name="no_search_result_found" translatable="false">No search results found</string>
+
+    <string name="message_document_deleted" translatable="false">document deleted successfully</string>
 
     <string name="role" translatable="false">Role</string>
 

@@ -65,7 +65,7 @@ public class MeFragment extends Fragment implements
 
     CardView sent_files,received_files;
 
-    TextView tv_username, tv_role;
+    TextView tv_username, tv_type;
 
     private static final int PERMISSION_CODE = 124;
 
@@ -109,7 +109,7 @@ public class MeFragment extends Fragment implements
 
         tv_username = view.findViewById(R.id.tv_username);
 
-        tv_role = view.findViewById(R.id.tv_role);
+        tv_type = view.findViewById(R.id.tv_type);
 
         sent_files = view.findViewById(R.id.card_view_sent);
 
@@ -123,6 +123,7 @@ public class MeFragment extends Fragment implements
 
         // setting onClickListener on views
         pick_image.setOnClickListener(this);
+        profile_image.setOnClickListener(this);
         sent_files.setOnClickListener(this);
         received_files.setOnClickListener(this);
 
@@ -140,6 +141,13 @@ public class MeFragment extends Fragment implements
 
         switch (v.getId()){
             case R.id.pick_image:
+
+                // method call to open gallery
+                openGallery();
+
+                break;
+
+            case R.id.profile_image:
 
                 // method call to open gallery
                 openGallery();
@@ -334,6 +342,8 @@ public class MeFragment extends Fragment implements
                     // load the default icon
                     profile_image.setImageResource(R.drawable.profile_icon);
                 }
+
+                tv_type.setText("Type : " + user.getUserType());
 
 
             }

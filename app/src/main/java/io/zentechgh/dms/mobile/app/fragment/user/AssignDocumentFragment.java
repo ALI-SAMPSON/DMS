@@ -38,6 +38,9 @@ import io.zentechgh.dms.mobile.app.adapter.user.RecyclerViewAdapterAssign;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.AssignDocumentToUserActivity;
 import io.zentechgh.dms.mobile.app.ui.user.HomeActivity;
+import io.zentechgh.dms.mobile.app.ui.user.UsersActivity;
+
+import static android.view.View.GONE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +59,8 @@ public class AssignDocumentFragment extends Fragment {
     LinearLayout search_layout;
 
     TextView tv_no_document;
+
+    TextView tv_no_search_result;
 
     EditText editTextSearch;
 
@@ -105,6 +110,8 @@ public class AssignDocumentFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
 
         tv_no_document = view.findViewById(R.id.tv_no_document);
+
+        tv_no_search_result = view.findViewById(R.id.tv_no_search_result);
 
         // initializing variables
         editTextSearch = view.findViewById(R.id.editTextSearch);
@@ -234,7 +241,7 @@ public class AssignDocumentFragment extends Fragment {
     // method to perform the search
     private void searchDocFile(String title){
 
-        Query query =documentRef.orderByChild("search")
+        Query query = documentRef.orderByChild("search")
                 .startAt(title)
                 .endAt(title + "\uf8ff");
 
@@ -242,20 +249,33 @@ public class AssignDocumentFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                // clears list
-                documentsList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                if(!dataSnapshot.exists()){
+                    // displays this textView to tell user that no search results found
+                    tv_no_search_result.setVisibility(View.VISIBLE);
 
-                    Documents documents = snapshot.getValue(Documents.class);
+                    // hides the recycler view
+                    recyclerView.setVisibility(GONE);
+                }
+                else {
+                    // clears list
+                    documentsList.clear();
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
 
-                    documentsList.add(documents);
+                        Documents documents = snapshot.getValue(Documents.class);
+
+                        // displays the recycler view
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // hides this textView to tell user that no search results found
+                        tv_no_search_result.setVisibility(View.GONE);
+
+                        documentsList.add(documents);
+                    }
                 }
 
                 // notify adapter if there is data change
                 adapterAssign.notifyDataSetChanged();
 
-                // Hiding the progress bar.
-                progressBar.setVisibility(View.GONE);
 
             }
 
@@ -274,7 +294,7 @@ public class AssignDocumentFragment extends Fragment {
         documentRef.removeEventListener(dBListener);
     }
 
-    // assign document to user
+    // method to open users activity
     private void assignDocument(){
 
         fab_users.setOnClickListener(new View.OnClickListener() {
@@ -283,9 +303,9 @@ public class AssignDocumentFragment extends Fragment {
                 // do nothing
 
                 // open users activity
-                Intent intent = new Intent(applicationContext, AssignDocumentToUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                Intent intentUsers = new Intent(applicationContext, UsersActivity.class);
+                intentUsers.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentUsers);
 
             }
         });
