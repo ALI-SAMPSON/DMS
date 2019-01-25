@@ -1,6 +1,8 @@
 package io.zentechgh.dms.mobile.app.fragment.admin;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,9 +47,11 @@ public class ArchiveDocumentsFragment extends Fragment {
 
     TextView tv_no_search_result;
 
-    LinearLayout search_layout;
-
     TextView tv_no_documents;
+
+    TextView tv_no_internet;
+
+    LinearLayout search_layout;
 
     EditText editTextSearch;
 
@@ -90,6 +94,8 @@ public class ArchiveDocumentsFragment extends Fragment {
 
         tv_no_search_result = view.findViewById(R.id.tv_no_search_result);
 
+        tv_no_internet  = view.findViewById(R.id.tv_no_internet);
+
         // initializing variables
         editTextSearch = view.findViewById(R.id.editTextSearch);
 
@@ -105,14 +111,40 @@ public class ArchiveDocumentsFragment extends Fragment {
 
         recyclerView.setAdapter(adapterArchiveDocument);
 
-        // method call
-        displayDocuments();
-
-        // method call
-        searchForDocument();
+        // method to check if internet connection is available on device
+        checkInternetConnection();
 
         return view;
 
+    }
+
+    // checks if device is connected to an internet
+    protected boolean isOnline(){
+        ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        if(netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    public void checkInternetConnection(){
+        if(isOnline()){
+            // method call
+            displayDocuments();
+
+            // method call
+            searchForDocument();
+        }
+        else{
+            // display a text view with a message to user if there is no internet connection
+            tv_no_internet.setVisibility(View.VISIBLE);
+        }
     }
 
     // method that displays the documents in a list view

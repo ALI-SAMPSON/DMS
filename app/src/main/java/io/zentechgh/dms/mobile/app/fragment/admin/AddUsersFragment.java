@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -66,6 +67,8 @@ public class AddUsersFragment extends Fragment implements View.OnClickListener{
 
     ProgressBar progressBar;
 
+    TextView tv_title;
+
     EditText editTextUsername;
     EditText editTextEmail;
     EditText editTextPassword;
@@ -107,6 +110,10 @@ public class AddUsersFragment extends Fragment implements View.OnClickListener{
         editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
         editTextPhone = view.findViewById(R.id.editTextPhone);
+
+        tv_title = view.findViewById(R.id.tv_title);
+        // set the text to auto-scrolling( it scrolls automatically)
+        tv_title.setSelected(true);
 
         // initializing the spinnerView and adapter
         spinnerUserType = view.findViewById(R.id.spinnerUserType);

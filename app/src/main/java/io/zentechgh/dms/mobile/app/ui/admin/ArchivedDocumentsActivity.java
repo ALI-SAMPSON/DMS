@@ -1,6 +1,9 @@
 package io.zentechgh.dms.mobile.app.ui.admin;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -50,6 +53,8 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
 
     TextView tv_no_search_result;
 
+    TextView tv_no_internet;
+
     MaterialSearchView searchView;
 
     List<ArchivedDocuments> archivedDocumentsList;
@@ -85,6 +90,8 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
 
         tv_no_search_result = findViewById(R.id.tv_no_search_result);
 
+        tv_no_internet = findViewById(R.id.tv_no_internet);
+
         progressBar = findViewById(R.id.progressBar);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -106,9 +113,36 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
         // setting adapter
         recyclerView.setAdapter(adapterArchivedDocuments);
 
-        // method call
-        displayDocuments();
+        // method to check if internet connection is available on device
+        checkInternetConnection();
 
+    }
+
+    // checks if device is connected to an internet
+    protected boolean isOnline(){
+
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        // get all active networks be it WIFI or MOBILE DATA
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if(netInfo != null && netInfo.isConnectedOrConnecting()){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    // method to check if internet is made
+    public void checkInternetConnection(){
+        if(isOnline()){
+            // method call to display the document in a recycler View
+            displayDocuments();
+        }
+        else{
+            // display a text view with a message to user if there is no internet connection
+            tv_no_internet.setVisibility(View.VISIBLE);
+        }
     }
 
     // method to display achieved documents

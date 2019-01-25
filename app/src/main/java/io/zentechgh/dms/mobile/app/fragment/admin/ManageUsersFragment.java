@@ -1,6 +1,8 @@
 package io.zentechgh.dms.mobile.app.fragment.admin;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,6 +51,10 @@ public class ManageUsersFragment extends Fragment {
 
     TextView tv_heading;
 
+    TextView tv_no_search_result;
+
+    TextView tv_no_internet;
+
     DatabaseReference usersRef;
 
     List<Users> usersList;
@@ -93,6 +99,10 @@ public class ManageUsersFragment extends Fragment {
 
         tv_heading = view.findViewById(R.id.tv_heading);
 
+        tv_no_internet = view.findViewById(R.id.tv_no_internet);
+
+        tv_no_search_result = view.findViewById(R.id.tv_no_search_result);
+
         progressBar = view.findViewById(R.id.progressBar);
 
         usersList = new ArrayList<>();
@@ -107,14 +117,39 @@ public class ManageUsersFragment extends Fragment {
 
         recyclerView.setAdapter(adapterManageUser);
 
-        // method call to display users in recyclerView
-        displayUsers();
-
-        // method to search for user in the system
-        searchForUser();
+        // method to check if internet connection is available on device
+        checkInternetConnection();
 
         return view;
 
+    }
+
+    // checks if device is connected to an internet
+    protected boolean isOnline(){
+        ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // get all active networks be it WIFI or MOBILE DATA
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if(netInfo != null && netInfo.isConnectedOrConnecting()){
+            return  true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // method to check if internet is made
+    public void checkInternetConnection(){
+        if(isOnline()){
+            // method call to display users in recyclerView
+            displayUsers();
+
+            // method to search for user in the system
+            searchForUser();
+        }
+        else{
+            // display a text view with a message to user if there is no internet connection
+            tv_no_internet.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -156,6 +191,9 @@ public class ManageUsersFragment extends Fragment {
 
                     // sets visibility to visible on view
                     tv_heading.setVisibility(View.VISIBLE);
+
+                    // make text to auto-scroll
+                    tv_heading.setSelected(true);
 
                     // sets visibility to visible on view
                     search_layout.setVisibility(View.VISIBLE);
@@ -234,31 +272,37 @@ public class ManageUsersFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                // clear list
-                usersList.clear();
+                if(!dataSnapshot.exists()){
 
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    // displays the text view
+                    tv_no_search_result.setVisibility(View.VISIBLE);
 
-                    Users users = snapshot.getValue(Users.class);
-
-                    assert users != null;
-
-                    // sets visibility to visible on view
-                    tv_heading.setVisibility(View.VISIBLE);
-
-                    // sets visibility to visible on view
-                    search_layout.setVisibility(View.VISIBLE);
-
-                    // sets visibility to visible on view
-                    recyclerView.setVisibility(View.VISIBLE);
-
-                    // sets visibility to visible on textView
-                    tv_no_users.setVisibility(View.GONE);
-
-                    // add found user
-                    usersList.add(users);
-
+                    //hides recycler view
+                    recyclerView.setVisibility(View.GONE);
                 }
+                else{
+                    // clear list
+                    usersList.clear();
+
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                        Users users = snapshot.getValue(Users.class);
+
+                        assert users != null;
+
+                        // displays the text view
+                        tv_no_search_result.setVisibility(View.GONE);
+
+                        // sets visibility to visible on view
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // add found user
+                        usersList.add(users);
+
+                    }
+                }
+
+
 
                 // notify data change in adapter
                 adapterManageUser.notifyDataSetChanged();
