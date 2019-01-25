@@ -170,8 +170,6 @@ public class AddDocumentFragment extends Fragment implements
         fab_clockwise_animation = AnimationUtils.loadAnimation(applicationContext,R.anim.rotate_fab_clockwise);
         fab_anticlockwise_animation = AnimationUtils.loadAnimation(applicationContext,R.anim.rotate_fab_anticlockwise);
 
-        scannedImageView = view.findViewById(R.id.scannedImageView);
-
         //setting onClickListeners on fab(s)
         fab_gallery.setOnClickListener(this);
         fab_camera.setOnClickListener(this);
@@ -390,7 +388,6 @@ public class AddDocumentFragment extends Fragment implements
 
     }
 
-
     // method to return file extension
     private String getFileExtension(Uri uri){
         ContentResolver contentResolver = applicationContext.getContentResolver();
@@ -422,7 +419,7 @@ public class AddDocumentFragment extends Fragment implements
                             Uri downloadUrl = uri;
                             documentUrl = downloadUrl.toString();
 
-                            // uploads details of document to database
+                            // method call to add upload file details to database
                             uploadDocumentDetails();
 
                         }
@@ -432,7 +429,7 @@ public class AddDocumentFragment extends Fragment implements
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    // display an error message
+                    // display message if an exception occurs
                     Toast.makeText(applicationContext, " Failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

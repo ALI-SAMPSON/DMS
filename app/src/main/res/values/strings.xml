@@ -194,6 +194,9 @@
     <string name="no_internet" translatable="false">No Internet.
         Please Check Internet Connection and Try Again!</string>
 
+    <string name="other_document_format" translatable="false">Add PDF , DOC , PPT Files</string>
+
+    <string name="no_file_chosen" translatable="false">No File Selected</string>
 
     <string name="navigation_drawer_open" translatable="false">Open Navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close Navigation drawer</string>

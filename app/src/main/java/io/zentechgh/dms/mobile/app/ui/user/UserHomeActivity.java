@@ -165,6 +165,22 @@ public class UserHomeActivity extends AppCompatActivity
 
                 return true;
 
+            case R.id.menu_share:
+
+                // method call
+                shareApp();
+
+                return true;
+
+            case R.id.menu_add_other_document:
+
+                // opens the screen to add other document formats
+                startActivity(new Intent(getApplicationContext(),AddOtherDocumentsActivity.class));
+
+                CustomIntent.customType(this, "fadein-to_fadeout");
+
+                break;
+
             case R.id.menu_sign_out:
 
                 // method call to signOut User
@@ -214,6 +230,16 @@ public class UserHomeActivity extends AppCompatActivity
         return true;
     }
 
+    // method to share app link to other users
+    public void shareApp(){
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String sharingSubject = "ZDMS";
+        String sharingText = "https://play.google.com/store/apps/details?id=io.zentechgh.dms.mobile.app";
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT,sharingSubject);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT,sharingText);
+        startActivity(Intent.createChooser(sharingIntent,"Share with"));
+    }
 
     // method that signs user out of the system
     private void signOutUser() {
