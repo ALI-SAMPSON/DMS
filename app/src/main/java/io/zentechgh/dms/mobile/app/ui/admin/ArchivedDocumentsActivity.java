@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,13 +40,15 @@ import io.zentechgh.dms.mobile.app.model.SentDocuments;
 public class ArchivedDocumentsActivity extends AppCompatActivity {
 
     // global variables
-    ConstraintLayout constraintLayout;
+    RelativeLayout relativeLayout;
 
     Toolbar toolbar;
 
     TextView toolbar_title;
 
     TextView tv_no_archived_document;
+
+    TextView tv_no_search_result;
 
     MaterialSearchView searchView;
 
@@ -64,7 +67,7 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archived_documents);
 
-        constraintLayout = findViewById(R.id.constraintLayout);
+        relativeLayout = findViewById(R.id.relativeLayout);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -80,6 +83,8 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
 
         tv_no_archived_document = findViewById(R.id.tv_no_document);
 
+        tv_no_search_result = findViewById(R.id.tv_no_search_result);
+
         progressBar = findViewById(R.id.progressBar);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -88,21 +93,25 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
 
         archivedDocumentsList = new ArrayList<>();
 
-        // getting string email from sharePreference
+        // getting string uid from sharePreference
         SharedPreferences preferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
         // getting admin uid
         String uid = preferences.getString("uid","");
 
-        adapterArchivedDocuments = new RecyclerViewAdapterArchivedDocuments(ArchivedDocumentsActivity.this, archivedDocumentsList);
+        adapterArchivedDocuments = new RecyclerViewAdapterArchivedDocuments(this, archivedDocumentsList);
 
         dBRef = FirebaseDatabase.getInstance().getReference("ArchivedDocuments").child(uid);
+
+        // setting adapter
+        recyclerView.setAdapter(adapterArchivedDocuments);
 
         // method call
         displayDocuments();
 
     }
 
+    // method to display achieved documents
     public void displayDocuments(){
 
         // display progressbar
@@ -134,6 +143,9 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
                         // sets visibility to visible
                         recyclerView.setVisibility(View.VISIBLE);
 
+                        // gets the unique for each item
+                        archivedDocuments.setKey(snapshot.getKey());
+
                         // adds to list
                         archivedDocumentsList.add(archivedDocuments);
 
@@ -156,7 +168,7 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
 
                 // display Error message
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -187,7 +199,14 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String title) {
+                if(!title.isEmpty()){
+                    // method search to search for document by title
+                    searchDocument(title.toLowerCase());
+                }
+                else{
+                    searchDocument("");
+                }
                 return true;
             }
         });
@@ -197,6 +216,7 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
 
     }
 
+    // method searches for a particular archived documents on the system
     private void searchDocument(String title) {
 
         Query query = dBRef.orderByChild("search")
@@ -206,13 +226,35 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // clear list
-                archivedDocumentsList.clear();
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
 
-                    ArchivedDocuments archivedDocuments = snapshot.getValue(ArchivedDocuments.class);
+                // checks if there are any archived documents
 
-                    archivedDocumentsList.add(archivedDocuments);
+                if(!dataSnapshot.exists()){
+
+                    // displays "No search result found" if there is no such search data
+                    tv_no_search_result.setVisibility(View.VISIBLE);
+
+                    // hides recyclerView
+                    recyclerView.setVisibility(View.GONE);
+
+                }
+                else {
+                    // clear list
+                    archivedDocumentsList.clear();
+
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+
+                        ArchivedDocuments archivedDocuments = snapshot.getValue(ArchivedDocuments.class);
+
+                        // displays the data if search data found
+                        tv_no_search_result.setVisibility(View.GONE);
+
+                        // displays recyclerView
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        // add list of data(document)
+                        archivedDocumentsList.add(archivedDocuments);
+                    }
                 }
 
                 // notify adapter of changes
@@ -222,7 +264,7 @@ public class ArchivedDocumentsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // display Error message
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(relativeLayout,databaseError.getMessage(),Snackbar.LENGTH_LONG).show();
             }
         });
 

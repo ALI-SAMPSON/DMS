@@ -43,6 +43,8 @@ public class ArchiveDocumentsFragment extends Fragment {
 
     TextView tv_heading;
 
+    TextView tv_no_search_result;
+
     LinearLayout search_layout;
 
     TextView tv_no_documents;
@@ -86,6 +88,8 @@ public class ArchiveDocumentsFragment extends Fragment {
 
         tv_no_documents = view.findViewById(R.id.tv_no_documents);
 
+        tv_no_search_result = view.findViewById(R.id.tv_no_search_result);
+
         // initializing variables
         editTextSearch = view.findViewById(R.id.editTextSearch);
 
@@ -101,10 +105,11 @@ public class ArchiveDocumentsFragment extends Fragment {
 
         recyclerView.setAdapter(adapterArchiveDocument);
 
+        // method call
         displayDocuments();
 
+        // method call
         searchForDocument();
-
 
         return view;
 
@@ -155,7 +160,7 @@ public class ArchiveDocumentsFragment extends Fragment {
                         // sets visibility to visible on textView
                         tv_no_documents.setVisibility(View.GONE);
 
-                        // gets the unique key of users
+                        // gets the unique key of each document
                         documents.setKey(snapshot.getKey());
 
                         // add rooms in db to the list in respect to their positions
@@ -164,7 +169,6 @@ public class ArchiveDocumentsFragment extends Fragment {
                     }
 
                 }
-
 
 
                 // notify adapter if there is data change
@@ -224,13 +228,30 @@ public class ArchiveDocumentsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                // clears list
-                documentsList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                if(!dataSnapshot.exists()){
 
-                    Documents documents = snapshot.getValue(Documents.class);
+                    // displays textView if no result is found after search
+                    tv_no_search_result.setVisibility(View.VISIBLE);
 
-                    documentsList.add(documents);
+                    // hides recycler view if no result is found after search
+                    recyclerView.setVisibility(View.GONE);
+
+                }
+                else{
+                    // clears list
+                    documentsList.clear();
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                        Documents documents = snapshot.getValue(Documents.class);
+
+                        // hides textView if no result is found after search
+                        tv_no_search_result.setVisibility(View.GONE);
+
+                        // displays recycler view if no result is found after search
+                        recyclerView.setVisibility(View.VISIBLE);
+
+                        documentsList.add(documents);
+                    }
                 }
 
                 // notify adapter if there is data change

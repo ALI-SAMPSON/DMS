@@ -186,6 +186,8 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
 
                 CustomIntent.customType(AdminHomeActivity.this, "left-to-right");
 
+                break;
+
             case R.id.menu_share:
 
                 // share app link to others

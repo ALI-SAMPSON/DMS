@@ -30,13 +30,14 @@ import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.adapter.user.RecyclerViewAdapterAssignToUser;
+import io.zentechgh.dms.mobile.app.adapter.user.RecyclerViewAdapterUsers;
 import io.zentechgh.dms.mobile.app.model.Users;
 
 import static android.view.View.GONE;
 
 public class UsersActivity extends AppCompatActivity {
 
-    // global variables
+    // global variables for views
     RelativeLayout relativeLayout;
 
     Toolbar toolbar;
@@ -51,10 +52,9 @@ public class UsersActivity extends AppCompatActivity {
 
     DatabaseReference usersRef;
 
-    RecyclerViewAdapterAssignToUser adapterUsers;
+    RecyclerViewAdapterUsers adapterUsers;
 
     List<Users> usersList;
-
 
     ProgressBar progressBar;
 
@@ -74,7 +74,6 @@ public class UsersActivity extends AppCompatActivity {
         // getting reference to views
         toolbar = findViewById(R.id.toolbar);
         toolbar_title = findViewById(R.id.toolbar_title);
-        //toolbar_title.setText("Assign To...");
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_close);
@@ -84,7 +83,6 @@ public class UsersActivity extends AppCompatActivity {
                 finish();
             }
         });
-
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -104,7 +102,7 @@ public class UsersActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapterUsers = new RecyclerViewAdapterAssignToUser(this,usersList);
+        adapterUsers = new RecyclerViewAdapterUsers(this,usersList);
 
         recyclerView.setAdapter(adapterUsers);
 

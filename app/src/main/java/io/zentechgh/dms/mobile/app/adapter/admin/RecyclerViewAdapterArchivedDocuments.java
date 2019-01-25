@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +46,7 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
 
     // global variables
     private Context mCtx;
-    private List<ArchivedDocuments> archivedDocumentsList;
+    private List<ArchivedDocuments> documentsList;
 
     // variable to store Decryption algorithm name
     String AES = "AES";
@@ -61,9 +63,9 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
     public RecyclerViewAdapterArchivedDocuments(){}
 
     // defaultless constructor
-    public RecyclerViewAdapterArchivedDocuments(Context mCtx, List<ArchivedDocuments> archivedDocumentsList){
+    public RecyclerViewAdapterArchivedDocuments(Context mCtx, List<ArchivedDocuments> documentsList){
         this.mCtx = mCtx;
-        this.archivedDocumentsList = archivedDocumentsList;
+        this.documentsList = documentsList;
     }
 
     @NonNull
@@ -84,24 +86,42 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
 
         // getting the position of each document
-        final ArchivedDocuments archivedDocuments = archivedDocumentsList.get(position);
+        final ArchivedDocuments archivedDocuments = documentsList.get(position);
 
         // getting text from the database and setting them to respective views
-        viewHolder.document_title.setText(archivedDocuments.getTitle());
-        viewHolder.document_tag.setText(archivedDocuments.getTag());
-        viewHolder.document_comment.setText(archivedDocuments.getComment());
-        viewHolder.document_distributee.setText(archivedDocuments.getDistributee());
+        viewHolder.document_title.setText(" Title : " + archivedDocuments.getTitle());
+        viewHolder.document_tag.setText(" Tag : " + archivedDocuments.getTag());
+        viewHolder.document_comment.setText(" Comment : " + archivedDocuments.getComment());
+        viewHolder.document_distributee.setText(" Distributee : " + archivedDocuments.getDistributee());
 
         // checking if the document is not equal to null
         if(archivedDocuments.getDocumentUrl() == null){
             //viewHolder.userImage.setImageResource(R.drawable.profile_icon);
-            Glide.with(mCtx).load(R.drawable.profile_icon).into(viewHolder.document_image);
+            Glide.with(mCtx).load(R.drawable.scanned_file).into(viewHolder.document_image);
         }
         else{
             Glide.with(mCtx).load(archivedDocuments.getDocumentUrl()).into(viewHolder.document_image);
         }
 
-        // onclick listener for button to view document
+        // handling onclick listener on image View to view document
+        viewHolder.document_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // passes image url of document to activity
+                Intent intent = new Intent(mCtx, ViewDocumentAdminActivity.class);
+                intent.putExtra("document_url",archivedDocuments.getDocumentUrl());
+                intent.putExtra("document_title",archivedDocuments.getTitle());
+                intent.putExtra("document_tag",archivedDocuments.getTag());
+                intent.putExtra("document_comment",archivedDocuments.getComment());
+                intent.putExtra("document_distributee",archivedDocuments.getDistributee());
+                mCtx.startActivity(intent);
+
+
+            }
+        });
+
+        //  handling onclick listener for image button to view document
         viewHolder.button_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,8 +146,8 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
             public void onClick(View v) {
                 // creating alertDialog
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(mCtx)
-                        .setTitle(R.string.title_delete)
-                        .setMessage("Unarchiving this document will add it back to the list of documents in the system ");
+                        .setTitle(R.string.title_unarchive)
+                        .setMessage(R.string.msg_unarchive_document);
 
                 alertDialog.setPositiveButton(R.string.text_archive, new DialogInterface.OnClickListener() {
                     @Override
@@ -143,8 +163,8 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
                         final EditText editTextPassword = dialogView.findViewById(R.id.editTextPassword);
 
                         dialogBuilder.setTitle("Unarchive Document?");
-                        dialogBuilder.setMessage("Please enter your password");
-                        dialogBuilder.setPositiveButton("UNARCHIVE", new DialogInterface.OnClickListener() {
+                        dialogBuilder.setMessage(R.string.msg_enter_password);
+                        dialogBuilder.setPositiveButton(R.string.text_unarchive, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -185,7 +205,6 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
                                                  * Code to delete selected document and move it to archive document table
                                                  */
 
-
                                                 // displays the progressBar
                                                 viewHolder.progressBar.setVisibility(View.VISIBLE);
 
@@ -194,28 +213,34 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
                                                 viewHolder.documents.setTag(archivedDocuments.getTag());
                                                 viewHolder.documents.setComment(archivedDocuments.getComment());
                                                 viewHolder.documents.setDistributee(archivedDocuments.getDistributee());
-                                                viewHolder.documents.setKey(archivedDocuments.getKey());
                                                 viewHolder.documents.setSearch(archivedDocuments.getSearch());
 
-                                                // adding document to the ArchivedDocument table
+                                                // adding document to the Documents table
                                                 viewHolder.documentRef.push().setValue(viewHolder.documents)
                                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if(task.isSuccessful()){
 
-                                                                    ArchivedDocuments selectedDocument = archivedDocumentsList.get(position);
+                                                                    // getting string uid from sharePreference
+                                                                    SharedPreferences preferences =
+                                                                            PreferenceManager.getDefaultSharedPreferences(mCtx);
+                                                                    // getting admin uid
+                                                                    String uid = preferences.getString("uid","");
+
+                                                                    ArchivedDocuments selectedDocument = documentsList.get(position);
 
                                                                     String selectedKey = selectedDocument.getKey();
 
                                                                     // deleting document from the Document table
-                                                                    viewHolder.archiveDocumentRef.child(selectedKey).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    viewHolder.archivedDocumentRef.child(uid).child(selectedKey).removeValue()
+                                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                             if(task.isSuccessful()){
 
                                                                                 // display message if added successful
-                                                                                Toast.makeText(mCtx,"document unarchived successfully",Toast.LENGTH_LONG).show();
+                                                                                Toast.makeText(mCtx,R.string.msg_document_unarchived,Toast.LENGTH_LONG).show();
 
                                                                             }
                                                                             else {
@@ -260,7 +285,7 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
                         });
 
 
-                        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        dialogBuilder.setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // dismiss the DialogInterface
@@ -291,6 +316,162 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
 
         });
 
+
+        // onclick listener for button to delete document completely from system
+        viewHolder.button_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // creating alertDialog
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(mCtx)
+                        .setTitle(R.string.title_delete)
+                        .setMessage(R.string.msg_delete_document);
+
+                alertDialog.setPositiveButton(R.string.text_delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mCtx);
+                        LayoutInflater inflater = LayoutInflater.from(mCtx);
+                        final View dialogView  = inflater.inflate(R.layout.custom_dialog_confirm_password,null);
+                        dialogBuilder.setView(dialogView);
+
+                        // reference to the EditText in the layout file (custom_dialog)
+                        final EditText editTextPassword = dialogView.findViewById(R.id.editTextPassword);
+
+                        dialogBuilder.setTitle("Delete Document?");
+                        dialogBuilder.setMessage(R.string.msg_enter_password);
+                        dialogBuilder.setPositiveButton(R.string.text_delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                // getting text from EditText
+                                final String password = editTextPassword.getText().toString();
+
+                                DatabaseReference adminRef  = FirebaseDatabase.getInstance().getReference("Admin");
+
+                                adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                                            Admin admin = snapshot.getValue(Admin.class);
+
+                                            assert admin != null;
+                                            // getting admin email and password and storing them in variables
+                                            String adminUid = admin.getUid();
+                                            String adminEmail = admin.getEmail();
+                                            String encryptedPassword = admin.getPassword();
+
+                                            // getting string email from sharePreference
+                                            SharedPreferences preferences =
+                                                    PreferenceManager.getDefaultSharedPreferences(mCtx);
+                                            String email = preferences.getString("email","");
+
+                                            // decrypt password
+                                            try {
+                                                decryptedPassword = decryptPassword(encryptedPassword,email);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            if(password.equals(decryptedPassword) && adminEmail.equals(email)){
+
+                                                /**
+                                                 * Code to delete selected document completely from the system
+                                                 */
+
+                                                // display the progressBar
+                                                viewHolder.progressBar.setVisibility(View.VISIBLE);
+
+                                                // getting string uid from sharePreference
+                                                SharedPreferences preferences1 =
+                                                        PreferenceManager.getDefaultSharedPreferences(mCtx);
+                                                // getting admin uid
+                                                String uid = preferences1.getString("uid","");
+
+                                                ArchivedDocuments selectedDocument = documentsList.get(position);
+
+                                                String selectedKey = selectedDocument.getKey();
+
+                                                // deleting document from the Document table
+                                                viewHolder.archivedDocumentRef.child(uid).child(selectedKey).removeValue()
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+
+                                                                    // display message if added successful
+                                                                    Toast.makeText(mCtx,R.string.msg_document_deleted,Toast.LENGTH_LONG).show();
+
+                                                                }
+                                                                else {
+                                                                    // display message if error occurs
+                                                                    Toast.makeText(mCtx,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                                                }
+                                                                // hides the progressBar
+                                                                viewHolder.progressBar.setVisibility(View.GONE);
+
+                                                            }
+                                                        });
+
+
+                                            }
+                                            else{
+                                                // display a message if there is an error
+                                                Toast.makeText(mCtx,"Incorrect password. Please Try Again!",Toast.LENGTH_LONG).show();
+                                            }
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // display error message
+                                        Toast.makeText(mCtx, databaseError.getMessage(),Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+
+                            }
+
+                        });
+
+
+                        dialogBuilder.setNegativeButton(R.string.text_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // dismiss the DialogInterface
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = dialogBuilder.create();
+                        alert.show();
+
+
+                    }
+                });
+
+                alertDialog.setNegativeButton(R.string.text_dismiss_dialog, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // dismiss dialog
+                        dialog.dismiss();
+                    }
+                });
+
+                // creating and showing alert dialog
+                AlertDialog alert = alertDialog.create();
+                alert.show();
+
+            }
+
+        });
+
+
     }
 
 
@@ -318,21 +499,23 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
     @Override
     public int getItemCount() {
         // return list size
-        return archivedDocumentsList.size();
+        return documentsList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         // instance variables
-        CircleImageView document_image;
+        ImageView document_image;
         TextView document_title;
         TextView document_tag;
         TextView document_comment;
         TextView document_distributee;
 
-        Button button_unarchive;
+        ImageButton button_view;
 
-        Button button_view;
+        ImageButton button_delete;
+
+        ImageButton button_unarchive;
 
         ProgressBar progressBar;
 
@@ -340,7 +523,7 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
 
         DatabaseReference documentRef;
 
-        DatabaseReference archiveDocumentRef;
+        DatabaseReference archivedDocumentRef;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -353,15 +536,18 @@ public class RecyclerViewAdapterArchivedDocuments extends RecyclerView.Adapter<R
 
             progressBar = itemView.findViewById(R.id.progressBar);
 
+            button_view = itemView.findViewById(R.id.button_view);
+
+            button_delete = itemView.findViewById(R.id.button_delete);
+
             button_unarchive = itemView.findViewById(R.id.button_unarchive);
 
-            button_view = itemView.findViewById(R.id.button_view);
 
             documents = new Documents();
 
             documentRef  = FirebaseDatabase.getInstance().getReference(documents_ref);
 
-            archiveDocumentRef  = FirebaseDatabase.getInstance().getReference(archived_documents_ref);
+            archivedDocumentRef  = FirebaseDatabase.getInstance().getReference(archived_documents_ref);
 
         }
     }

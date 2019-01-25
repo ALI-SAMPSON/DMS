@@ -23,6 +23,9 @@
 
     <color name="icon_color">#FF3E4D</color>
 
+    <color name="light_purple">#9F39A9</color>
+    <color name="deep_purple">#66276D</color>
+
     <color name="dark_grey">#4C4B4B</color>
 
     <color name="skyblue">#0ABDE3</color>

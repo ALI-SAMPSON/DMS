@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="100dp"
     app:cardBackgroundColor="@color/colorWhite"
     android:clickable="true"
     android:focusable="true"
@@ -21,6 +21,7 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/scanned_file"
+            android:background="@drawable/image_border_purple"
             android:layout_margin="@dimen/margin_small"/>
 
         <LinearLayout
@@ -43,8 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/hint_title"
                 android:layout_margin="4dp"
-                android:fontFamily="@font/lato"
-                android:textColor="@color/deep_red"/>
+                android:fontFamily="@font/lato"/>
 
             <TextView
                 android:id="@+id/tv_document_tag"
@@ -52,8 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_tag"
                 android:layout_margin="4dp"
-                android:fontFamily="@font/lato"
-                android:textColor="@color/deep_red"/>
+                android:fontFamily="@font/lato"/>
 
             <TextView
                 android:id="@+id/tv_document_comment"
@@ -61,8 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_comment"
                 android:layout_margin="4dp"
-                android:fontFamily="@font/lato"
-                android:textColor="@color/deep_red"/>
+                android:fontFamily="@font/lato"/>
 
             <TextView
                 android:id="@+id/tv_distributee"
@@ -70,8 +68,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_distributee"
                 android:layout_margin="4dp"
-                android:fontFamily="@font/lato"
-                android:textColor="@color/deep_red"/>
+                android:fontFamily="@font/lato"/>
 
         </LinearLayout>
 
@@ -82,7 +79,7 @@
             android:layout_margin="@dimen/margin_small"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_view_green"
+            android:src="@drawable/ic_view_purple"
             android:background="@null"/>
 
         <ImageButton
@@ -92,7 +89,7 @@
             android:layout_margin="@dimen/margin_small"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_archive_yellow"
+            android:src="@drawable/ic_archive_purple"
             android:background="@null"/>
 
         <ProgressBar

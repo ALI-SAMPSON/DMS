@@ -92,7 +92,7 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
         // checking if the document is not equal to null
         if(documents.getDocumentUrl() == null){
             //viewHolder.userImage.setImageResource(R.drawable.profile_icon);
-            Glide.with(mCtx).load(R.drawable.profile_icon).into(viewHolder.document_image);
+            Glide.with(mCtx).load(R.drawable.scanned_file).into(viewHolder.document_image);
         }
         else{
             Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.document_image);
@@ -143,15 +143,14 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
                 // creating alertDialog
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(mCtx)
                         .setTitle(R.string.title_delete)
-                        .setMessage("Archiving this document will remove it from the list of documents " +
-                                "but can be accessed in the archived document section. \n");
+                        .setMessage(R.string.msg_document_archive);
 
                 alertDialog.setPositiveButton(R.string.text_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
 
-                        final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(mCtx);
+                        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mCtx);
                         LayoutInflater inflater = LayoutInflater.from(mCtx);
                         final View dialogView  = inflater.inflate(R.layout.custom_dialog_confirm_password,null);
                         dialogBuilder.setView(dialogView);
@@ -160,8 +159,8 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
                         final EditText editTextPassword = dialogView.findViewById(R.id.editTextPassword);
 
                         dialogBuilder.setTitle("Archive Document?");
-                        dialogBuilder.setMessage("Please enter your password");
-                        dialogBuilder.setPositiveButton("ARCHIVE", new DialogInterface.OnClickListener() {
+                        dialogBuilder.setMessage(R.string.msg_enter_password);
+                        dialogBuilder.setPositiveButton(R.string.text_archive, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -185,7 +184,7 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
                                             String encryptedPassword = admin.getPassword();
 
                                             // getting string email from sharePreference
-                                            SharedPreferences preferences =
+                                            final SharedPreferences preferences =
                                                     PreferenceManager.getDefaultSharedPreferences(mCtx);
                                             String email = preferences.getString("email","");
 
@@ -231,7 +230,7 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
                                                                             if(task.isSuccessful()){
 
                                                                                 // display message if added successful
-                                                                                Toast.makeText(mCtx,"document archived successfully",Toast.LENGTH_LONG).show();
+                                                                                Toast.makeText(mCtx,R.string.msg_document_archived,Toast.LENGTH_LONG).show();
 
                                                                             }
                                                                             else {
@@ -251,31 +250,6 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
                                                                 viewHolder.progressBar.setVisibility(View.GONE);
                                                             }
                                                         });
-
-                                                // delete user
-                                                /*Documents selectedDocument = documentsList.get(position);
-
-                                                String selectedKey = selectedDocument.getKey();
-
-                                                // getting user email credentials
-
-                                                viewHolder.usersRef.child(selectedKey).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful()){
-                                                            Toast.makeText(mCtx," user deleted successfully ",Toast.LENGTH_SHORT).show();
-
-
-
-                                                        }
-                                                        else {
-                                                            // display message if error occurs
-                                                            Toast.makeText(mCtx,task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                                                        }
-                                                    }
-                                                });
-                                                */
-
 
                                             }
                                             else{
@@ -308,7 +282,7 @@ public class RecyclerViewAdapterArchiveDocument extends RecyclerView.Adapter<Rec
                             }
                         });
 
-                        android.support.v7.app.AlertDialog alert = dialogBuilder.create();
+                        AlertDialog alert = dialogBuilder.create();
                         alert.show();
 
 

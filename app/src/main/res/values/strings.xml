@@ -79,6 +79,18 @@
         Deleting this account will result in completely removing user account from the system
         and user wont be able to access the app
     </string>
+    <string name="msg_delete_document" translatable="false">
+        Deleting this document will result in completely removing the document from the system
+        and users wont be able to access the document
+    </string>
+
+    <string name="msg_document_archive">Archiving this document will remove it from the list of documents
+                                but can be accessed in the archived document section. </string>
+
+    <string name="msg_enter_password" translatable="false">Please enter your password</string>
+    <string name="msg_document_unarchived" translatable="false">document unarchived successfully</string>
+    <string name="msg_document_archived" translatable="false">document archived successfully</string>
+    <string name="msg_document_deleted" translatable="false">document deleted successfully</string>
     <string name="message_confirm_delete" translatable="false">
         Are you sure you want to delete this document?
     </string>
@@ -164,10 +176,14 @@
     <string name="title_manage_users" translatable="false">Manage Users</string>
     <string name="title_archive_document" translatable="false">Archive Documents</string>
     <string name="title_archived_document" translatable="false">Archived Documents</string>
+    <string name="title_unarchive" translatable="false">Unarchive</string>
     <string name="text_unarchive" translatable="false">unarchive</string>
     <string name="title_other" translatable="false">Other</string>
     <string name="title_share" translatable="false">Share</string>
     <string name="title_sign_out" translatable="false">Sign Out</string>
+
+    <string name="msg_unarchive_document" translatable="false">
+        Unarchiving this document will add it back to the list of documents on the system</string>
 
 
     <string name="title_sign_in" translatable="false">SIGN IN?</string>

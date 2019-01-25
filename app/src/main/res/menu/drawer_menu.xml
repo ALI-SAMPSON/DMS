@@ -32,7 +32,6 @@
                 android:id="@+id/menu_archived_documents"
                 android:icon="@drawable/ic_archived_document"
                 android:title="@string/title_archived_document" />
-
             <item
                 android:id="@+id/menu_share"
                 android:icon="@drawable/ic_share"

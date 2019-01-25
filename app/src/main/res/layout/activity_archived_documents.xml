@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_greyish"
     tools:context=".ui.admin.ArchivedDocumentsActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -47,8 +48,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_below="@+id/appBarLayout">
     </android.support.v7.widget.RecyclerView>
 
     <ProgressBar
@@ -56,10 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_centerInParent="true"/>
 
     <TextView
         android:id="@+id/tv_no_document"
@@ -70,9 +68,19 @@
         android:textSize="16sp"
         android:visibility="gone"
         android:textColor="@android:color/darker_gray"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_centerInParent="true"/>
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_no_search_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_search_result_found"
+        android:fontFamily="@font/lato"
+        android:textSize="16sp"
+        android:textColor="@color/materialDarkYellow"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:layout_below="@+id/appBarLayout"/>
+
+</RelativeLayout>
