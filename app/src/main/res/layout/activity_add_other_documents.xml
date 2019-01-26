@@ -10,52 +10,103 @@
     android:fillViewport="false"
     tools:context=".ui.user.AddOtherDocumentsActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        android:translationZ="0.1dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            app:titleTextColor="@color/colorWhite"
+            android:theme="@style/NoActionBarFullScreen"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_files"
+                android:fontFamily="@font/lato"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="center"/>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_ghost"
-        android:padding="2dp"
         android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/other_document_format"
-            android:textColor="@color/light_purple"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:fontFamily="@font/lato_bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <!-- ImageView to get the scanned Image-->
-
-        <ImageView
-            android:id="@+id/scannedImageView"
+        <LinearLayout
+            android:id="@+id/file_chooser"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="10dp"
-            android:scaleType="fitXY"
-            android:background="@drawable/image_border"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_selected_file_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/no_file_selected"
+                android:textColor="@color/light_purple"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:background="@drawable/image_border_red_circular"
+                android:fontFamily="@font/lato"
+                android:layout_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <Button
+                android:id="@+id/choose_file"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/choose_file"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/lato"
+                android:background="@drawable/circular_button_red_with_stroke"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
 
+        <!-- Layout for Title of file -->
         <LinearLayout
             android:id="@+id/title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/round_edittext_bg"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/fab_main">
+            app:layout_constraintTop_toBottomOf="@id/file_chooser">
 
             <EditText
                 android:id="@+id/editTextTitle"
@@ -79,7 +130,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round_edittext_bg"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
@@ -111,7 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/comment_layout"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
@@ -167,9 +218,12 @@
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/button_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="2"
@@ -180,7 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/circular_button"
+                android:background="@drawable/circular_button_green"
                 android:fontFamily="@font/lato"
                 android:text="@string/text_submit"
                 android:textAllCaps="false"
@@ -200,9 +254,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/circular_button"
+                android:background="@drawable/circular_button_yellow"
                 android:fontFamily="@font/lato"
-                android:text="@string/text_cancel"
+                android:text="@string/text_clear"
                 android:textAllCaps="false"
                 android:layout_weight="1"
                 android:textColor="@color/colorWhite"
@@ -211,49 +265,24 @@
 
         </LinearLayout>
 
-        <!-- floating action button to open gallery -->
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin_normal"
-            android:elevation="5dp"
-            android:src="@drawable/ic_gallery"
-            android:visibility="invisible"
-            app:backgroundTint="@color/light_green"
-            app:layout_constraintBottom_toTopOf="@+id/fab_camera"
-            app:layout_constraintEnd_toEndOf="@+id/scannedImageView"
-            app:layout_constraintStart_toStartOf="@+id/scannedImageView"/>
-
-        <!-- floating action button  to open gallery camera -->
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin_normal"
-            android:elevation="5dp"
-            android:src="@drawable/ic_scan"
-            android:visibility="invisible"
-            app:backgroundTint="@color/materialDarkYellow"
-            app:layout_constraintBottom_toTopOf="@+id/fab_main"
-            app:layout_constraintEnd_toEndOf="@+id/scannedImageView"
-            app:layout_constraintStart_toStartOf="@+id/scannedImageView"/>
-
         <!-- Main floating action button -->
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="5dp"
-            android:layout_margin="@dimen/fab_margin_normal"
+            android:layout_margin="10dp"
+            android:layout_marginTop="@dimen/fab_margin_normal"
             android:src="@drawable/ic_gallery"
             app:backgroundTint="@color/icon_color"
-            app:layout_constraintBottom_toBottomOf="@+id/scannedImageView"
-            app:layout_constraintTop_toBottomOf="@+id/scannedImageView"
-            app:layout_constraintEnd_toEndOf="@+id/scannedImageView"
-            app:layout_constraintStart_toStartOf="@+id/scannedImageView"/>
+            app:layout_constraintTop_toBottomOf="@id/button_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
 
 </ScrollView>
 

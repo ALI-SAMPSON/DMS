@@ -105,6 +105,8 @@
 
     <string name="document_viewer" translatable="false">Document Viewer</string>
 
+    <string name="title_files" translatable="false">Add files... </string>
+
     <string name="message_document_assigned" translatable="false">document assigned successfully</string>
 
     <string name="text_sender" translatable="false">Sender</string>
@@ -125,6 +127,11 @@
     <!-- Permission Rationale string -->
     <string name="text_permission" translatable="false">
         Permissions are required in order to use the scanner in this application
+    </string>
+
+    <!-- Permission Rationale string -->
+    <string name="text_permission_read_storage" translatable="false">
+        Permissions are required in order access files on your device
     </string>
 
     <!-- Permission Rationale string -->
@@ -196,7 +203,13 @@
 
     <string name="other_document_format" translatable="false">Add PDF , DOC , PPT Files</string>
 
-    <string name="no_file_chosen" translatable="false">No File Selected</string>
+    <string name="no_file_selected" translatable="false">No File Selected</string>
+
+    <string name="choose_file" translatable="false">Choose File</string>
+
+    <string name="text_clear" translatable="false">Clear</string>
+
+    <string name="title_adding_document" translatable="false">Adding file...</string>
 
     <string name="navigation_drawer_open" translatable="false">Open Navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close Navigation drawer</string>

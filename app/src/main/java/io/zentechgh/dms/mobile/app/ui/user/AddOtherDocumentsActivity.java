@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -55,16 +57,16 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     ConstraintLayout constraintLayout;
 
     //this is the pic pdf code used in file chooser
-    final int PICK_PDF_CODE = 2342;
+    final int PICK_PDF_CODE = 86;
 
-    private static final int PERMISSION_CODE = 123;
+    private static final int PERMISSION_CODE = 9;
 
     ProgressBar progressBar;
 
     ProgressDialog progressDialog;
 
     // uri of the document scanned
-    Uri documentUri;
+    Uri documentUri; //URIS are URLS meant for local storage
 
     // uri of the document scanned
     String documentUrl;
@@ -89,11 +91,13 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     boolean isOpen = false;
 
     // these are the views
-    ImageView imageView;
+
+    TextView tv_selected_file_name;
 
     EditText editTextTitle,editTextComment;
 
-    Button uploadButton,cancelButton;
+
+    Button chooseFile,uploadButton,cancelButton;
 
     private AppCompatSpinner spinnerTag;
     private ArrayAdapter<CharSequence> arrayAdapter;
@@ -122,13 +126,17 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         mStorageReference = FirebaseStorage.getInstance().getReference(Constants.STORAGE_PATH);
 
         // getting reference to ids of views
-        imageView = findViewById(R.id.scannedImageView);
+        tv_selected_file_name = findViewById(R.id.tv_selected_file_name);
 
         editTextTitle = findViewById(R.id.editTextTitle);
+
         editTextComment = findViewById(R.id.editTextComment);
 
         progressBar = findViewById(R.id.progressBar);
 
+        // getting reference to ids of views
+        fab_main = findViewById(R.id.fab_main);
+        chooseFile = findViewById(R.id.choose_file);
         uploadButton = findViewById(R.id.upload_btn);
         cancelButton = findViewById(R.id.cancel_btn);
 
@@ -138,11 +146,10 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinnerTag.setAdapter(arrayAdapter);
 
-        // getting reference to views
-        fab_main = findViewById(R.id.fab_main);
 
         //attaching listeners to views
         fab_main.setOnClickListener(this);
+        chooseFile.setOnClickListener(this);
         uploadButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
@@ -152,10 +159,10 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.fab_main:
+            case R.id.choose_file:
 
-                // method to get pdf file
-                getFileFromStorage();
+                // method call to check for permission
+                isPermissionGranted();
 
                 break;
 
@@ -168,6 +175,9 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
 
             case R.id.cancel_btn:
 
+                // method to clear fields
+                clearFields();
+
                 break;
         }
     }
@@ -177,13 +187,6 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
 
         String title = editTextTitle.getText().toString();
         String comment = editTextComment.getText().toString();
-
-        /*if(imageView.getDrawable() == null){
-            YoYo.with(Techniques.Flash).playOn(imageView);
-            Toast.makeText(AddOtherDocumentsActivity.this, getString(R.string.text_add_image),
-                    Toast.LENGTH_SHORT).show();
-        }
-        */
 
         if(TextUtils.isEmpty(title)){
             YoYo.with(Techniques.Shake).playOn(editTextTitle);
@@ -204,54 +207,81 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     }
 
     //this function will get the pdf from the storage
-    private void getFileFromStorage(){
+    private void isPermissionGranted(){
+
         //for greater than lollipop versions we need the permissions asked on runtime
         //so if the permission is not available user will go to the screen to allow storage permission
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
-            startActivity(intent);
-            return;
+        if(ContextCompat.checkSelfPermission(AddOtherDocumentsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED){
+            // method call top select pdf from storage
+            selectPdf();
         }
-
-        //creating an intent for file chooser
-        Intent intentPick = new Intent();
-        intentPick.setType("application/*");
-        intentPick.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intentPick,"Select File"),PICK_PDF_CODE);
+        else{
+            // code to request permission from user to use external storage
+            ActivityCompat.requestPermissions(AddOtherDocumentsActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},PERMISSION_CODE);
+        }
 
 
     }
 
+    // method called if user has not granted permission
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PERMISSION_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            // method call top select pdf from storage
+            selectPdf();
+        }
+        else{
+            Toast.makeText(AddOtherDocumentsActivity.this,
+                    getString(R.string.text_permission_read_storage), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // allow user to select file from storage
+    private void selectPdf(){
+        // Fetch files from  storage
+        Intent intentPick  = new Intent();
+        intentPick.setType("application/pdf");
+        intentPick.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intentPick,PICK_PDF_CODE);
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        //when the user choses the file
-        if(requestCode == PICK_PDF_CODE && requestCode == RESULT_OK && data != null && data.getData() != null){
-            //if a file is selected
-            if(data.getData() != null){
-                // storing file in uri format
-                documentUri = data.getData();
-                // load file into image view
-                Picasso.get().load(documentUri).into(imageView);
-            }
-            else{
+        // Check whether user has selected a file
+        if(requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null){
 
-                // display message if no file is chosen
-                Toast.makeText(getApplicationContext(),R.string.no_file_chosen,Toast.LENGTH_LONG).show();
-            }
+            // return the uri of selected file
+            documentUri = data.getData();
+
+            // sets the text of the textView (no selected file) to the name of the file selected
+            tv_selected_file_name.setText(data.getData().getLastPathSegment());
+
         }
+        else{
 
+            // display message if no file is chosen
+            Toast.makeText(getApplicationContext(),R.string.no_file_selected,Toast.LENGTH_LONG).show();
+        }
     }
 
     //this method is uploading the file
     private void uploadDocument(){
 
+        // display progress Bar
+        progressDialog = new ProgressDialog(AddOtherDocumentsActivity.this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle(R.string.title_adding_document);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
         if(documentUri != null){
             // display the progressBar
-            progressBar.setVisibility(View.VISIBLE);
+            //progressBar.setVisibility(View.VISIBLE);
 
             final StorageReference documentStorageRef = mStorageReference.child(Constants.STORAGE_PATH + System.currentTimeMillis() + ".pdf");
 
@@ -262,18 +292,21 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
                     documentStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
+                            // getting the uri of uploaded file
                             Uri fileUri = uri;
                             // convert fileUri to string
                             documentUrl = fileUri.toString();
 
                            // method call to add upload file details to database
-                           uploadDocumentDetails();
+                            addDocumentDetailsToDatabase();
 
                         }
                     });
 
                     // hides the progressBar
-                    progressBar.setVisibility(View.GONE);
+                    //progressBar.setVisibility(View.GONE);
+                    // dismiss dialog
+                    progressDialog.dismiss();
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -286,8 +319,9 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                     // getting the upload progress of the file
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    progressBar.setProgress(Integer.parseInt( progress + "% Uploading..."));
+                    int progress = (int) ((100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
+                    // setting progress of the ProgressBar to the current progress of the file
+                    progressDialog.setProgress(progress);
                 }
             });
         }
@@ -295,14 +329,14 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         else{
             // display a toast to notify user of no file selected
             Toast.makeText(AddOtherDocumentsActivity.this,
-                    getResources().getString(R.string.no_file_chosen),Toast.LENGTH_LONG).show();
+                    getResources().getString(R.string.no_file_selected),Toast.LENGTH_LONG).show();
         }
 
 
     }
 
     // method to upload entire document
-    private void uploadDocumentDetails(){
+    private void addDocumentDetailsToDatabase(){
 
         // display dialog
         ///progressDialog.show();
@@ -345,10 +379,9 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
                         }
 
                         // hides the progressBar
-                        progressBar.setVisibility(View.GONE);
+                        //progressBar.setVisibility(View.GONE);
                     }
                 });
-
 
     }
 
@@ -356,6 +389,12 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     private void clearDocumentUrl(){
         documentUrl = null;
         documentUri = null;
+    }
+
+    // clear memory of variables
+    private void clearFields(){
+        editTextTitle.setText("");
+        editTextComment.setText("");
     }
 
 

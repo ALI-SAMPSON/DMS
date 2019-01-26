@@ -98,7 +98,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.user.AddOtherDocumentsActivity"></activity>
+        <activity android:name=".ui.user.AddOtherDocumentsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar"></activity>
     </application>
 
 </manifest>
