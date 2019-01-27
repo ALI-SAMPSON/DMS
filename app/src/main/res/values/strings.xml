@@ -60,7 +60,7 @@
     <string name="text_delete" translatable="false">Delete</string>
     <string name="text_assign" translatable="false">Assign</string>
     <string name="text_submit" translatable="false">Submit</string>
-    <string name="text_view" translatable="false">view</string>
+    <string name="text_view" translatable="false">View</string>
     <string name="text_add_user" translatable="false">User</string>
     <string name="text_choose" translatable="false">Choose from Gallery</string>
     <string name="title_assign" translatable="false">Are you sure?</string>
@@ -106,6 +106,8 @@
     <string name="document_viewer" translatable="false">Document Viewer</string>
 
     <string name="title_files" translatable="false">Add files... </string>
+
+    <string name="add_file_extensions">Add PDF, DOC, PPT, XLSL Files</string>
 
     <string name="message_document_assigned" translatable="false">document assigned successfully</string>
 

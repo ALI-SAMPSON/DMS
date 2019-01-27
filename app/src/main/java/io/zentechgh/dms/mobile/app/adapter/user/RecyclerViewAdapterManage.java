@@ -136,7 +136,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         TextView documentTag;
         TextView documentComment;
         TextView distributee;
-        ImageButton buttonView;
+        TextView buttonView;
         CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {

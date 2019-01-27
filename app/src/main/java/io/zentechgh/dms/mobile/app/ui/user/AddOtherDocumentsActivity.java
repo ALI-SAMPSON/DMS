@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
@@ -55,6 +56,10 @@ import io.zentechgh.dms.mobile.app.model.Users;
 public class AddOtherDocumentsActivity extends AppCompatActivity implements View.OnClickListener{
 
     ConstraintLayout constraintLayout;
+
+    Toolbar toolbar;
+
+    TextView toolbar_title;
 
     //this is the pic pdf code used in file chooser
     final int PICK_PDF_CODE = 86;
@@ -97,7 +102,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     EditText editTextTitle,editTextComment;
 
 
-    Button chooseFile,uploadButton,cancelButton;
+    Button chooseFile,submitButton,cancelButton;
 
     private AppCompatSpinner spinnerTag;
     private ArrayAdapter<CharSequence> arrayAdapter;
@@ -109,6 +114,21 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_add_other_documents);
 
         constraintLayout = findViewById(R.id.constraintLayout);
+
+        toolbar = findViewById(R.id.toolbar);
+
+        toolbar_title =  findViewById(R.id.toolbar_title);
+        toolbar.setTitle("");
+        // setting support action bar
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        // attaching listener for toolbar navigation
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // initialization of the FirebaseAuth and FirebaseUser classes
         mAuth = FirebaseAuth.getInstance();
@@ -137,7 +157,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         // getting reference to ids of views
         fab_main = findViewById(R.id.fab_main);
         chooseFile = findViewById(R.id.choose_file);
-        uploadButton = findViewById(R.id.upload_btn);
+        submitButton = findViewById(R.id.submit_btn);
         cancelButton = findViewById(R.id.cancel_btn);
 
         // initializing the spinnerView and adapter
@@ -148,9 +168,8 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
 
 
         //attaching listeners to views
-        fab_main.setOnClickListener(this);
         chooseFile.setOnClickListener(this);
-        uploadButton.setOnClickListener(this);
+        submitButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
 
@@ -166,7 +185,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
 
                 break;
 
-            case R.id.upload_btn:
+            case R.id.submit_btn:
 
                 // uploads file to database and storage
                 checkIfFieldEmpty();
@@ -243,7 +262,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     private void selectPdf(){
         // Fetch files from  storage
         Intent intentPick  = new Intent();
-        intentPick.setType("application/pdf");
+        intentPick.setType("application/pdf | application/*");
         intentPick.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intentPick,PICK_PDF_CODE);
 
