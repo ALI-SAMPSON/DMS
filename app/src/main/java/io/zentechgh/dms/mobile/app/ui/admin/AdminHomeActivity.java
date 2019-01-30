@@ -35,9 +35,7 @@ import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.fragment.admin.AddUsersFragment;
 import io.zentechgh.dms.mobile.app.fragment.admin.ArchiveDocumentsFragment;
 import io.zentechgh.dms.mobile.app.fragment.admin.ManageUsersFragment;
-import io.zentechgh.dms.mobile.app.fragment.user.AddDocumentFragment;
 import io.zentechgh.dms.mobile.app.model.Admin;
-import io.zentechgh.dms.mobile.app.prefs.SavedSharePreference;
 import io.zentechgh.dms.mobile.app.ui.SignInActivity;
 import maes.tech.intentanim.CustomIntent;
 

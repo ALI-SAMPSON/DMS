@@ -5,6 +5,7 @@ import com.google.firebase.database.Exclude;
 public class Documents {
 
     private String Title;
+    private String Type;
     private String Comment;
     private String Tag;
     private String DocumentUrl;
@@ -16,9 +17,10 @@ public class Documents {
     public Documents() {
     }
 
-    public Documents(String title, String comment, String tag,
+    public Documents(String title, String type, String comment, String tag,
                      String documentUrl, String distributee, String search) {
         this.Title = title;
+        this.Type = type;
         this.Comment = comment;
         this.Tag = tag;
         this.DocumentUrl = documentUrl;
@@ -33,6 +35,14 @@ public class Documents {
 
     public void setTitle(String title) {
         Title = title;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 
     public String getComment() {

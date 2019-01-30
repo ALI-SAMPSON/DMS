@@ -147,6 +147,8 @@
 
     <string name="text_tag" translatable="false">Tag</string>
 
+    <string name="text_type" translatable="false">Type</string>
+
     <string name="title_assign_to" translatable="false">Assign To...</string>
 
     <string name="text_user_type" translatable="false">User Type</string>

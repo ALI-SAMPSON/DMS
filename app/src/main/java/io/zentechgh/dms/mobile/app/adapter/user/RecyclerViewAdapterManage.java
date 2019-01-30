@@ -20,6 +20,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.helper.Constants;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
 import maes.tech.intentanim.CustomIntent;
@@ -61,16 +62,18 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
 
         // getting text from the database and setting them to respective views
         viewHolder.documentTitle.setText(" Title : " + documents.getTitle());
-        viewHolder.documentTag.setText(" Tag : " + documents.getTag());
-        viewHolder.documentComment.setText(" Comment : " + documents.getComment());
-        viewHolder.distributee.setText(" Distributee : " + documents.getDistributee());
+        viewHolder.documentType.setText(" Type : " + documents.getType());
 
         // checking if the document is not equal to null
-        if(documents.getDocumentUrl() == null){
-            viewHolder.documentImage.setImageResource(R.drawable.scanned_file);
+        if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.DOC)){
+            viewHolder.documentImage.setImageResource(R.drawable.ic_word);
         }
         else {
             Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.documentImage);
+        }
+
+        if(documents.getType().equals(Constants.DOC)){
+
         }
 
         // onclick listener for image view
@@ -88,6 +91,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                 intent.putExtra("document_url",documents.getDocumentUrl());
                 intent.putExtra("document_title",documents.getTitle());
                 intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_type",documents.getType());
                 intent.putExtra("document_comment", documents.getComment());
                 intent.putExtra("document_distributee", documents.getDistributee());
                 mCtx.startActivity(intent);
@@ -110,6 +114,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                 intent.putExtra("document_url",documents.getDocumentUrl());
                 intent.putExtra("document_title",documents.getTitle());
                 intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_type",documents.getType());
                 intent.putExtra("document_comment", documents.getComment());
                 intent.putExtra("document_distributee", documents.getDistributee());
                 mCtx.startActivity(intent);
@@ -133,9 +138,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         // instance variables
         ImageView documentImage;
         TextView documentTitle;
-        TextView documentTag;
-        TextView documentComment;
-        TextView distributee;
+        TextView documentType;
         TextView buttonView;
         CardView cardView;
 
@@ -144,9 +147,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
 
             documentImage = itemView.findViewById(R.id.document_image);
             documentTitle = itemView.findViewById(R.id.tv_document_title);
-            documentTag = itemView.findViewById(R.id.tv_document_tag);
-            documentComment = itemView.findViewById(R.id.tv_document_comment);
-            distributee = itemView.findViewById(R.id.tv_distributee);
+            documentType = itemView.findViewById(R.id.tv_document_type);
             buttonView = itemView.findViewById(R.id.button_view);
             cardView = itemView.findViewById(R.id.cardView);
 

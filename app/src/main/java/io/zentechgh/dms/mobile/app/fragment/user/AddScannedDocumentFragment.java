@@ -49,6 +49,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.helper.Constants;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.model.Users;
 import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
@@ -56,7 +57,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class AddDocumentFragment extends Fragment implements
+public class AddScannedDocumentFragment extends Fragment implements
         View.OnClickListener,EasyPermissions.PermissionCallbacks {
 
     // Global variables
@@ -112,7 +113,7 @@ public class AddDocumentFragment extends Fragment implements
 
     UserHomeActivity applicationContext;
 
-    public AddDocumentFragment() {
+    public AddScannedDocumentFragment() {
         // Required empty public constructor
     }
 
@@ -126,7 +127,7 @@ public class AddDocumentFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_add_document, container, false);
+        view =  inflater.inflate(R.layout.fragment_add_scanned_document, container, false);
 
         // initialization of the FirebaseAuth and FirebaseUser classes
         mAuth = FirebaseAuth.getInstance();
@@ -143,7 +144,7 @@ public class AddDocumentFragment extends Fragment implements
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
 
         // getting instance of Storage Reference
-        mStorageReference = FirebaseStorage.getInstance().getReference("Documents");
+        mStorageReference = FirebaseStorage.getInstance().getReference(Constants.SCANNED_DOCUMENTS);
 
         scannedImageView = view.findViewById(R.id.scannedImageView);
 
@@ -473,6 +474,7 @@ public class AddDocumentFragment extends Fragment implements
         documents.setTag(tag);
         documents.setComment(comment);
         documents.setDocumentUrl(documentUrl);
+        documents.setType(Constants.SCANNED_FILE);
         documents.setDistributee(distributee);
         documents.setSearch(searchField);
 

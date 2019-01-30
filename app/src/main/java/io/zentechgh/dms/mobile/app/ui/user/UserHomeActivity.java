@@ -32,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.zentechgh.dms.mobile.app.R;
-import io.zentechgh.dms.mobile.app.fragment.user.AddDocumentFragment;
+import io.zentechgh.dms.mobile.app.fragment.user.AddScannedDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.user.AssignDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.user.ManageDocumentFragment;
 import io.zentechgh.dms.mobile.app.fragment.user.MeFragment;
@@ -201,7 +201,7 @@ public class UserHomeActivity extends AppCompatActivity
 
             case R.id.menu_add:
                 // assign resepective fragment to the fragment variable
-                selectedFragment = new AddDocumentFragment();
+                selectedFragment = new AddScannedDocumentFragment();
                 break;
 
             case R.id.menu_manage:

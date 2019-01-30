@@ -27,13 +27,14 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
     ImageView document;
     TextView title;
     TextView tag;
+    TextView type;
     TextView comment;
     TextView distributee;
 
     ProgressBar progressBar;
 
     // variables to getStringExtra(strings passed from recyclerViewManage)
-    String documentUrl,documentTitle,documentTag, documentComment, documentDistributee, documentSender;
+    String documentUrl,documentTitle,documentTag, documentType, documentComment, documentDistributee, documentSender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,6 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_view_document_user);
-
 
         // getting reference to views
         toolbar = findViewById(R.id.toolbar);
@@ -59,11 +59,11 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
             }
         });
 
-
         // getting reference to views
         document = findViewById(R.id.document_file);
         title =  findViewById(R.id.tv_title);
         tag = findViewById(R.id.tv_tag);
+        type = findViewById(R.id.tv_type);
         comment = findViewById(R.id.tv_comment);
         distributee = findViewById(R.id.tv_distributee);
 
@@ -72,6 +72,7 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
         documentUrl = getIntent().getStringExtra("document_url");
         documentTitle = getIntent().getStringExtra("document_title");
         documentTag = getIntent().getStringExtra("document_tag");
+        documentType = getIntent().getStringExtra("document_type");
         documentComment = getIntent().getStringExtra("document_comment");
         documentDistributee = getIntent().getStringExtra("document_distributee");
         documentSender = getIntent().getStringExtra("document_sender");
@@ -97,6 +98,13 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
 
                     // sets visibility to gone
                     progressBar.setVisibility(View.GONE);
+
+                    // setting the details of document on text Views
+                    title.setText(" Title : " + documentTitle);
+                    tag.setText(" Tag : " + documentTag);
+                    type.setText(" Type : " + documentType);
+                    comment.setText(" Comment : " + documentComment);
+                    distributee.setText(" Distributee : "  + documentDistributee);
 
                     // loads documentUrl into imageView
                     Glide.with(getApplicationContext()).load(documentUrl).into(document);

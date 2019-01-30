@@ -2,6 +2,7 @@ package io.zentechgh.dms.mobile.app.ui.user;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -105,7 +107,10 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     Button chooseFile,submitButton,cancelButton;
 
     private AppCompatSpinner spinnerTag;
-    private ArrayAdapter<CharSequence> arrayAdapter;
+    private ArrayAdapter<CharSequence> arrayAdapterTag;
+
+    private AppCompatSpinner spinnerType;
+    private ArrayAdapter<CharSequence> arrayAdapterType;
 
 
     @Override
@@ -162,9 +167,14 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
 
         // initializing the spinnerView and adapter
         spinnerTag = findViewById(R.id.spinnerTag);
-        arrayAdapter = ArrayAdapter.createFromResource(this,R.array.tags,R.layout.spinner_item);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spinnerTag.setAdapter(arrayAdapter);
+        arrayAdapterTag = ArrayAdapter.createFromResource(this,R.array.tags,R.layout.spinner_item);
+        arrayAdapterTag.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinnerTag.setAdapter(arrayAdapterTag);
+
+        spinnerType = findViewById(R.id.spinnerType);
+        arrayAdapterType = ArrayAdapter.createFromResource(this,R.array.type,R.layout.spinner_item);
+        arrayAdapterType.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinnerType.setAdapter(arrayAdapterType);
 
 
         //attaching listeners to views
@@ -288,21 +298,30 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         }
     }
 
+    // method to return file extension
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
     //this method is uploading the file
     private void uploadDocument(){
 
         // display progress Bar
         progressDialog = new ProgressDialog(AddOtherDocumentsActivity.this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setTitle(R.string.title_adding_document);
         progressDialog.setProgress(0);
         progressDialog.show();
 
         if(documentUri != null){
+
             // display the progressBar
             //progressBar.setVisibility(View.VISIBLE);
 
-            final StorageReference documentStorageRef = mStorageReference.child(Constants.STORAGE_PATH + System.currentTimeMillis() + ".pdf");
+            final StorageReference documentStorageRef =
+                    mStorageReference.child(System.currentTimeMillis() + "." + getFileExtension(documentUri));
 
             documentStorageRef.putFile(documentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -367,10 +386,12 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         final String title = editTextTitle.getText().toString();
         final String comment = editTextComment.getText().toString();
         final String tag = spinnerTag.getSelectedItem().toString();
+        final String type = spinnerType.getSelectedItem().toString();
         // convert title to lowercase to help in easy search
         final String searchField = title.toLowerCase();
 
         documents.setTitle(title);
+        documents.setType(type);
         documents.setTag(tag);
         documents.setComment(comment);
         documents.setDocumentUrl(documentUrl);
