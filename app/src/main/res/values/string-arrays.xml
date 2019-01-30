@@ -3,17 +3,18 @@
 
     <!-- array of tags -->
     <string-array name="tags">
-        <item>None</item>
-        <item>INHOUSE</item>
+        <item>NONE</item>
+        <item>IN-HOUSE</item>
         <item>INCOMING</item>
         <item>OUTGOING</item>
     </string-array>
 
     <string-array name="type">
+        <item>NONE</item>
         <item>PDF</item>
-        <item>DOC</item>
-        <item>PPT</item>
-        <item>XLSL</item>
+        <item>DOCX</item>
+        <item>PPTX</item>
+        <item>XLSX</item>
     </string-array>
 
     <!-- array of tags -->

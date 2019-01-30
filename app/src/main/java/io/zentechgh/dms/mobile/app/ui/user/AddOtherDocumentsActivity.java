@@ -64,7 +64,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     TextView toolbar_title;
 
     //this is the pic pdf code used in file chooser
-    final int PICK_PDF_CODE = 86;
+    final int PICK_FILE_CODE = 86;
 
     private static final int PERMISSION_CODE = 9;
 
@@ -182,6 +182,8 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         submitButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
+        // method call to change theme of progress Dialog
+        progressDialogStyle();
 
     }
 
@@ -243,7 +245,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         if(ContextCompat.checkSelfPermission(AddOtherDocumentsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED){
             // method call top select pdf from storage
-            selectPdf();
+            browseDocuments();
         }
         else{
             // code to request permission from user to use external storage
@@ -260,7 +262,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == PERMISSION_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             // method call top select pdf from storage
-            selectPdf();
+            browseDocuments();
         }
         else{
             Toast.makeText(AddOtherDocumentsActivity.this,
@@ -269,12 +271,46 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     }
 
     // allow user to select file from storage
-    private void selectPdf(){
+    private void browseDocuments(){
+
         // Fetch files from  storage
-        Intent intentPick  = new Intent();
+        /*Intent intentPick  = new Intent();
         intentPick.setType("application/pdf | application/*");
         intentPick.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intentPick,PICK_PDF_CODE);
+        */
+
+        // array of documents formats to pick from device storage
+        String [] mimeTypes = {"application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx
+                "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation",  // .ppt & .pptx
+                "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
+                "application/vnd.ms-access", // .cs (access file)
+                "text/plain", // .txt
+                "application/pdf", // .pdf
+                "application/zip", // .zip
+                "application/*" // .apk and other files
+        };
+
+        Intent intentBrowse = new Intent();
+        intentBrowse.setAction(Intent.ACTION_GET_CONTENT);
+        intentBrowse.addCategory(Intent.CATEGORY_OPENABLE);
+
+        // checks os build version of device
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            intentBrowse.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
+            if(mimeTypes.length > 0){
+                intentBrowse.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
+            }
+        }
+        else{
+            String mimeTypesStr = "";
+            for(String mimeType : mimeTypes){
+                mimeTypesStr += mimeType + "|";
+            }
+            intentBrowse.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
+        }
+
+        startActivityForResult(Intent.createChooser(intentBrowse,getString(R.string.choose_file)),PICK_FILE_CODE);
 
     }
 
@@ -282,7 +318,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         // Check whether user has selected a file
-        if(requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null){
+        if(requestCode == PICK_FILE_CODE && resultCode == RESULT_OK && data != null){
 
             // return the uri of selected file
             documentUri = data.getData();
@@ -308,11 +344,8 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
     //this method is uploading the file
     private void uploadDocument(){
 
-        // display progress Bar
-        progressDialog = new ProgressDialog(AddOtherDocumentsActivity.this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setTitle(R.string.title_adding_document);
-        progressDialog.setProgress(0);
+
+        // display progress Dialog
         progressDialog.show();
 
         if(documentUri != null){
@@ -341,8 +374,6 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
                         }
                     });
 
-                    // hides the progressBar
-                    //progressBar.setVisibility(View.GONE);
                     // dismiss dialog
                     progressDialog.dismiss();
 
@@ -375,9 +406,6 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
 
     // method to upload entire document
     private void addDocumentDetailsToDatabase(){
-
-        // display dialog
-        ///progressDialog.show();
 
         // stores the name of the user who uploaded the file
         String distributee = currentUser.getDisplayName();
@@ -418,8 +446,6 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
                                     task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
 
-                        // hides the progressBar
-                        //progressBar.setVisibility(View.GONE);
                     }
                 });
 
@@ -437,5 +463,27 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         editTextComment.setText("");
     }
 
+    // change Progress Dialog style according build version
+    private void progressDialogStyle(){
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            // display dark progress Dialog
+            progressDialog = new ProgressDialog(AddOtherDocumentsActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setTitle(R.string.title_adding_document);
+            progressDialog.setMessage(getString(R.string.text_please_wait));
+            progressDialog.setProgress(0);
+        }
+        else{
+            // display progress Bar
+            progressDialog = new ProgressDialog(AddOtherDocumentsActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setTitle(R.string.title_adding_document);
+            progressDialog.setMessage(getString(R.string.text_please_wait));
+            progressDialog.setProgress(0);
+        }
+
+
+    }
 
 }

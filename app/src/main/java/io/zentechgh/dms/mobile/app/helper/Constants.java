@@ -8,9 +8,9 @@ public class Constants {
     public static final String SCANNED_DOCUMENTS = "Scanned Documents";
 
     public static final String PDF = "PDF";
-    public static final String DOC = "DOC";
-    public static final String PPT = "PPT";
-    public static final String XLSL = "XLSL";
+    public static final String DOC = "DOCX";
+    public static final String PPT = "PPTX";
+    public static final String XLSX = "XLSX";
 
 
 }

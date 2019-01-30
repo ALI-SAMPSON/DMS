@@ -4,94 +4,90 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="300dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@android:color/white"
-    app:cardCornerRadius="0dp"
-    android:layout_margin="3dp">
+    app:cardCornerRadius="15dp"
+    android:layout_margin="5dp">
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_document_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/hint_title"
+            android:drawableStart="@drawable/ic_title_design"
+            android:drawablePadding="@dimen/padding_normal"
+            android:layout_marginStart="0dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:textColor="@color/icon_color"
+            android:fontFamily="@font/lato"/>
+
+        <TextView
+            android:id="@+id/tv_document_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/text_type"
+            android:drawableStart="@drawable/ic_file_type"
+            android:drawablePadding="@dimen/padding_normal"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:textColor="@color/icon_color"
+            android:fontFamily="@font/lato"/>
 
         <ImageView
             android:id="@+id/document_image"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:src="@drawable/scanned_file"
-            android:layout_margin="@dimen/margin_small"/>
+            android:layout_margin="0dp"/>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/document_image"
-            android:layout_marginStart="@dimen/margin_normal">
-
-            <TextView
-                android:id="@+id/tv_document_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hint_title"
-                android:textColor="@color/icon_color"
-                android:layout_margin="@dimen/margin_small"
-                android:fontFamily="@font/lato"/>
-
-            <TextView
-                android:id="@+id/tv_document_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_tag"
-                android:textColor="@color/icon_color"
-                android:layout_margin="@dimen/margin_small"
-                android:fontFamily="@font/lato"/>
-
-            <TextView
-                android:id="@+id/tv_document_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_comment"
-                android:textColor="@color/icon_color"
-                android:layout_margin="@dimen/margin_small"
-                android:fontFamily="@font/lato"/>
-
-            <TextView
-                android:id="@+id/tv_distributee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_distributee"
-                android:textColor="@color/icon_color"
-                android:layout_margin="@dimen/margin_small"
-                android:fontFamily="@font/lato" />
-
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/button_assign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_share_red"
-            android:layout_margin="5dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:background="@null"/>
-
-        <ImageButton
+        <TextView
             android:id="@+id/button_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_view_red"
-            android:layout_margin="5dp"
+            android:text="@string/text_view"
+            android:drawableStart="@drawable/ic_view_red"
+            android:drawablePadding="@dimen/padding_normal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:textColor="@color/icon_color"
+            android:fontFamily="@font/lato"/>
+
+        <TextView
+            android:id="@+id/button_assign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_assign"
+            android:drawableStart="@drawable/ic_share_red"
+            android:drawablePadding="@dimen/padding_normal"
+            android:layout_centerVertical="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:background="@null"/>
+            android:layout_marginStart="0dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:textColor="@color/icon_color"
+            android:fontFamily="@font/lato"/>
 
     </RelativeLayout>
 

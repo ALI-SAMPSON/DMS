@@ -66,15 +66,31 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
 
         // checking if the document is not equal to null
         if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.DOC)){
-            viewHolder.documentImage.setImageResource(R.drawable.ic_word);
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            viewHolder.documentImage.setImageResource(R.mipmap.doc_image);
+        }
+        else if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.PPT)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            viewHolder.documentImage.setImageResource(R.mipmap.ppt_image);
+        }
+        else if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.PDF)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            viewHolder.documentImage.setImageResource(R.mipmap.pdf_image);
+        }
+        else if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.XLSX)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            viewHolder.documentImage.setImageResource(R.mipmap.xlsx_image);
         }
         else {
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.documentImage);
         }
 
-        if(documents.getType().equals(Constants.DOC)){
-
-        }
 
         // onclick listener for image view
         viewHolder.documentImage.setOnClickListener(new View.OnClickListener() {

@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.helper.Constants;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.AssignDocumentToUserActivity;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
@@ -66,21 +67,38 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
 
         // getting text from the database and setting them to respective views
         viewHolder.documentTitle.setText(" Title : " + documents.getTitle());
-        viewHolder.documentTag.setText(" Tag : " + documents.getTag());
-        viewHolder.documentComment.setText(" Comment : " + documents.getComment());
-        viewHolder.distributee.setText(" Distributee : " + documents.getDistributee());
+        viewHolder.documentType.setText(" Tag : " + documents.getType());
 
         // checking if the document is not equal to null
-        if(documents.getDocumentUrl() == null){
-            viewHolder.documentImage.setImageResource(R.drawable.scanned_file);
+        if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.DOC)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            viewHolder.documentImage.setImageResource(R.mipmap.doc_image);
+        }
+        else if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.PPT)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            viewHolder.documentImage.setImageResource(R.mipmap.ppt_image);
+        }
+        else if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.PDF)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            viewHolder.documentImage.setImageResource(R.mipmap.pdf_image);
+        }
+        else if(documents.getDocumentUrl() != null && documents.getType().equals(Constants.XLSX)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            viewHolder.documentImage.setImageResource(R.mipmap.xlsx_image);
         }
         else {
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(mCtx).load(documents.getDocumentUrl()).into(viewHolder.documentImage);
         }
 
 
         // set OnClick Listener for share button on cardview(document)
-        viewHolder.button_assign.setOnClickListener(new View.OnClickListener() {
+        viewHolder.buttonAssign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // do something
@@ -100,6 +118,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                         intentAssign.putExtra("document_url",documents.getDocumentUrl());
                         intentAssign.putExtra("document_title",documents.getTitle());
                         intentAssign.putExtra("document_tag",documents.getTag());
+                        intentAssign.putExtra("document_type",documents.getType());
                         intentAssign.putExtra("document_comment", documents.getComment());
                         intentAssign.putExtra("document_search", documents.getSearch());
                         intentAssign.putExtra("document_distributee",documents.getDistributee());
@@ -111,6 +130,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                         editor.putString("document_url",documents.getDocumentUrl());
                         editor.putString("document_title",documents.getTitle());
                         editor.putString("document_tag",documents.getTag());
+                        editor.putString("document_type",documents.getType());
                         editor.putString("document_comment",documents.getComment());
                         editor.putString("document_search",documents.getSearch());
                         editor.putString("document_distributee",documents.getDistributee());
@@ -156,6 +176,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                         intentAssign.putExtra("document_url",documents.getDocumentUrl());
                         intentAssign.putExtra("document_title",documents.getTitle());
                         intentAssign.putExtra("document_tag",documents.getTag());
+                        intentAssign.putExtra("document_type",documents.getType());
                         intentAssign.putExtra("document_comment", documents.getComment());
                         intentAssign.putExtra("document_search", documents.getSearch());
                         intentAssign.putExtra("document_distributee",documents.getDistributee());
@@ -167,6 +188,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                         editor.putString("document_url",documents.getDocumentUrl());
                         editor.putString("document_title",documents.getTitle());
                         editor.putString("document_tag",documents.getTag());
+                        editor.putString("document_type",documents.getType());
                         editor.putString("document_comment",documents.getComment());
                         editor.putString("document_search",documents.getSearch());
                         editor.putString("document_distributee",documents.getDistributee());
@@ -192,7 +214,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
         });
 
         // on click listener for button to view document
-        viewHolder.button_view.setOnClickListener(new View.OnClickListener() {
+        viewHolder.buttonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // open file to view
@@ -202,6 +224,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                 intent.putExtra("document_url",documents.getDocumentUrl());
                 intent.putExtra("document_title",documents.getTitle());
                 intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_type",documents.getType());
                 intent.putExtra("document_comment", documents.getComment());
                 intent.putExtra("document_distributee", documents.getDistributee());
                 mCtx.startActivity(intent);
@@ -223,6 +246,7 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
                 intent.putExtra("document_url",documents.getDocumentUrl());
                 intent.putExtra("document_title",documents.getTitle());
                 intent.putExtra("document_tag",documents.getTag());
+                intent.putExtra("document_type",documents.getType());
                 intent.putExtra("document_comment", documents.getComment());
                 intent.putExtra("document_distributee", documents.getDistributee());
                 mCtx.startActivity(intent);
@@ -242,30 +266,27 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         // instance variables
+        // instance variables
         ImageView documentImage;
         TextView documentTitle;
-        TextView documentTag;
-        TextView documentComment;
-        TextView distributee;
-        ImageButton button_assign;
-        ImageButton button_view;
+        TextView documentType;
+        TextView buttonView;
+        TextView buttonAssign;
         CardView cardView;
 
-        FirebaseUser currrentUser;
+        FirebaseUser currentUser;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             documentImage = itemView.findViewById(R.id.document_image);
             documentTitle = itemView.findViewById(R.id.tv_document_title);
-            documentTag = itemView.findViewById(R.id.tv_document_tag);
-            documentComment = itemView.findViewById(R.id.tv_document_comment);
-            distributee = itemView.findViewById(R.id.tv_distributee);
-            button_assign = itemView.findViewById(R.id.button_assign);
-            button_view = itemView.findViewById(R.id.button_view);
+            documentType = itemView.findViewById(R.id.tv_document_type);
+            buttonView = itemView.findViewById(R.id.button_view);
+            buttonAssign = itemView.findViewById(R.id.button_assign);
             cardView = itemView.findViewById(R.id.cardView);
 
-            currrentUser = FirebaseAuth.getInstance().getCurrentUser();
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         }
     }
