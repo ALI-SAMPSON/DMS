@@ -33,9 +33,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="C:\Users\iCODE\Desktop\App Images\DMS\98f6082e36e3426948b80ecab592e13e.jpg" />
-                                      <entry key="foregroundImage" value="C:\Users\iCODE\Desktop\App Images\Con care Gh\profile_icon_1.png" />
-                                      <entry key="outputName" value="avatar_placeholder" />
+                                      <entry key="backgroundImage" value="C:\Users\iCODE\Desktop\App Images\DMS\log.png" />
+                                      <entry key="foregroundImage" value="C:\Users\iCODE\Desktop\App Images\DMS\log.png" />
+                                      <entry key="legacyIconShape" value="CIRCLE" />
+                                      <entry key="outputName" value="first_icon" />
                                     </map>
                                   </option>
                                 </PersistentState>

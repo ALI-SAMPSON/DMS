@@ -40,13 +40,7 @@
             android:name=".ui.SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.user.UserHomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
@@ -81,8 +75,7 @@
             android:name=".ui.admin.AdminHomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.SplashScreenActivity" />
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name=".ui.admin.ArchivedDocumentsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
@@ -103,10 +96,31 @@
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.OnBoardingScreenActivity"
+        <activity android:name=".ui.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBarFullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.OnBoardingScreenOneActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarFullScreen">
+        </activity>
+        <activity
+            android:name=".ui.OnBoardingScreenTwoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarFullScreen"/>
+        <activity android:name=".ui.OnBoardingScreenThreeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarFullScreen"/>
     </application>
 
 </manifest>

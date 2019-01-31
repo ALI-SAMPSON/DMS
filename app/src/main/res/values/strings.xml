@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name" translatable="false">DMS</string>
-    <string name="application_name" translatable="false">DMS</string>
+    <string name="app_name" translatable="false">ZDMS</string>
+    <string name="application_name" translatable="false">ZDMS</string>
     <string name="hint_username" translatable="false">Username</string>
     <string name="hint_email" translatable="false">Email</string>
     <string name="hint_password" translatable="false">Password</string>
@@ -27,6 +27,28 @@
     <string name="error_invalid_email" translatable="false">Oops! please enter a valid email address</string>
     <string name="error_empty_field" translatable="false">Field cannot be left empty</string>
 
+    <!-- onboarding screen strings -->
+    <string name="text_continue" translatable="false">Continue</string>
+
+    <string name="watermark" translatable="false">Designed and Developed by Zentech I.T Solutions</string>
+
+    <string name="text_start" translatable="false">Get Started</string>
+
+    <string name="title_welcome" translatable="false">Welcome</string>
+    <string name="text_welcome_body" translatable="false">
+        Get Started by signing onto the system with your credentials
+    </string>
+
+    <string name="title_upload_files" translatable="false">Upload Files</string>
+    <string name="text_upload_file" translatable="false">
+        You have all your files just right in your pocket
+    </string>
+
+    <string name="title_share_files" translatable="false">Share Files</string>
+    <string name="text_share_files" translatable="false">
+        Shares files with friends, families and colleagues anytime, anywhere
+    </string>
+
     <!-- Menu Resource String -->
     <string name="text_sign_out" translatable="false">Sign out</string>
     <string name="text_exit" translatable="false">Exit</string>
@@ -36,6 +58,7 @@
     <string name="text_home" translatable="false">Home</string>
 
     <string name="text_dashboard" translatable="false">Admin DashBoard</string>
+
 
     <string name="text_welcome_admin" translatable="false">Welcome Admin</string>
 

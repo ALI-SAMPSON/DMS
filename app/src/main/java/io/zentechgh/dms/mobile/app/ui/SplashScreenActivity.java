@@ -16,7 +16,7 @@ import maes.tech.intentanim.CustomIntent;
 public class SplashScreenActivity extends AppCompatActivity {
 
     // delay time for splash screen
-    private final int SPLASH_SCREEN_DISPLAY_TIME = 4000;
+    private final int SPLASH_SCREEN_DISPLAY_TIME = 5000;
 
     FirebaseAuth mAuth;
 
@@ -36,11 +36,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onStart();
 
         // checks if user is currently logged in
-        if(SavedSharePreference.getEmail(SplashScreenActivity.this).length() == 0 && mAuth.getCurrentUser() == null){
+        /*if(SavedSharePreference.getEmail(SplashScreenActivity.this).length() == 0 && mAuth.getCurrentUser() == null){
             // open splash screen first
             splashScreen();
         }
-        else if(SavedSharePreference.getEmail(SplashScreenActivity.this).length() != 0){
+        */
+        if(SavedSharePreference.getEmail(SplashScreenActivity.this).length() != 0){
 
             // start the activity
             startActivity(new Intent(SplashScreenActivity.this,AdminHomeActivity.class));
@@ -62,6 +63,10 @@ public class SplashScreenActivity extends AppCompatActivity {
             // finish the activity
             finish();
         }
+        else{
+            // open splash screen first
+            splashScreen();
+        }
     }
 
 
@@ -76,7 +81,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     sleep(SPLASH_SCREEN_DISPLAY_TIME);
 
                     //Creates and start the intent of the next activity
-                    startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
+                    startActivity(new Intent(SplashScreenActivity.this, OnBoardingScreenOneActivity.class));
 
                     // Add a custom animation ot the activity
                     CustomIntent.customType(SplashScreenActivity.this,"fadein-to-fadeout");

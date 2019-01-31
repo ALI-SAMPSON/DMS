@@ -20,7 +20,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/login_sign_up_ui"
+                android:background="@drawable/sign_in_sign_up_bg"
                 android:elevation="0dp"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -42,7 +42,7 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_sign_up_ui"
+                android:background="@drawable/sign_in_sign_up_bg"
                 android:elevation="0dp"
                 app:tabIndicatorHeight="3dp"
                 app:tabTextColor="@color/colorWhite"

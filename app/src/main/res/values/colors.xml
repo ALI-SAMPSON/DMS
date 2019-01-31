@@ -23,6 +23,20 @@
 
     <color name="icon_color">#FF3E4D</color>
 
+    <color name="red">#E71C23</color>
+
+    <color name="dark_red">#B83227</color>
+
+    <color name="yellow">#FFCC4E</color>
+
+    <color name="button_text_color">#56461F</color>
+
+    <color name="light_blue">#A4BBFA</color>
+    <color name="deep_blue">#487EB0</color>
+
+    <color name="light_violet">#816DA0</color>
+    <color name="deep_violet">#BB2CD9</color>
+
     <color name="light_purple">#9F39A9</color>
     <color name="deep_purple">#66276D</color>
 
