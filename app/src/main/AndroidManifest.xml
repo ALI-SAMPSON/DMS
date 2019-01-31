@@ -55,7 +55,7 @@
             android:name=".ui.user.ViewDocumentUserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBarDark" />
         <activity
             android:name=".ui.user.SentDocumentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
@@ -85,7 +85,7 @@
             android:name=".ui.admin.ViewDocumentAdminActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBarDark" />
         <activity
             android:name=".ui.user.UsersActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"

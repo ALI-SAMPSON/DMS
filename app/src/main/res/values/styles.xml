@@ -18,6 +18,17 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <!-- Theme for document viewer -->
+    <style name="NoActionBarDark" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!--This would set the menu item color-->
+        <!--<item name="android:textColor">@color/dark</item>
+        <item name="android:windowFullscreen">false</item>-->
+        <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item>
+        <item name="colorPrimary">@color/light_gray</item>
+        <item name="colorPrimaryDark">@color/light_gray</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="NoActionBarFullScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <!--This would set the menu item color-->
         <!--<item name="android:textColor">@color/dark</item>-->
