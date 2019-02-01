@@ -47,10 +47,12 @@ public class OnBoardingScreenThreeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // opens the next second onBoarding screen
-                startActivity(new Intent(OnBoardingScreenThreeActivity.this, SignInActivity.class));
+                Intent intentNext  = new Intent(OnBoardingScreenThreeActivity.this, SignInActivity.class);
+                // clear default animation
+                intentNext.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                // start the activity
+                startActivity(intentNext);
 
-                // adds a custom animation to it
-                CustomIntent.customType(OnBoardingScreenThreeActivity.this,"fadein-to-fadeout");
             }
         });
 
@@ -76,7 +78,12 @@ public class OnBoardingScreenThreeActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        CustomIntent.customType(OnBoardingScreenThreeActivity.this, "right-to-left");
+        // opens the next second onBoarding screen
+        Intent intentBack  = new Intent(OnBoardingScreenThreeActivity.this, OnBoardingScreenTwoActivity.class);
+        // clear default animation
+        intentBack.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        // start the activity
+        startActivity(intentBack);
 
     }
 

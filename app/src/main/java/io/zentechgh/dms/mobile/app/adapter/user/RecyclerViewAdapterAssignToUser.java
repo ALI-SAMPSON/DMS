@@ -86,8 +86,9 @@ public class RecyclerViewAdapterAssignToUser extends RecyclerView.Adapter<Recycl
 
         // getting string from sharePreference of Documents Details
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mCtx);
-        final String documentImage = preferences.getString("document_image","");
+        final String documentUrl = preferences.getString("document_url","");
         final String documentTitle = preferences.getString("document_title","");
+        final String documentType = preferences.getString("document_type","");
         final String documentTag = preferences.getString("document_tag","");
         final String documentComment = preferences.getString("document_comment","");
         final String documentSearch = preferences.getString("document_search","");
@@ -108,9 +109,9 @@ public class RecyclerViewAdapterAssignToUser extends RecyclerView.Adapter<Recycl
                         // sets visibility to visible when assigning document
                         viewHolder.progressBar.setVisibility(View.VISIBLE);
 
-
                         // setting fields for Model SentDocuments
-                        viewHolder.sentDocuments.setDocumentUrl(documentImage);
+                        viewHolder.sentDocuments.setDocumentUrl(documentUrl);
+                        viewHolder.sentDocuments.setType(documentType);
                         viewHolder.sentDocuments.setTitle(documentTitle);
                         viewHolder.sentDocuments.setTag(documentTag);
                         viewHolder.sentDocuments.setComment(documentComment);
@@ -125,8 +126,9 @@ public class RecyclerViewAdapterAssignToUser extends RecyclerView.Adapter<Recycl
                                         if(task.isSuccessful()){
 
                                             // setting fields for Model ReceivedDocuments
-                                            viewHolder.receivedDocuments.setDocumentUrl(documentImage);
+                                            viewHolder.receivedDocuments.setDocumentUrl(documentUrl);
                                             viewHolder.receivedDocuments.setTitle(documentTitle);
+                                            viewHolder.receivedDocuments.setType(documentType);
                                             viewHolder.receivedDocuments.setTag(documentTag);
                                             viewHolder.receivedDocuments.setComment(documentComment);
                                             viewHolder.receivedDocuments.setDistributee(distributee);

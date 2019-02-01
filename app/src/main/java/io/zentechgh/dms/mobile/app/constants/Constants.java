@@ -1,4 +1,4 @@
-package io.zentechgh.dms.mobile.app.helper;
+package io.zentechgh.dms.mobile.app.constants;
 
 public class Constants {
 

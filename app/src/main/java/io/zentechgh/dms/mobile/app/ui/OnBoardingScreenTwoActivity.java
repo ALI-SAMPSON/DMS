@@ -46,11 +46,12 @@ public class OnBoardingScreenTwoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // opens the next second onBoarding screen
-                startActivity(new Intent(OnBoardingScreenTwoActivity.this, OnBoardingScreenThreeActivity.class));
-
-                // adds a custom animation to it
-                CustomIntent.customType(OnBoardingScreenTwoActivity.this,"left-to-right");
+                // opens the next third onBoarding screen
+                Intent intentNext  = new Intent(OnBoardingScreenTwoActivity.this, OnBoardingScreenThreeActivity.class);
+                // clear default animation
+                intentNext.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                // start the activity
+                startActivity(intentNext);
             }
         });
 
@@ -75,7 +76,12 @@ public class OnBoardingScreenTwoActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        CustomIntent.customType(OnBoardingScreenTwoActivity.this, "right-to-left");
+        // opens the next third onBoarding screen
+        Intent intentBack  = new Intent(OnBoardingScreenTwoActivity.this, OnBoardingScreenOneActivity.class);
+        // clear default animation
+        intentBack.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        // start the activity
+        startActivity(intentBack);
 
     }
 }

@@ -5,6 +5,7 @@ import com.google.firebase.database.Exclude;
 public class ReceivedDocuments {
 
     private String Title;
+    private String Type;
     private String Comment;
     private String Tag;
     private String DocumentUrl;
@@ -17,9 +18,10 @@ public class ReceivedDocuments {
     public ReceivedDocuments() {
     }
 
-    public ReceivedDocuments(String title, String comment, String tag,
+    public ReceivedDocuments(String title, String type,String comment, String tag,
                              String documentUrl, String distributee, String sender, String search) {
         Title = title;
+        Type = type;
         Comment = comment;
         Tag = tag;
         DocumentUrl = documentUrl;
@@ -35,6 +37,14 @@ public class ReceivedDocuments {
 
     public void setTitle(String title) {
         Title = title;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 
     public String getComment() {

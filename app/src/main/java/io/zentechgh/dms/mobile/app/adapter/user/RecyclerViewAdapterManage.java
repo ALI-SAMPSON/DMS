@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +18,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
-import io.zentechgh.dms.mobile.app.helper.Constants;
+import io.zentechgh.dms.mobile.app.constants.Constants;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
 import maes.tech.intentanim.CustomIntent;

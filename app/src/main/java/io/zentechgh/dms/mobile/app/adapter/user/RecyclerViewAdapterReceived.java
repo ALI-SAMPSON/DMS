@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.constants.Constants;
 import io.zentechgh.dms.mobile.app.model.ReceivedDocuments;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
 import maes.tech.intentanim.CustomIntent;
@@ -73,10 +74,29 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
         viewHolder.documentSender.setText(" Sender : " + receivedDocuments.getSender());
 
         // checking if the document is not equal to null
-        if(receivedDocuments.getDocumentUrl() == null){
-            viewHolder.documentImage.setImageResource(R.drawable.scanned_file);
+        if(receivedDocuments.getDocumentUrl() != null && receivedDocuments.getType().equals(Constants.DOC)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            viewHolder.documentImage.setImageResource(R.mipmap.doc_image);
+        }
+        else if(receivedDocuments.getDocumentUrl() != null && receivedDocuments.getType().equals(Constants.PPT)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            viewHolder.documentImage.setImageResource(R.mipmap.ppt_image);
+        }
+        else if(receivedDocuments.getDocumentUrl() != null && receivedDocuments.getType().equals(Constants.PDF)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            viewHolder.documentImage.setImageResource(R.mipmap.pdf_image);
+        }
+        else if(receivedDocuments.getDocumentUrl() != null && receivedDocuments.getType().equals(Constants.XLSX)){
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            viewHolder.documentImage.setImageResource(R.mipmap.xlsx_image);
         }
         else {
+            // scaling image and setting it to imageView
+            viewHolder.documentImage.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(mCtx).load(receivedDocuments.getDocumentUrl()).into(viewHolder.documentImage);
         }
 

@@ -48,10 +48,11 @@ public class OnBoardingScreenOneActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // opens the next second onBoarding screen
-                startActivity(new Intent(OnBoardingScreenOneActivity.this, OnBoardingScreenTwoActivity.class));
-
-                // adds a custom animation to it
-                CustomIntent.customType(OnBoardingScreenOneActivity.this,"left-to-right");
+                Intent intentNext  = new Intent(OnBoardingScreenOneActivity.this, OnBoardingScreenTwoActivity.class);
+                // clear default animation
+                intentNext.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                // start the activity
+                startActivity(intentNext);
             }
         });
 

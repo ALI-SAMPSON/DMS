@@ -9,7 +9,7 @@
     tools:context=".ui.SplashScreenActivity">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/application_name"
@@ -27,8 +27,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/app_logo"
         app:civ_border_color="@color/icon_color"
         app:civ_border_width="0.5dp"
@@ -39,7 +39,7 @@
         android:contentDescription="@string/todo" />
 
     <TextView
-        android:id="@+id/company_name"
+        android:id="@+id/watermark"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="@string/watermark"

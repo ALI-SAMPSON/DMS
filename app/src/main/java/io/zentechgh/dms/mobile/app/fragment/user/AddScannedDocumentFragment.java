@@ -49,7 +49,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
-import io.zentechgh.dms.mobile.app.helper.Constants;
+import io.zentechgh.dms.mobile.app.constants.Constants;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.model.Users;
 import io.zentechgh.dms.mobile.app.ui.user.UserHomeActivity;
