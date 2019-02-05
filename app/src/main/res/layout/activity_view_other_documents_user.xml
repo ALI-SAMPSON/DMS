@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
-    tools:context=".ui.user.ViewDocumentUserActivity">
+    tools:context=".ui.user.ViewOtherDocumentsUserActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -49,7 +49,7 @@
         android:layout_margin="10dp"
         android:text=""
         android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toTopOf="@id/document_file"
+        app:layout_constraintBottom_toTopOf="@id/file_viewer"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
@@ -62,18 +62,16 @@
         android:text="@string/text_type"
         android:textColor="@color/colorWhite"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/document_file"
+        app:layout_constraintBottom_toTopOf="@+id/file_viewer"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <ImageView
-        android:id="@+id/document_file"
+    <WebView
+        android:id="@+id/file_viewer"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="420dp"
         android:layout_margin="0.5dp"
-        android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:contentDescription="@string/todo" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tv_tag"
@@ -84,7 +82,7 @@
         android:layout_margin="10dp"
         android:text=""
         android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toTopOf="@+id/document_file"
+        app:layout_constraintBottom_toTopOf="@+id/file_viewer"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
@@ -96,7 +94,7 @@
         android:layout_margin="10dp"
         android:text=""
         android:textColor="@color/colorWhite"
-        app:layout_constraintTop_toBottomOf="@id/document_file"
+        app:layout_constraintTop_toBottomOf="@id/file_viewer"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
@@ -108,7 +106,7 @@
         android:layout_margin="10dp"
         android:text=""
         android:textColor="@color/colorWhite"
-        app:layout_constraintTop_toBottomOf="@id/document_file"
+        app:layout_constraintTop_toBottomOf="@id/file_viewer"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <ProgressBar

@@ -1,26 +1,39 @@
 package io.zentechgh.dms.mobile.app.adapter.user;
 
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.List;
 
 import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.constants.Constants;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
+import io.zentechgh.dms.mobile.app.ui.user.ViewOtherDocumentsUserActivity;
 import maes.tech.intentanim.CustomIntent;
 
 public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerViewAdapterManage.ViewHolder> {
@@ -28,6 +41,8 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
     // global variables
     private Context mCtx;
     private List<Documents> documentsList;
+
+    ProgressDialog progressDialog;
 
     // default constructor
     public RecyclerViewAdapterManage(){}
@@ -95,23 +110,42 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             @Override
             public void onClick(View v) {
 
-                // add a smooth zoom in animation before opening image in preview
-                YoYo.with(Techniques.ZoomInUp).playOn(viewHolder.documentImage);
+                if(documents.getType().equals(Constants.PDF) || documents.getType().equals(Constants.PPT)
+                        || documents.getType().equals(Constants.DOC) || documents.getType().equals(Constants.XLSX)){
 
-                // open file to view
-                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // passing strings
-                intent.putExtra("document_url",documents.getDocumentUrl());
-                intent.putExtra("document_title",documents.getTitle());
-                intent.putExtra("document_tag",documents.getTag());
-                intent.putExtra("document_type",documents.getType());
-                intent.putExtra("document_comment", documents.getComment());
-                intent.putExtra("document_distributee", documents.getDistributee());
-                mCtx.startActivity(intent);
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // passing strings
+                    intent.putExtra("document_url",documents.getDocumentUrl());
+                    intent.putExtra("document_title",documents.getTitle());
+                    intent.putExtra("document_tag",documents.getTag());
+                    intent.putExtra("document_type",documents.getType());
+                    intent.putExtra("document_comment", documents.getComment());
+                    intent.putExtra("document_distributee", documents.getDistributee());
+                    mCtx.startActivity(intent);
 
-                // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                    // adding an intent transition from left-to-right
+                    CustomIntent.customType(mCtx,"fadein-to-fadeout");
+
+                }
+                else{
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // passing strings
+                    intent.putExtra("document_url",documents.getDocumentUrl());
+                    intent.putExtra("document_title",documents.getTitle());
+                    intent.putExtra("document_tag",documents.getTag());
+                    intent.putExtra("document_type",documents.getType());
+                    intent.putExtra("document_comment", documents.getComment());
+                    intent.putExtra("document_distributee", documents.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                }
+
             }
         });
 
@@ -121,25 +155,108 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             @Override
             public void onClick(View view) {
 
-                // open file to view
-                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // passing strings
-                intent.putExtra("document_url",documents.getDocumentUrl());
-                intent.putExtra("document_title",documents.getTitle());
-                intent.putExtra("document_tag",documents.getTag());
-                intent.putExtra("document_type",documents.getType());
-                intent.putExtra("document_comment", documents.getComment());
-                intent.putExtra("document_distributee", documents.getDistributee());
-                mCtx.startActivity(intent);
+                if(documents.getType().equals(Constants.PDF) || documents.getType().equals(Constants.PPT)
+                        || documents.getType().equals(Constants.DOC) || documents.getType().equals(Constants.XLSX)){
 
-                // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // passing strings
+                    intent.putExtra("document_url",documents.getDocumentUrl());
+                    intent.putExtra("document_title",documents.getTitle());
+                    intent.putExtra("document_tag",documents.getTag());
+                    intent.putExtra("document_type",documents.getType());
+                    intent.putExtra("document_comment", documents.getComment());
+                    intent.putExtra("document_distributee", documents.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    CustomIntent.customType(mCtx,"fadein-to-fadeout");
+
+                }
+                else{
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // passing strings
+                    intent.putExtra("document_url",documents.getDocumentUrl());
+                    intent.putExtra("document_title",documents.getTitle());
+                    intent.putExtra("document_tag",documents.getTag());
+                    intent.putExtra("document_type",documents.getType());
+                    intent.putExtra("document_comment", documents.getComment());
+                    intent.putExtra("document_distributee", documents.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                }
+
+
+
+            }
+        });
+
+        // onclick listener for download button
+        viewHolder.buttonDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // method call to download file
+                /*downloadFile(mCtx,documents.getTitle(),
+                        getFileExtension(Uri.parse(documents.getDocumentUrl())),
+                        "",documents.getDocumentUrl());
+                        */
+
 
             }
         });
 
 
+    }
+
+    /*private void downloadFile(String fileName){
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference downloadRef = storageRef.child(userPath+fileName);
+        File fileNameOnDevice = new File(DOWNLOAD_DIR+"/"+fileName);
+
+        downloadRef.getFile(fileNameOnDevice).addOnSuccessListener(
+                new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(context,
+                                "Downloaded the file",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(context,
+                        "Couldn't be downloaded",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    */
+
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = mCtx.getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    public long downloadFile(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
+
+
+
+
+        DownloadManager downloadmanager = (DownloadManager) context.
+                getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(url);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(context, destinationDirectory, fileName + fileExtension);
+
+        return downloadmanager.enqueue(request);
     }
 
     @Override
@@ -154,7 +271,9 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         TextView documentTitle;
         TextView documentType;
         TextView buttonView;
+        ImageButton buttonDownload;
         CardView cardView;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -163,7 +282,9 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             documentTitle = itemView.findViewById(R.id.tv_document_title);
             documentType = itemView.findViewById(R.id.tv_document_type);
             buttonView = itemView.findViewById(R.id.button_view);
+            buttonDownload = itemView.findViewById(R.id.button_download);
             cardView = itemView.findViewById(R.id.cardView);
+
 
         }
     }

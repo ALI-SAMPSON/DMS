@@ -75,7 +75,7 @@
             android:name=".ui.admin.AdminHomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.admin.ArchivedDocumentsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
@@ -96,7 +96,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.SplashScreenActivity"
+        <activity
+            android:name=".ui.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarFullScreen">
@@ -110,17 +111,21 @@
             android:name=".ui.OnBoardingScreenOneActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBarFullScreen">
-        </activity>
+            android:theme="@style/NoActionBarFullScreen"/>
         <activity
             android:name=".ui.OnBoardingScreenTwoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBarFullScreen"/>
-        <activity android:name=".ui.OnBoardingScreenThreeActivity"
+            android:theme="@style/NoActionBarFullScreen" />
+        <activity
+            android:name=".ui.OnBoardingScreenThreeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBarFullScreen"/>
+            android:theme="@style/NoActionBarFullScreen" />
+        <activity android:name=".ui.user.ViewOtherDocumentsUserActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarDark"/>
     </application>
 
 </manifest>
