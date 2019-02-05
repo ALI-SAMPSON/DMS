@@ -246,6 +246,9 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                     public void onFailure(@NonNull Exception exception) {
                         //Log.e("firebase ",";local tem file not created  created " +exception.toString());
                         Toast.makeText(mCtx, "Failed : " + exception.getMessage(), Toast.LENGTH_LONG).show();
+
+                        // dismiss dialog
+                        progressDialog.dismiss();
                     }
                 }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
                     @Override

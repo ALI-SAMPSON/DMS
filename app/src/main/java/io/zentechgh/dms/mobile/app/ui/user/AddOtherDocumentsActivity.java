@@ -369,6 +369,9 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
                 public void onFailure(@NonNull Exception e) {
                     // display message if an exception occurs
                     Snackbar.make(constraintLayout," Failed : " + e.getMessage(),Snackbar.LENGTH_LONG).show();
+
+                    // dismiss dialog
+                    progressDialog.dismiss();
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
