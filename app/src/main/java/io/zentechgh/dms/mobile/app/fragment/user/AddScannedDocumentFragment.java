@@ -144,7 +144,7 @@ public class AddScannedDocumentFragment extends Fragment implements
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
 
         // getting instance of Storage Reference
-        mStorageReference = FirebaseStorage.getInstance().getReference(Constants.SCANNED_DOCUMENTS);
+        mStorageReference = FirebaseStorage.getInstance().getReference(Constants.DOC_STORAGE_PATH);
 
         scannedImageView = view.findViewById(R.id.scannedImageView);
 

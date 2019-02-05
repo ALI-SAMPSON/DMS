@@ -1,5 +1,6 @@
 package io.zentechgh.dms.mobile.app.ui.user;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
@@ -51,7 +52,7 @@ public class ViewOtherDocumentsUserActivity extends AppCompatActivity {
         toolbar_title =  findViewById(R.id.toolbar_title);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_close);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +61,7 @@ public class ViewOtherDocumentsUserActivity extends AppCompatActivity {
         });
 
         // getting reference to views
-        document_viewer = findViewById(R.id.file_viewer);
+        document_viewer = findViewById(R.id.document_viewer);
 
 
         title =  findViewById(R.id.tv_title);
@@ -84,6 +85,7 @@ public class ViewOtherDocumentsUserActivity extends AppCompatActivity {
     }
 
     // method to display document Details
+    @SuppressLint("SetJavaScriptEnabled")
     private void displayDocumentDetails(){
 
         // checks if imageUrl is not null
@@ -92,13 +94,43 @@ public class ViewOtherDocumentsUserActivity extends AppCompatActivity {
             // sets visibility to visible
             progressBar.setVisibility(View.VISIBLE);
 
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+            //String url = Uri.encode(documentUrl);
+            // displaying document in webview
+            String url = Uri.encode(documentUrl);
 
-                    // sets visibility to gone
+            //document_viewer.setWebViewClient(new AppWebViewClients());
+            document_viewer.getSettings().setJavaScriptEnabled(true);
+            document_viewer.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+            document_viewer.getSettings().setBuiltInZoomControls(true);
+            document_viewer.getSettings().setUseWideViewPort(true);
+            //document_viewer.getSettings().setPluginState(WebSettings.PluginState.ON);
+            // loads documentUrl into webView
+            document_viewer.loadUrl("http://docs.google.com/gview?embedded=true&url="+url);
+
+            document_viewer.setWebViewClient(new WebViewClient() {
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
+                    super.onPageStarted(view, url, favicon);
+                    // sets visibility to visible
+                    progressBar.setVisibility(View.VISIBLE);
+
+                }
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return false;
+                }
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    // do your stuff here
+                    // sets visibility of progressBar to gone
                     progressBar.setVisibility(View.GONE);
+
+                    // sets visibility of webView to visible
+                    document_viewer.setVisibility(View.VISIBLE);
 
                     // setting the details of document on text Views
                     title.setText(" Title : " + documentTitle);
@@ -106,65 +138,21 @@ public class ViewOtherDocumentsUserActivity extends AppCompatActivity {
                     type.setText(" Type : " + documentType);
                     comment.setText(" Comment : " + documentComment);
                     distributee.setText(" Distributee : "  + documentDistributee);
-
-                    //String url = Uri.encode(documentUrl);
-
-                    String url = Uri.encode(documentUrl);
-                    String finalUrl = "http://docs.google.com/viewer?url=" + url + "&embedded=true";
-
-                    document_viewer.setWebViewClient(new Callback());
-                    document_viewer.getSettings().setJavaScriptEnabled(true);
-                    document_viewer.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
-                    document_viewer.getSettings().setBuiltInZoomControls(true);
-                    //file_viewer.getSettings().setLoadWithOverviewMode(true);
-                    //file_viewer.getSettings().setUseWideViewPort(true);
-                    document_viewer.getSettings().setPluginState(WebSettings.PluginState.ON);
-                    // loads documentUrl into webView
-                    document_viewer.loadUrl("http://docs.google.com/gview?embedded=true&url=" + finalUrl);
-
-
                 }
-            }, 3000);
+
+                @Override
+                public void onReceivedError(WebView view, int errorCode,
+                                            String description, String failingUrl) {
+                    view.loadUrl("about:blank");
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
+                    super.onReceivedError(view, errorCode, description, failingUrl);
+                }
+
+            });
+
 
         }
 
-    }
-
-    private class Callback extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(
-                WebView view, String url) {
-            return(false);
-        }
-    }
-
-    private void webClient(){
-        document_viewer.setWebViewClient(new WebViewClient(){
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                view.getSettings().setLoadsImagesAutomatically(true);
-                document_viewer.setVisibility(View.VISIBLE);
-                //progressView.setVisibility(View.VISIBLE);
-
-                if (progressBar != null && progressBar.isShown()) {
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                Log.v("after load", view.getUrl());
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(getApplicationContext(), description, Toast.LENGTH_SHORT).show();
-                Log.e("error", description);
-
-            }
-        });
     }
 
     @Override

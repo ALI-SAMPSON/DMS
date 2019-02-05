@@ -51,7 +51,7 @@ public class ViewDocumentUserActivity extends AppCompatActivity {
         toolbar_title =  findViewById(R.id.toolbar_title);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_close);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

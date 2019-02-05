@@ -202,21 +202,25 @@ public class UserHomeActivity extends AppCompatActivity
             case R.id.menu_add:
                 // assign resepective fragment to the fragment variable
                 selectedFragment = new AddScannedDocumentFragment();
+                toolbar_title.setText(getString(R.string.title_add_documents));
                 break;
 
             case R.id.menu_manage:
                 // assign resepective fragment to the fragment variable
                 selectedFragment = new ManageDocumentFragment();
+                toolbar_title.setText(getString(R.string.title_manage_documents));
                 break;
 
             case R.id.menu_assign:
                 // assign resepective fragment to the fragment variable
                 selectedFragment = new AssignDocumentFragment();
+                toolbar_title.setText(getString(R.string.title_assign_document));
                 break;
 
             case R.id.menu_me:
                 // assign resepective fragment to the fragment variable
                 selectedFragment = new MeFragment();
+                toolbar_title.setText(getString(R.string.title_my_account));
                 break;
 
         }

@@ -6,9 +6,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -115,7 +119,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
 
                     // open file to view
                     Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     // passing strings
                     intent.putExtra("document_url",documents.getDocumentUrl());
                     intent.putExtra("document_title",documents.getTitle());
@@ -126,13 +130,14 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                     mCtx.startActivity(intent);
 
                     // adding an intent transition from left-to-right
-                    CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+
 
                 }
                 else{
                     // open file to view
                     Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     // passing strings
                     intent.putExtra("document_url",documents.getDocumentUrl());
                     intent.putExtra("document_title",documents.getTitle());
@@ -143,7 +148,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                     mCtx.startActivity(intent);
 
                     // adding an intent transition from left-to-right
-                    CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
                 }
 
             }
@@ -160,7 +165,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
 
                     // open file to view
                     Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     // passing strings
                     intent.putExtra("document_url",documents.getDocumentUrl());
                     intent.putExtra("document_title",documents.getTitle());
@@ -171,13 +176,13 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                     mCtx.startActivity(intent);
 
                     // adding an intent transition from left-to-right
-                    CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
 
                 }
                 else{
                     // open file to view
                     Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     // passing strings
                     intent.putExtra("document_url",documents.getDocumentUrl());
                     intent.putExtra("document_title",documents.getTitle());
@@ -188,10 +193,8 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                     mCtx.startActivity(intent);
 
                     // adding an intent transition from left-to-right
-                    CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
                 }
-
-
 
             }
         });
@@ -205,6 +208,54 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                         getFileExtension(Uri.parse(documents.getDocumentUrl())),
                         "",documents.getDocumentUrl());
                         */
+
+                progressDialog = new ProgressDialog(mCtx);
+                progressDialog.setTitle(R.string.title_download);
+                progressDialog.setMessage("please wait...");
+                progressDialog.setProgress(0);
+                progressDialog.show();
+
+                // code to download file to phone storage
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReferenceFromUrl("gs://d-m-s-ca8f0.appspot.com/");
+                StorageReference  islandRef = storageRef.child(documents.getTitle());
+
+                File directory = new File(Environment.getExternalStoragePublicDirectory
+                        (Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+                if(!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                final File localFile = new File(directory,documents.getTitle());
+
+                //final File localFile1 = File.createTempFile(documents.getTitle(),".pdf",directory);
+
+                islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        //Log.e("firebase ",";local item file created  created " +localFile.toString());
+                        //  updateDb(timestamp,localFile.toString(),position);
+                        Toast.makeText(mCtx, localFile.toString() + " downloaded successfully", Toast.LENGTH_LONG).show();
+
+                        // dismiss dialog
+                        progressDialog.dismiss();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        //Log.e("firebase ",";local tem file not created  created " +exception.toString());
+                        Toast.makeText(mCtx, "Failed : " + exception.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        // getting the download progress of the file
+                        int progress = (int)((100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
+                        // setting progress of the ProgressBar to the current progress of the file
+                        progressDialog.setProgress(progress);
+                    }
+                });
 
 
             }
@@ -237,16 +288,40 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
     }
     */
 
+    private void downloadFile() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://d-m-s-ca8f0.appspot.com/");
+        StorageReference  islandRef = storageRef.child("file.txt");
+
+        File rootPath = new File(Environment.getExternalStorageDirectory(), "file_name");
+        if(!rootPath.exists()) {
+            rootPath.mkdirs();
+        }
+
+        final File localFile = new File(rootPath,"imageName.txt");
+
+        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Log.e("firebase ",";local tem file created  created " +localFile.toString());
+                //  updateDb(timestamp,localFile.toString(),position);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("firebase ",";local tem file not created  created " +exception.toString());
+            }
+        });
+    }
+
     private String getFileExtension(Uri uri){
         ContentResolver contentResolver = mCtx.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    public long downloadFile(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
-
-
-
+    public long downloadFile(Context context, String fileName,
+                             String fileExtension, String destinationDirectory, String url) {
 
         DownloadManager downloadmanager = (DownloadManager) context.
                 getSystemService(Context.DOWNLOAD_SERVICE);
@@ -284,7 +359,6 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
             buttonView = itemView.findViewById(R.id.button_view);
             buttonDownload = itemView.findViewById(R.id.button_download);
             cardView = itemView.findViewById(R.id.cardView);
-
 
         }
     }

@@ -141,7 +141,7 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
         // getting firebase objects
         documentRef = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH);
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
-        mStorageReference = FirebaseStorage.getInstance().getReference(Constants.STORAGE_PATH);
+        mStorageReference = FirebaseStorage.getInstance().getReference(Constants.DOC_STORAGE_PATH);
 
         // getting reference to ids of views
         tv_selected_file_name = findViewById(R.id.tv_selected_file_name);
@@ -265,13 +265,6 @@ public class AddOtherDocumentsActivity extends AppCompatActivity implements View
 
     // allow user to select file from storage
     private void browseDocuments(){
-
-        // Fetch files from  storage
-        /*Intent intentPick  = new Intent();
-        intentPick.setType("application/pdf | application/*");
-        intentPick.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intentPick,PICK_PDF_CODE);
-        */
 
         // array of documents formats to pick from device storage
         String [] mimeTypes = {"application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx

@@ -1,5 +1,6 @@
 package io.zentechgh.dms.mobile.app.adapter.user;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +30,7 @@ import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.constants.Constants;
 import io.zentechgh.dms.mobile.app.model.SentDocuments;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
+import io.zentechgh.dms.mobile.app.ui.user.ViewOtherDocumentsUserActivity;
 import maes.tech.intentanim.CustomIntent;
 
 public class RecyclerViewAdapterSent extends RecyclerView.Adapter<RecyclerViewAdapterSent.ViewHolder> {
@@ -60,6 +62,7 @@ public class RecyclerViewAdapterSent extends RecyclerView.Adapter<RecyclerViewAd
         return viewHolder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
 
@@ -67,10 +70,10 @@ public class RecyclerViewAdapterSent extends RecyclerView.Adapter<RecyclerViewAd
         final SentDocuments sentDocuments = documentsList.get(position);
 
         // getting text from the database and setting them to respective views
-        viewHolder.documentTitle.setText(" Title : " + sentDocuments.getTitle());
-        viewHolder.documentTag.setText(" Tag : " + sentDocuments.getTag());
-        viewHolder.documentComment.setText(" Comment : " + sentDocuments.getComment());
-        viewHolder.documentDistributee.setText(" Distributee : " + sentDocuments.getDistributee());
+        viewHolder.documentTitle.setText(R.string.title_text + sentDocuments.getTitle());
+        viewHolder.documentTag.setText(R.string.tag_text + sentDocuments.getTag());
+        viewHolder.documentComment.setText(R.string.comment_text  + sentDocuments.getComment());
+        viewHolder.documentDistributee.setText(R.string.distributee_text + sentDocuments.getDistributee());
 
         // checking if the document is not equal to null
         if(sentDocuments.getDocumentUrl() == null){
@@ -112,19 +115,43 @@ public class RecyclerViewAdapterSent extends RecyclerView.Adapter<RecyclerViewAd
             @Override
             public void onClick(View view) {
 
-                // open file to view
-                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                // passing strings
-                intent.putExtra("document_url",sentDocuments.getDocumentUrl());
-                intent.putExtra("document_title",sentDocuments.getTitle());
-                intent.putExtra("document_tag",sentDocuments.getTag());
-                intent.putExtra("document_comment", sentDocuments.getComment());
-                intent.putExtra("document_distributee", sentDocuments.getDistributee());
-                mCtx.startActivity(intent);
 
-                // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"left-to-right");
+                if(sentDocuments.getType().equals(Constants.PDF) || sentDocuments.getType().equals(Constants.PPT)
+                        || sentDocuments.getType().equals(Constants.DOC) || sentDocuments.getType().equals(Constants.XLSX)){
+
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",sentDocuments.getDocumentUrl());
+                    intent.putExtra("document_title",sentDocuments.getTitle());
+                    intent.putExtra("document_tag",sentDocuments.getTag());
+                    intent.putExtra("document_type",sentDocuments.getType());
+                    intent.putExtra("document_comment", sentDocuments.getComment());
+                    intent.putExtra("document_distributee", sentDocuments.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+
+                }
+                else{
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",sentDocuments.getDocumentUrl());
+                    intent.putExtra("document_title",sentDocuments.getTitle());
+                    intent.putExtra("document_tag",sentDocuments.getTag());
+                    intent.putExtra("document_type",sentDocuments.getType());
+                    intent.putExtra("document_comment", sentDocuments.getComment());
+                    intent.putExtra("document_distributee", sentDocuments.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                }
+
 
             }
         });
@@ -134,19 +161,41 @@ public class RecyclerViewAdapterSent extends RecyclerView.Adapter<RecyclerViewAd
             @Override
             public void onClick(View view) {
 
-                // open file to view
-                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                // passing strings
-                intent.putExtra("document_url",sentDocuments.getDocumentUrl());
-                intent.putExtra("document_title",sentDocuments.getTitle());
-                intent.putExtra("document_tag",sentDocuments.getTag());
-                intent.putExtra("document_comment", sentDocuments.getComment());
-                intent.putExtra("document_distributee", sentDocuments.getDistributee());
-                mCtx.startActivity(intent);
+                if(sentDocuments.getType().equals(Constants.PDF) || sentDocuments.getType().equals(Constants.PPT)
+                        || sentDocuments.getType().equals(Constants.DOC) || sentDocuments.getType().equals(Constants.XLSX)){
 
-                // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"left-to-right");
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",sentDocuments.getDocumentUrl());
+                    intent.putExtra("document_title",sentDocuments.getTitle());
+                    intent.putExtra("document_tag",sentDocuments.getTag());
+                    intent.putExtra("document_type",sentDocuments.getType());
+                    intent.putExtra("document_comment", sentDocuments.getComment());
+                    intent.putExtra("document_distributee", sentDocuments.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+
+                }
+                else{
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",sentDocuments.getDocumentUrl());
+                    intent.putExtra("document_title",sentDocuments.getTitle());
+                    intent.putExtra("document_tag",sentDocuments.getTag());
+                    intent.putExtra("document_type",sentDocuments.getType());
+                    intent.putExtra("document_comment", sentDocuments.getComment());
+                    intent.putExtra("document_distributee", sentDocuments.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                }
 
             }
         });
@@ -306,7 +355,7 @@ public class RecyclerViewAdapterSent extends RecyclerView.Adapter<RecyclerViewAd
 
             currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-            dbRef = FirebaseDatabase.getInstance().getReference("SentDocuments").child(currentUser.getUid());
+            dbRef = FirebaseDatabase.getInstance().getReference(Constants.SENT_DOC_REF).child(currentUser.getUid());
 
         }
     }

@@ -315,6 +315,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     Admin admin = snapshot.getValue(Admin.class);
 
                     assert admin != null;
+                    String admin_username = admin.getUsername();
                     String adminEmail = admin.getEmail();
                     String encryptedPassword = admin.getPassword();
 
@@ -341,6 +342,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         SharedPreferences.Editor editor = PreferenceManager
                                 .getDefaultSharedPreferences(SignInActivity.this).edit();
                         editor.putString("email", email);
+                        editor.putString("username", admin.getUsername());
                         editor.putString("uid", admin.getUid());
                         editor.apply();
 

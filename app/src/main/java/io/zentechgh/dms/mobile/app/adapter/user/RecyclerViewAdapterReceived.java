@@ -29,6 +29,7 @@ import io.zentechgh.dms.mobile.app.R;
 import io.zentechgh.dms.mobile.app.constants.Constants;
 import io.zentechgh.dms.mobile.app.model.ReceivedDocuments;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
+import io.zentechgh.dms.mobile.app.ui.user.ViewOtherDocumentsUserActivity;
 import maes.tech.intentanim.CustomIntent;
 
 public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerViewAdapterReceived.ViewHolder> {
@@ -105,20 +106,39 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
             @Override
             public void onClick(View view) {
 
-                // open file to view
-                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                // passing strings
-                intent.putExtra("document_url",receivedDocuments.getDocumentUrl());
-                intent.putExtra("document_title",receivedDocuments.getTitle());
-                intent.putExtra("document_tag",receivedDocuments.getTag());
-                intent.putExtra("document_comment", receivedDocuments.getComment());
-                intent.putExtra("document_distributee", receivedDocuments.getDistributee());
-                intent.putExtra("document_sender", receivedDocuments.getSender());
-                mCtx.startActivity(intent);
+                if(receivedDocuments.getType().equals(Constants.PDF) || receivedDocuments.getType().equals(Constants.PPT)
+                        || receivedDocuments.getType().equals(Constants.DOC) || receivedDocuments.getType().equals(Constants.XLSX)){
 
-                // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"left-to-right");
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",receivedDocuments.getDocumentUrl());
+                    intent.putExtra("document_title",receivedDocuments.getTitle());
+                    intent.putExtra("document_tag",receivedDocuments.getTag());
+                    intent.putExtra("document_type",receivedDocuments.getType());
+                    intent.putExtra("document_comment", receivedDocuments.getComment());
+                    intent.putExtra("document_distributee", receivedDocuments.getDistributee());
+                    intent.putExtra("document_sender", receivedDocuments.getSender());
+                    mCtx.startActivity(intent);
+
+
+                }
+                else{
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",receivedDocuments.getDocumentUrl());
+                    intent.putExtra("document_title",receivedDocuments.getTitle());
+                    intent.putExtra("document_tag",receivedDocuments.getTag());
+                    intent.putExtra("document_type",receivedDocuments.getType());
+                    intent.putExtra("document_comment", receivedDocuments.getComment());
+                    intent.putExtra("document_distributee", receivedDocuments.getDistributee());
+                    intent.putExtra("document_sender", receivedDocuments.getSender());
+                    mCtx.startActivity(intent);
+
+                }
 
             }
         });
@@ -128,20 +148,40 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
             @Override
             public void onClick(View view) {
 
-                // open file to view
-                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                // passing strings
-                intent.putExtra("document_url",receivedDocuments.getDocumentUrl());
-                intent.putExtra("document_title",receivedDocuments.getTitle());
-                intent.putExtra("document_tag",receivedDocuments.getTag());
-                intent.putExtra("document_comment", receivedDocuments.getComment());
-                intent.putExtra("document_distributee", receivedDocuments.getDistributee());
-                intent.putExtra("document_sender", receivedDocuments.getSender());
-                mCtx.startActivity(intent);
+                if(receivedDocuments.getType().equals(Constants.PDF) || receivedDocuments.getType().equals(Constants.PPT)
+                        || receivedDocuments.getType().equals(Constants.DOC) || receivedDocuments.getType().equals(Constants.XLSX)){
 
-                // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"left-to-right");
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",receivedDocuments.getDocumentUrl());
+                    intent.putExtra("document_title",receivedDocuments.getTitle());
+                    intent.putExtra("document_tag",receivedDocuments.getTag());
+                    intent.putExtra("document_type",receivedDocuments.getType());
+                    intent.putExtra("document_comment", receivedDocuments.getComment());
+                    intent.putExtra("document_distributee", receivedDocuments.getDistributee());
+                    intent.putExtra("document_sender", receivedDocuments.getSender());
+                    mCtx.startActivity(intent);
+
+
+                }
+                else{
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",receivedDocuments.getDocumentUrl());
+                    intent.putExtra("document_title",receivedDocuments.getTitle());
+                    intent.putExtra("document_tag",receivedDocuments.getTag());
+                    intent.putExtra("document_type",receivedDocuments.getType());
+                    intent.putExtra("document_comment", receivedDocuments.getComment());
+                    intent.putExtra("document_distributee", receivedDocuments.getDistributee());
+                    intent.putExtra("document_sender", receivedDocuments.getSender());
+                    mCtx.startActivity(intent);
+
+                }
+
 
             }
         });
@@ -302,7 +342,7 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
 
             currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-            dbRef = FirebaseDatabase.getInstance().getReference("ReceivedDocuments").child(currentUser.getUid());
+            dbRef = FirebaseDatabase.getInstance().getReference(Constants.RECEIVED_DOC_REF).child(currentUser.getUid());
 
         }
     }

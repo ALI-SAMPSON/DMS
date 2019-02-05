@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import io.zentechgh.dms.mobile.app.R;
+import io.zentechgh.dms.mobile.app.constants.Constants;
 import io.zentechgh.dms.mobile.app.fragment.admin.AddUsersFragment;
 import io.zentechgh.dms.mobile.app.fragment.admin.ArchiveDocumentsFragment;
 import io.zentechgh.dms.mobile.app.fragment.admin.ManageUsersFragment;
@@ -39,7 +40,8 @@ import io.zentechgh.dms.mobile.app.model.Admin;
 import io.zentechgh.dms.mobile.app.ui.SignInActivity;
 import maes.tech.intentanim.CustomIntent;
 
-public class AdminHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class AdminHomeActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener{
 
     Toolbar toolbar;
 
@@ -153,6 +155,9 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new AddUsersFragment()).commit();
 
+                // change the text of the toolbar
+                toolbar_title.setText(getString(R.string.title_add_users));
+
                 break;
 
             case R.id.menu_manage:
@@ -164,6 +169,9 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ManageUsersFragment()).commit();
 
+                // change the text of the toolbar
+                toolbar_title.setText(getString(R.string.title_manage_users));
+
                 break;
 
             case R.id.menu_archive:
@@ -174,6 +182,9 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
                 // starts ArchiveUsers Fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ArchiveDocumentsFragment()).commit();
+
+                // change the text of the toolbar
+                toolbar_title.setText(getString(R.string.title_archive_document));
 
                 break;
 
@@ -221,8 +232,16 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
 
             case R.id.menu_smile:
 
+                // method call to display a welcome message
+                //welcomeMessage();
+
+                // displaying admin username
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AdminHomeActivity.this);
+                String username = preferences.getString("username","");
+
                 // display a welcome message
-                Toast.makeText(this, getString(R.string.text_welcome_admin), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),
+                        getString(R.string.text_welcome_admin) + username, Toast.LENGTH_LONG).show();
 
                 break;
 
@@ -243,6 +262,34 @@ public class AdminHomeActivity extends AppCompatActivity implements NavigationVi
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void welcomeMessage(){
+
+        DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference(Constants.ADMIN_REF);
+
+        adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                    Admin admin = snapshot.getValue(Admin.class);
+
+                    if(admin != null){
+                        // display a welcome message
+                        Toast.makeText(getApplicationContext(),
+                                getString(R.string.text_welcome_admin) + admin.getUsername(), Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(AdminHomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     // method to share app link to other users

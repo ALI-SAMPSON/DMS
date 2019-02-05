@@ -26,6 +26,7 @@ import io.zentechgh.dms.mobile.app.constants.Constants;
 import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.AssignDocumentToUserActivity;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
+import io.zentechgh.dms.mobile.app.ui.user.ViewOtherDocumentsUserActivity;
 import maes.tech.intentanim.CustomIntent;
 
 public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerViewAdapterAssign.ViewHolder> {
@@ -215,20 +216,42 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
         viewHolder.buttonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // open file to view
-                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // passing strings
-                intent.putExtra("document_url",documents.getDocumentUrl());
-                intent.putExtra("document_title",documents.getTitle());
-                intent.putExtra("document_tag",documents.getTag());
-                intent.putExtra("document_type",documents.getType());
-                intent.putExtra("document_comment", documents.getComment());
-                intent.putExtra("document_distributee", documents.getDistributee());
-                mCtx.startActivity(intent);
 
-                // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                if(documents.getType().equals(Constants.PDF) || documents.getType().equals(Constants.PPT)
+                        || documents.getType().equals(Constants.DOC) || documents.getType().equals(Constants.XLSX)){
+
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",documents.getDocumentUrl());
+                    intent.putExtra("document_title",documents.getTitle());
+                    intent.putExtra("document_tag",documents.getTag());
+                    intent.putExtra("document_type",documents.getType());
+                    intent.putExtra("document_comment", documents.getComment());
+                    intent.putExtra("document_distributee", documents.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+
+                }
+                else{
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",documents.getDocumentUrl());
+                    intent.putExtra("document_title",documents.getTitle());
+                    intent.putExtra("document_tag",documents.getTag());
+                    intent.putExtra("document_type",documents.getType());
+                    intent.putExtra("document_comment", documents.getComment());
+                    intent.putExtra("document_distributee", documents.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                }
             }
         });
 
@@ -237,20 +260,42 @@ public class RecyclerViewAdapterAssign extends RecyclerView.Adapter<RecyclerView
         viewHolder.documentImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // open file to view
-                Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // passing strings
-                intent.putExtra("document_url",documents.getDocumentUrl());
-                intent.putExtra("document_title",documents.getTitle());
-                intent.putExtra("document_tag",documents.getTag());
-                intent.putExtra("document_type",documents.getType());
-                intent.putExtra("document_comment", documents.getComment());
-                intent.putExtra("document_distributee", documents.getDistributee());
-                mCtx.startActivity(intent);
 
-                // adding an intent transition from left-to-right
-                CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                if(documents.getType().equals(Constants.PDF) || documents.getType().equals(Constants.PPT)
+                        || documents.getType().equals(Constants.DOC) || documents.getType().equals(Constants.XLSX)){
+
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewOtherDocumentsUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",documents.getDocumentUrl());
+                    intent.putExtra("document_title",documents.getTitle());
+                    intent.putExtra("document_tag",documents.getTag());
+                    intent.putExtra("document_type",documents.getType());
+                    intent.putExtra("document_comment", documents.getComment());
+                    intent.putExtra("document_distributee", documents.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+
+                }
+                else{
+                    // open file to view
+                    Intent intent = new Intent(mCtx,ViewDocumentUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    // passing strings
+                    intent.putExtra("document_url",documents.getDocumentUrl());
+                    intent.putExtra("document_title",documents.getTitle());
+                    intent.putExtra("document_tag",documents.getTag());
+                    intent.putExtra("document_type",documents.getType());
+                    intent.putExtra("document_comment", documents.getComment());
+                    intent.putExtra("document_distributee", documents.getDistributee());
+                    mCtx.startActivity(intent);
+
+                    // adding an intent transition from left-to-right
+                    //CustomIntent.customType(mCtx,"fadein-to-fadeout");
+                }
             }
         });
 

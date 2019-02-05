@@ -161,6 +161,9 @@ public class RecyclerViewAdapterAssignToUser extends RecyclerView.Adapter<Recycl
 
                                         // sets visibility to gone after document is assigned successfully
                                         viewHolder.progressBar.setVisibility(GONE);
+
+                                        // clears sharePreferences after document is assigned successfully
+                                        clearPrefs(mCtx);
                                     }
 
                                 });
@@ -184,6 +187,13 @@ public class RecyclerViewAdapterAssignToUser extends RecyclerView.Adapter<Recycl
 
         });
 
+    }
+
+    // method to clear sharePreference when admin log outs
+    private  void clearPrefs(Context ctx){
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
+        editor.clear(); // clear all stored data (email)
+        editor.apply();
     }
 
     @Override

@@ -27,6 +27,8 @@
     <string name="error_invalid_email" translatable="false">Oops! please enter a valid email address</string>
     <string name="error_empty_field" translatable="false">Field cannot be left empty</string>
 
+    <string name="error_occurred" translatable="false">Error occurred, please check network connectivity</string>
+
     <!-- onboarding screen strings -->
     <string name="text_continue" translatable="false">Continue</string>
 
@@ -87,7 +89,7 @@
     <string name="text_add_user" translatable="false">User</string>
     <string name="text_choose" translatable="false">Choose from Gallery</string>
     <string name="title_assign" translatable="false">Are you sure?</string>
-    <string name="title_assign_user" translatable="false">Assign To This User?</string>
+    <string name="title_assign_user" translatable="false">Assign to this user?</string>
     <string name="text_yes" translatable="false">YES</string>
     <string name="text_no" translatable="false">NO</string>
     <string name="text_delete_dialog" translatable="false">DELETE</string>
@@ -215,6 +217,24 @@
     <string name="title_other" translatable="false">Other</string>
     <string name="title_share" translatable="false">Share</string>
     <string name="title_sign_out" translatable="false">Sign Out</string>
+
+    <!-- text for toolbar title -->
+    <string name="title_add_documents" translatable="false">Add Documents</string>
+    <string name="title_manage_documents" translatable="false">Manage Documents</string>
+    <string name="title_assign_documents" translatable="false">Assign Documents</string>
+    <string name="title_my_account" translatable="false">My Account</string>
+
+    <string name="title_text" translatable="false">Title : </string>
+    <string name="tag_text" translatable="false">Tag : </string>
+    <string name="type_text" translatable="false">Type : </string>
+    <string name="comment_text" translatable="false">Comment : </string>
+    <string name="distributee_text" translatable="false">Distributee :</string>
+    <string name="sender_text" translatable="false">Sender : </string>
+
+    <string name="title_download" translatable="false">Downloading File...</string>
+    <string name="text_download_wait" translatable="false">please wait...</string>
+
+
 
     <string name="msg_unarchive_document" translatable="false">
         Unarchiving this document will add it back to the list of documents on the system</string>
