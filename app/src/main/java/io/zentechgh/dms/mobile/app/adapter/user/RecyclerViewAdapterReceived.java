@@ -68,11 +68,11 @@ public class RecyclerViewAdapterReceived extends RecyclerView.Adapter<RecyclerVi
         final ReceivedDocuments receivedDocuments = documentsList.get(position);
 
         // getting text from the database and setting them to respective views
-        viewHolder.documentTitle.setText(" Title : " + receivedDocuments.getTitle());
-        viewHolder.documentTag.setText(" Tag : " + receivedDocuments.getTag());
-        viewHolder.documentComment.setText(" Comment : " + receivedDocuments.getComment());
-        viewHolder.documentDistributee.setText(" Distributee : " + receivedDocuments.getDistributee());
-        viewHolder.documentSender.setText(" Sender : " + receivedDocuments.getSender());
+        viewHolder.documentTitle.setText("Title : " + receivedDocuments.getTitle());
+        viewHolder.documentTag.setText("Tag : " + receivedDocuments.getTag());
+        viewHolder.documentComment.setText("Comment : " + receivedDocuments.getComment());
+        viewHolder.documentDistributee.setText("Distributee : " + receivedDocuments.getDistributee());
+        viewHolder.documentSender.setText("Sender : " + receivedDocuments.getSender());
 
         // checking if the document is not equal to null
         if(receivedDocuments.getDocumentUrl() != null && receivedDocuments.getType().equals(Constants.DOC)){

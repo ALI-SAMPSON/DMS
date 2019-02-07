@@ -45,7 +45,7 @@
             android:name=".ui.user.UserHomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBarHome" />
         <activity
             android:name=".ui.user.AssignDocumentToUserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"

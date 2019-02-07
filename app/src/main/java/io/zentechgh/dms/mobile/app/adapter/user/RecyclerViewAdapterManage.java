@@ -2,6 +2,7 @@ package io.zentechgh.dms.mobile.app.adapter.user;
 
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,8 @@ import io.zentechgh.dms.mobile.app.model.Documents;
 import io.zentechgh.dms.mobile.app.ui.user.ViewDocumentUserActivity;
 import io.zentechgh.dms.mobile.app.ui.user.ViewOtherDocumentsUserActivity;
 import maes.tech.intentanim.CustomIntent;
+
+import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerViewAdapterManage.ViewHolder> {
 
@@ -203,118 +206,30 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         viewHolder.buttonDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // method call to download file
-                /*downloadFile(mCtx,documents.getTitle(),
-                        getFileExtension(Uri.parse(documents.getDocumentUrl())),
-                        "",documents.getDocumentUrl());
-                        */
 
-                progressDialog = new ProgressDialog(mCtx);
-                progressDialog.setTitle(R.string.title_download);
-                progressDialog.setMessage("please wait...");
-                progressDialog.setProgress(0);
-                progressDialog.show();
+                /** Code to download file to phone storage***/
 
-                // code to download file to phone storage
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReferenceFromUrl("gs://d-m-s-ca8f0.appspot.com/");
-                StorageReference  islandRef = storageRef.child(documents.getTitle());
+                DownloadManager downloadManager = (DownloadManager)mCtx.getSystemService(DOWNLOAD_SERVICE);
 
-                File directory = new File(Environment.getExternalStoragePublicDirectory
-                        (Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
-                if(!directory.exists()) {
-                    directory.mkdirs();
-                }
+                //document Url here
+                String downloadUrl = documents.getDocumentUrl();
 
-                final File localFile = new File(directory,documents.getTitle());
+                Uri uri = Uri.parse(downloadUrl);
 
-                //final File localFile1 = File.createTempFile(documents.getTitle(),".pdf",directory);
-
-                islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        //Log.e("firebase ",";local item file created  created " +localFile.toString());
-                        //  updateDb(timestamp,localFile.toString(),position);
-                        Toast.makeText(mCtx, localFile.toString() + " downloaded successfully", Toast.LENGTH_LONG).show();
-
-                        // dismiss dialog
-                        progressDialog.dismiss();
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        //Log.e("firebase ",";local tem file not created  created " +exception.toString());
-                        Toast.makeText(mCtx, "Failed : " + exception.getMessage(), Toast.LENGTH_LONG).show();
-
-                        // dismiss dialog
-                        progressDialog.dismiss();
-                    }
-                }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        // getting the download progress of the file
-                        int progress = (int)((100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
-                        // setting progress of the ProgressBar to the current progress of the file
-                        progressDialog.setProgress(progress);
-                    }
-                });
-
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                //request.setDescription("Downloading File");
+                long id =  downloadManager.enqueue(request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
+                        .setAllowedOverRoaming(false)
+                        .setTitle(uri.toString()) // passing the uri of the file as the title
+                        .setDescription("Document File Downloading...!")
+                        .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/ZDMS/"+uri
+                                +"."+getFileExtension(Uri.parse(downloadUrl)))
+                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED));
 
             }
         });
 
 
-    }
-
-    /*private void downloadFile(String fileName){
-        StorageReference storageRef = firebaseStorage.getReference();
-        StorageReference downloadRef = storageRef.child(userPath+fileName);
-        File fileNameOnDevice = new File(DOWNLOAD_DIR+"/"+fileName);
-
-        downloadRef.getFile(fileNameOnDevice).addOnSuccessListener(
-                new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(context,
-                                "Downloaded the file",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(context,
-                        "Couldn't be downloaded",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    */
-
-    private void downloadFile() {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://d-m-s-ca8f0.appspot.com/");
-        StorageReference  islandRef = storageRef.child("file.txt");
-
-        File rootPath = new File(Environment.getExternalStorageDirectory(), "file_name");
-        if(!rootPath.exists()) {
-            rootPath.mkdirs();
-        }
-
-        final File localFile = new File(rootPath,"imageName.txt");
-
-        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                Log.e("firebase ",";local tem file created  created " +localFile.toString());
-                //  updateDb(timestamp,localFile.toString(),position);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.e("firebase ",";local tem file not created  created " +exception.toString());
-            }
-        });
     }
 
     private String getFileExtension(Uri uri){
@@ -327,7 +242,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
                              String fileExtension, String destinationDirectory, String url) {
 
         DownloadManager downloadmanager = (DownloadManager) context.
-                getSystemService(Context.DOWNLOAD_SERVICE);
+                getSystemService(DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(uri);
 
@@ -349,7 +264,7 @@ public class RecyclerViewAdapterManage extends RecyclerView.Adapter<RecyclerView
         TextView documentTitle;
         TextView documentType;
         TextView buttonView;
-        ImageButton buttonDownload;
+        TextView buttonDownload;
         CardView cardView;
 
 

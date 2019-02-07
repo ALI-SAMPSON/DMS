@@ -15,7 +15,12 @@
     <color name="rosewood">#6B0504</color>
     <color name="raisin_black">#1E1E24</color>
     <color name="colorBlack">#000000</color>
-    <color name="light_gray">#2F2D2E</color>
+    <color name="dark_gray">#2F2D2E</color>
+    <color name="my_dark">#e6616161</color>
+    <color name="light_gray">#464646</color>
+
+    <color name="light_grey">#4C4B4B</color>
+
 
 
     <color name="light_red">#DD4848</color>
@@ -39,8 +44,6 @@
 
     <color name="light_purple">#9F39A9</color>
     <color name="deep_purple">#66276D</color>
-
-    <color name="dark_grey">#4C4B4B</color>
 
     <color name="skyblue">#0ABDE3</color>
 

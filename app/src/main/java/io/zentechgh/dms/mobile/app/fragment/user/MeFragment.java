@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class MeFragment extends Fragment implements
 
     View view;
 
-    ConstraintLayout constraintLayout;
+    LinearLayout linearLayout;
 
     ImageView pick_image;
 
@@ -102,7 +103,7 @@ public class MeFragment extends Fragment implements
         // Inflate the layout for this fragment
         //view =  inflater.inflate(R.layout.fragment_me, container, false);
 
-        constraintLayout = view.findViewById(R.id.constraintLayout);
+        linearLayout = view.findViewById(R.id.linearLayout);
 
         pick_image = view.findViewById(R.id.pick_image);
 
@@ -271,7 +272,7 @@ public class MeFragment extends Fragment implements
                     progressBar.setVisibility(View.GONE);
 
                     // display an error message
-                    Snackbar.make(constraintLayout,e.getMessage(),Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(linearLayout,e.getMessage(),Snackbar.LENGTH_SHORT).show();
                 }
             });
 
@@ -310,7 +311,7 @@ public class MeFragment extends Fragment implements
                     else{
 
                         // display an error message
-                        Snackbar.make(constraintLayout,task.getException().getMessage(),Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(linearLayout,task.getException().getMessage(),Snackbar.LENGTH_SHORT).show();
                     }
 
 
@@ -344,7 +345,7 @@ public class MeFragment extends Fragment implements
                     profile_image.setImageResource(R.drawable.profile_icon);
                 }
 
-                tv_type.setText(" Type : " + user.getUserType());
+                tv_type.setText(" User Type : " + user.getUserType());
 
 
             }
@@ -352,7 +353,7 @@ public class MeFragment extends Fragment implements
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // display an error message
-                Snackbar.make(constraintLayout,databaseError.getMessage(),Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(linearLayout,databaseError.getMessage(),Snackbar.LENGTH_SHORT).show();
             }
         });
 

@@ -86,6 +86,7 @@
     <string name="text_assign" translatable="false">Assign</string>
     <string name="text_submit" translatable="false">Submit</string>
     <string name="text_view" translatable="false">View</string>
+    <string name="text_download" translatable="false">Download</string>
     <string name="text_add_user" translatable="false">User</string>
     <string name="text_choose" translatable="false">Choose from Gallery</string>
     <string name="title_assign" translatable="false">Are you sure?</string>

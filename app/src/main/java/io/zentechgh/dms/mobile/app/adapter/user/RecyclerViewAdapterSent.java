@@ -70,10 +70,10 @@ public class RecyclerViewAdapterSent extends RecyclerView.Adapter<RecyclerViewAd
         final SentDocuments sentDocuments = documentsList.get(position);
 
         // getting text from the database and setting them to respective views
-        viewHolder.documentTitle.setText(R.string.title_text + sentDocuments.getTitle());
-        viewHolder.documentTag.setText(R.string.tag_text + sentDocuments.getTag());
-        viewHolder.documentComment.setText(R.string.comment_text  + sentDocuments.getComment());
-        viewHolder.documentDistributee.setText(R.string.distributee_text + sentDocuments.getDistributee());
+        viewHolder.documentTitle.setText("Title : " + sentDocuments.getTitle());
+        viewHolder.documentTag.setText("Tag : " + sentDocuments.getTag());
+        viewHolder.documentComment.setText("Comment : "  + sentDocuments.getComment());
+        viewHolder.documentDistributee.setText("Distributee : " + sentDocuments.getDistributee());
 
         // checking if the document is not equal to null
         if(sentDocuments.getDocumentUrl() == null){
