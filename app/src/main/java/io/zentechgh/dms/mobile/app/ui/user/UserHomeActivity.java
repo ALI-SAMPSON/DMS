@@ -100,9 +100,6 @@ public class UserHomeActivity extends AppCompatActivity
         // sets visibility to visible
         tv_welcome_title.setVisibility(View.VISIBLE);
 
-        // display a welcome message together with users name
-        tv_welcome_title.setText(" Welcome " + currentUser.getDisplayName());
-
         progressBar = findViewById(R.id.progressBar);
 
         // method call to load user info
@@ -122,6 +119,9 @@ public class UserHomeActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Users user = dataSnapshot.getValue(Users.class);
                 assert user != null;
+
+                // display a welcome message together with users name
+                tv_welcome_title.setText(" Welcome " + user.getUsername());
 
                 if(user.getImageUrl() == null){
 

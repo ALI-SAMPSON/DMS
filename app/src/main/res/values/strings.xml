@@ -179,15 +179,20 @@
 
     <string name="text_menu" translatable="false">My Menu</string>
 
-    <string name="text_history" translatable="false">My History</string>
+    <string name="text_history" translatable="false">History</string>
+
+    <string name="text_my_profile" translatable="false">My Profile</string>
 
     <string name="text_sent" translatable="false">Sent</string>
 
     <string name="text_received" translatable="false">Received</string>
 
     <string name="text_need_guide" translatable="false">Need a Guide?</string>
+
+    <string name="title_change_profile" translatable="false">Need to change profile picture?</string>
+    <string name="text_change_profile_body" translatable="false">Click on the pencil icon or the image Icon to proceed</string>
     <string name="text_guide_me" translatable="false">Guide Me</string>
-    <string name="text_guide_Body" translatable="false">We will give directions to new users</string>
+    <string name="text_guide_body" translatable="false">We will give directions to new users</string>
 
     <string name="text_user_type" translatable="false">User Type</string>
     <string name="text_admin" translatable="false">Admin</string>

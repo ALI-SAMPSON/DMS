@@ -60,13 +60,16 @@ public class MeFragment extends Fragment implements
 
     LinearLayout linearLayout;
 
+    // using layout as button for the profile functions like sent and received documents
+    LinearLayout button_sent,button_received,button_share;
+
     ImageView pick_image;
 
     CircleImageView profile_image;
 
-    CardView sent_files,received_files;
+    CircleImageView profile_image_small;
 
-    TextView tv_username, tv_type;
+    TextView tv_welcome,tv_username, tv_user_type, tv_change_profile_guide, tv_change_profile_guide_body;
 
     private static final int PERMISSION_CODE = 124;
 
@@ -109,25 +112,36 @@ public class MeFragment extends Fragment implements
 
         profile_image = view.findViewById(R.id.profile_image);
 
+        profile_image_small = view.findViewById(R.id.profile_image_small);
+
+        tv_welcome = view.findViewById(R.id.tv_welcome);
+
+        tv_welcome.setSelected(true);
+
         tv_username = view.findViewById(R.id.tv_username);
 
-        tv_type = view.findViewById(R.id.tv_type);
+        tv_user_type = view.findViewById(R.id.tv_user_type);
 
-        sent_files = view.findViewById(R.id.card_view_sent);
+        tv_change_profile_guide = view.findViewById(R.id.tv_change_profile_guide);
 
-        received_files = view.findViewById(R.id.card_view_received);
+        tv_change_profile_guide_body = view.findViewById(R.id.tv_change_profile_guide_body);
+
+        button_sent = view.findViewById(R.id.layout_sent);
+
+        button_received = view.findViewById(R.id.layout_received);
+
+        button_share = view.findViewById(R.id.layout_share);
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        //userRef = FirebaseDatabase.getInstance().getReference("Users");
 
         progressBar =  view.findViewById(R.id.progressBar);
 
         // setting onClickListener on views
         pick_image.setOnClickListener(this);
         profile_image.setOnClickListener(this);
-        sent_files.setOnClickListener(this);
-        received_files.setOnClickListener(this);
+        button_sent.setOnClickListener(this);
+        button_received.setOnClickListener(this);
+        button_share.setOnClickListener(this);
 
         // method call to load user information
         loadUserDetails();
@@ -156,7 +170,7 @@ public class MeFragment extends Fragment implements
 
                 break;
 
-            case R.id.card_view_sent:
+            case R.id.layout_sent:
 
                 //Intent intent = new Intent(applicationContext, ReceivedDocumentActivity.class);
 
@@ -166,7 +180,7 @@ public class MeFragment extends Fragment implements
 
                 break;
 
-            case R.id.card_view_received:
+            case R.id.layout_received:
 
                 startActivity(new Intent(applicationContext,ReceivedDocumentActivity.class));
 
@@ -174,8 +188,26 @@ public class MeFragment extends Fragment implements
 
                 break;
 
+            case R.id.layout_share:
+
+                // method call to share app to others
+                shareApp();
+
+                break;
+
         }
 
+    }
+
+    // method to share app link to other users
+    public void shareApp(){
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String sharingSubject = "ZDMS";
+        String sharingText = "https://play.google.com/store/apps/details?id=io.zentechgh.dms.mobile.app";
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT,sharingSubject);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT,sharingText);
+        startActivity(Intent.createChooser(sharingIntent,"Share with"));
     }
 
 
@@ -336,16 +368,41 @@ public class MeFragment extends Fragment implements
                 // set username to textView
                 tv_username.setText(user.getUsername());
 
-                if(user.getImageUrl() != null){
+
+                if(user.getImageUrl() == null){
+
+                    // load the default icon
+                    //profile_image.setImageResource(R.drawable.profile_icon);
+
                     // load image uri if there is imageUrl
-                    Glide.with(applicationContext).load(user.getImageUrl()).into(profile_image);
+                    Glide.with(applicationContext).load(R.drawable.profile_icon).into(profile_image);
+
+                    // load image uri if there is imageUrl
+                    Glide.with(applicationContext).load(R.drawable.profile_icon).into(profile_image_small);
+
+                    // displays these text to direct user as to how to change profile picture
+                    tv_change_profile_guide.setVisibility(View.VISIBLE);
+
+                    tv_change_profile_guide_body.setVisibility(View.VISIBLE);
                 }
                 else{
-                    // load the default icon
-                    profile_image.setImageResource(R.drawable.profile_icon);
+
+                    // load image uri if there is imageUrl
+                    Glide.with(applicationContext).load(user.getImageUrl()).into(profile_image);
+
+                    // load image uri if there is imageUrl
+                    Glide.with(applicationContext).load(user.getImageUrl()).into(profile_image_small);
+
+                    // displays these text to direct user as to how to change profile picture
+                    tv_change_profile_guide.setVisibility(View.GONE);
+
+                    tv_change_profile_guide_body.setVisibility(View.GONE);
+
+
                 }
 
-                tv_type.setText(" User Type : " + user.getUserType());
+                // setting user's type
+                tv_user_type.setText(" Type : " + user.getUserType());
 
 
             }

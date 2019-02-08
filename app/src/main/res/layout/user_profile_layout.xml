@@ -2,9 +2,11 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white_greyish"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".fragment.user.MeFragment">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -12,61 +14,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/user_profile_header">
 
-        <RelativeLayout
-            android:id="@+id/profile_image_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:id="@+id/profile_image_small"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_margin="10dp"
-                android:layout_centerInParent="false"
-                android:scaleType="centerCrop"
-                android:background="@drawable/profile_icon"/>
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_centerInParent="true"/>
-        </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/pick_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_toEndOf="@+id/profile_image_layout"
-                android:background="@drawable/ic_add_profile"
-                android:contentDescription="@string/todo" />
-
-            <TextView
-                android:id="@+id/tv_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/pick_image"
-                android:layout_toEndOf="@+id/profile_image_layout"
-                android:fontFamily="@font/lato"
-                android:layout_margin="2dp"
-                android:textSize="14sp"
-                android:text="@string/hint_username"
-                android:textColor="@color/colorWhite"/>
-
-            <TextView
-                android:id="@+id/tv_user_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/tv_username"
-                android:layout_toEndOf="@+id/profile_image_layout"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="0dp"
-                android:fontFamily="@font/lato"
-                android:text="@string/text_user_type"
-                android:textColor="@color/colorWhite"
-                android:textSize="14sp"/>
+                android:scaleType="centerCrop"
+                android:background="@drawable/ic_guide"/>
 
             <LinearLayout
                 android:id="@+id/menu_layout"
@@ -76,7 +31,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_below="@+id/profile_image_layout"
+                android:layout_below="@+id/profile_image_small"
                 android:background="@drawable/rectangular_edittext_bg"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="30dp"
                     android:weightSum="3">
 
                     <LinearLayout
@@ -192,23 +147,83 @@
     </RelativeLayout>
 
 
-    <ImageView
-        android:id="@+id/imageView_guide"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:padding="10dp"
-        android:src="@drawable/ic_guide"
+    <RelativeLayout
+        android:id="@+id/change_profile_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.629" />
+        app:layout_constraintVertical_bias="0.629" >
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="centerCrop"
+            android:padding="10dp"
+            android:src="@drawable/ic_guide"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/pick_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_add_profile_blue"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toTopOf="@+id/change_profile_layout"
+        app:layout_constraintStart_toEndOf="@+id/change_profile_layout"
+        app:layout_constraintTop_toTopOf="@+id/tv_guide" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pick_image"
+        android:fontFamily="@font/lato"
+        android:layout_margin="2dp"
+        android:textSize="14sp"
+        android:text="@string/hint_username"
+        android:textColor="@color/light_purple"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/change_profile_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_user_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/tv_username"
+        android:layout_toEndOf="@+id/change_profile_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:fontFamily="@font/lato"
+        android:text="@string/text_user_type"
+        android:textColor="@color/light_purple"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <TextView
         android:id="@+id/tv_guide"
@@ -219,10 +234,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="132dp"
         android:fontFamily="@font/lato_bold"
-        android:text="@string/text_need_guide"
+        android:text="@string/title_change_profile"
         android:textColor="@color/deep_blue"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_guide"
+        app:layout_constraintTop_toBottomOf="@+id/change_profile_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -230,7 +245,7 @@
 
     <TextView
         android:id="@+id/tv_guide_body"
-        android:layout_width="180dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_vertical"
@@ -239,7 +254,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="132dp"
         android:fontFamily="@font/lato"
-        android:text="@string/text_guide_Body"
+        android:text="@string/text_change_profile_body"
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/tv_guide"
@@ -260,6 +275,7 @@
         android:text="@string/text_guide_me"
         android:textColor="@color/colorWhite"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/tv_guide_body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"

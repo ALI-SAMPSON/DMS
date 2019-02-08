@@ -6,7 +6,7 @@
         android:width="1dp"/>
 
     <gradient
-        android:angle="225"
+        android:angle="180"
         android:startColor="@color/icon_color"
         android:endColor="@color/light_purple">
     </gradient>
