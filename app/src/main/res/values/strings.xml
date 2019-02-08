@@ -177,6 +177,18 @@
 
     <string name="title_assign_to" translatable="false">Assign To...</string>
 
+    <string name="text_menu" translatable="false">My Menu</string>
+
+    <string name="text_history" translatable="false">My History</string>
+
+    <string name="text_sent" translatable="false">Sent</string>
+
+    <string name="text_received" translatable="false">Received</string>
+
+    <string name="text_need_guide" translatable="false">Need a Guide?</string>
+    <string name="text_guide_me" translatable="false">Guide Me</string>
+    <string name="text_guide_Body" translatable="false">We will give directions to new users</string>
+
     <string name="text_user_type" translatable="false">User Type</string>
     <string name="text_admin" translatable="false">Admin</string>
     <string name="text_author" translatable="false">Author</string>
